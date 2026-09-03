@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Furkan Farooq | Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/svg+xml" href="./logo.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script>
     tailwind.config = {
@@ -26,8 +27,9 @@
 
   <nav class="fixed top-0 left-0 w-full bg-[#0f172a]/80 backdrop-blur-md border-b border-slate-800 z-50">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="#hero" class="text-xl font-bold tracking-wider text-white">
-        FURKAN<span class="text-blue-500">.</span>
+      <a href="#hero" class="flex items-center gap-2.5 text-xl font-bold tracking-wider text-white group">
+        <img src="./logo.svg" alt="Furkan Farooq Logo" class="w-9 h-9 rounded-xl shadow-md shadow-blue-500/25 group-hover:scale-105 transition-transform">
+        <span>FURKAN<span class="text-blue-500">.</span></span>
       </a>
       <div class="flex space-x-6 text-sm font-medium text-slate-400">
         <a href="#about" class="hover:text-blue-400 transition">About</a>
@@ -38,8 +40,15 @@
     </div>
   </nav>
 
-  <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-16">
+  <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20 pb-12">
     <div class="max-w-3xl text-center">
+      <!-- Profile Avatar with Ambient Glow -->
+      <div class="relative w-32 h-32 md:w-36 md:h-36 mx-auto mb-6 group">
+        <div class="absolute -inset-1.5 rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500 opacity-70 blur-md group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+        <img src="./profile.jpg" alt="Furkan Farooq" class="relative w-full h-full object-cover rounded-full border-2 border-slate-700 shadow-2xl">
+        <span class="absolute bottom-1 right-2 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[#0f172a]" title="Available for Work"></span>
+      </div>
+
       <p class="text-blue-400 font-mono tracking-wide text-sm mb-3">Hi there, my name is</p>
       <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
         Furkan Farooq
@@ -63,16 +72,32 @@
 
   <section id="about" class="py-24 px-6 border-t border-slate-800">
     <div class="max-w-4xl mx-auto">
-      <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+      <h3 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
         <span class="text-blue-500 text-lg">01.</span> About Me
       </h3>
-      <div class="grid md:grid-cols-2 gap-8 text-slate-400 leading-relaxed">
-        <p>
-          I am a passionate technologist focused on crafting clean code, designing intuitive applications, and solving real-world challenges through software engineering.
-        </p>
-        <p>
-          Constantly learning and refining my skills, I enjoy exploring full-stack engineering, workflow automations, and modern web architectures.
-        </p>
+      <div class="grid md:grid-cols-5 gap-8 items-center text-slate-400 leading-relaxed">
+        <div class="md:col-span-2 flex justify-center">
+          <div class="relative w-56 h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden border border-slate-700 shadow-2xl shadow-blue-500/10 group">
+            <img src="./profile.jpg" alt="Furkan Farooq" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a]/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3 text-center">
+              <span class="text-xs font-mono text-cyan-400 bg-[#0f172a]/90 px-3 py-1 rounded-full border border-cyan-500/30">Furkan Farooq</span>
+            </div>
+          </div>
+        </div>
+        <div class="md:col-span-3 space-y-4">
+          <p>
+            I am a passionate software engineer and builder focused on crafting clean code, designing intuitive applications, and solving real-world challenges through full-stack web and game development.
+          </p>
+          <p>
+            From engineering algorithmic game engines like <strong>FURU Zero Kaata</strong> to building luxury e-commerce platforms like <strong>Wani Garments</strong>, I enjoy bringing ideas to life with modern web technologies.
+          </p>
+          <div class="flex items-center gap-4 pt-2 text-sm text-slate-300">
+            <span class="flex items-center gap-1.5"><i class="fas fa-map-marker-alt text-blue-400"></i> Kishtwar, J&amp;K</span>
+            <span>•</span>
+            <span class="flex items-center gap-1.5"><i class="fas fa-phone-alt text-emerald-400"></i> 7889899325</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>

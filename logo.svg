@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="sparkGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffb00" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect x="10" y="10" width="180" height="180" rx="46" fill="#0f172a" stroke="url(#logoGrad)" stroke-width="4" filter="url(#glowBlue)"/>
+
+  <!-- Inner Ambient Glow Circle -->
+  <circle cx="100" cy="100" r="65" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.25" stroke-dasharray="6 6"/>
+
+  <!-- Monogram FF (Furkan Farooq) -->
+  <!-- First F (Main) -->
+  <path d="M 52,52 L 102,52 L 102,68 L 74,68 L 74,90 L 98,90 L 98,106 L 74,106 L 74,148 L 52,148 Z" fill="url(#logoGrad)"/>
+
+  <!-- Second F (Offset layered in Cyan) -->
+  <path d="M 108,68 L 148,68 L 148,82 L 126,82 L 126,100 L 144,100 L 144,114 L 126,114 L 126,148 L 108,148 Z" fill="#38bdf8" opacity="0.95"/>
+
+  <!-- Electric Spark Bolt ⚡ in center -->
+  <polygon points="102,96 114,76 107,76 118,54 104,80 111,80" fill="url(#sparkGold)" filter="url(#glowBlue)"/>
+
+  <!-- Spark Star at top right -->
+  <polygon points="152,48 155,54 161,56 155,58 152,64 149,58 143,56 149,54" fill="#38bdf8"/>
+</svg>
