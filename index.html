@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Furkan Farooq | Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/svg+xml" href="./logo.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script>
     tailwind.config = {
@@ -26,8 +27,9 @@
 
   <nav class="fixed top-0 left-0 w-full bg-[#0f172a]/80 backdrop-blur-md border-b border-slate-800 z-50">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="#hero" class="text-xl font-bold tracking-wider text-white">
-        FURKAN<span class="text-blue-500">.</span>
+      <a href="#hero" class="flex items-center gap-2.5 text-xl font-bold tracking-wider text-white group">
+        <img src="./logo.svg" alt="Furkan Farooq Logo" class="w-9 h-9 rounded-xl shadow-md shadow-blue-500/25 group-hover:scale-105 transition-transform">
+        <span>FURKAN<span class="text-blue-500">.</span></span>
       </a>
       <div class="flex space-x-6 text-sm font-medium text-slate-400">
         <a href="#about" class="hover:text-blue-400 transition">About</a>
@@ -38,8 +40,15 @@
     </div>
   </nav>
 
-  <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-16">
+  <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20 pb-12">
     <div class="max-w-3xl text-center">
+      <!-- Profile Avatar with Ambient Glow -->
+      <div class="relative w-32 h-32 md:w-36 md:h-36 mx-auto mb-6 group">
+        <div class="absolute -inset-1.5 rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500 opacity-70 blur-md group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+        <img src="./profile.jpg" alt="Furkan Farooq" class="relative w-full h-full object-cover rounded-full border-2 border-slate-700 shadow-2xl">
+        <span class="absolute bottom-1 right-2 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[#0f172a]" title="Available for Work"></span>
+      </div>
+
       <p class="text-blue-400 font-mono tracking-wide text-sm mb-3">Hi there, my name is</p>
       <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
         Furkan Farooq
@@ -63,16 +72,32 @@
 
   <section id="about" class="py-24 px-6 border-t border-slate-800">
     <div class="max-w-4xl mx-auto">
-      <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+      <h3 class="text-2xl font-bold text-white mb-8 flex items-center gap-2">
         <span class="text-blue-500 text-lg">01.</span> About Me
       </h3>
-      <div class="grid md:grid-cols-2 gap-8 text-slate-400 leading-relaxed">
-        <p>
-          I am a passionate technologist focused on crafting clean code, designing intuitive applications, and solving real-world challenges through software engineering.
-        </p>
-        <p>
-          Constantly learning and refining my skills, I enjoy exploring full-stack engineering, workflow automations, and modern web architectures.
-        </p>
+      <div class="grid md:grid-cols-5 gap-8 items-center text-slate-400 leading-relaxed">
+        <div class="md:col-span-2 flex justify-center">
+          <div class="relative w-56 h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden border border-slate-700 shadow-2xl shadow-blue-500/10 group">
+            <img src="./profile.jpg" alt="Furkan Farooq" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a]/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3 text-center">
+              <span class="text-xs font-mono text-cyan-400 bg-[#0f172a]/90 px-3 py-1 rounded-full border border-cyan-500/30">Furkan Farooq</span>
+            </div>
+          </div>
+        </div>
+        <div class="md:col-span-3 space-y-4">
+          <p>
+            I am a passionate software engineer and builder focused on crafting clean code, designing intuitive applications, and solving real-world challenges through full-stack web and game development.
+          </p>
+          <p>
+            From engineering algorithmic game engines like <strong>FURU Zero Kaata</strong> to building luxury e-commerce platforms like <strong>Wani Garments</strong>, I enjoy bringing ideas to life with modern web technologies.
+          </p>
+          <div class="flex items-center gap-4 pt-2 text-sm text-slate-300">
+            <span class="flex items-center gap-1.5"><i class="fas fa-map-marker-alt text-blue-400"></i> Kishtwar, J&amp;K</span>
+            <span>•</span>
+            <span class="flex items-center gap-1.5"><i class="fas fa-phone-alt text-emerald-400"></i> 7889899325</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -126,67 +151,61 @@
       </h3>
       <div class="grid md:grid-cols-2 gap-6">
         <!-- FURU Zero Kaata Pro Game Project -->
-        <div class="p-6 rounded-xl bg-[#1e293b] border border-cyan-500/40 shadow-lg shadow-cyan-500/10 flex flex-col justify-between hover:border-cyan-400 transition md:col-span-2">
+        <div class="p-6 rounded-xl bg-[#1e293b] border border-cyan-500/40 shadow-lg shadow-cyan-500/10 flex flex-col justify-between hover:border-cyan-400 transition">
           <div>
             <div class="flex justify-between items-center mb-4">
               <div class="flex items-center gap-2">
                 <i class="fas fa-gamepad text-cyan-400 text-3xl"></i>
                 <span class="text-[10px] uppercase font-bold tracking-wider text-cyan-300 bg-cyan-500/10 border border-cyan-500/30 px-2.5 py-0.5 rounded-full">Featured Game App</span>
               </div>
-              <div class="flex items-center gap-4">
+              <div class="flex items-center gap-3">
                 <a href="https://github.com/wani012/tic-tac" target="_blank" rel="noopener" class="text-slate-400 hover:text-white transition text-sm flex items-center gap-1.5" title="GitHub Repository">
                   <i class="fab fa-github text-lg"></i> Code
                 </a>
-                <a href="https://furkan-made-game-12.netlify.app/" target="_blank" rel="noopener" class="px-3 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/20 transition text-sm font-semibold flex items-center gap-1.5 shadow-sm" title="Live Game Demo">
-                  <i class="fas fa-play text-xs"></i> Play Live
+                <a href="https://furkan-made-game-12.netlify.app/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/20 transition text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Live Game Demo">
+                  <i class="fas fa-play text-[10px]"></i> Play Live
                 </a>
               </div>
             </div>
-            <h4 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+            <h4 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
               FURU <span class="text-yellow-400">⚡</span> Zero Kaata Pro
             </h4>
-            <p class="text-slate-300 text-sm mb-5 leading-relaxed max-w-2xl">
-              A high-performance modern Cyberpunk mobile web game featuring an unbeatable <strong>Minimax AI algorithm</strong>, procedural real-time <strong>Web Audio synthesizer</strong> (zero audio downloads), Email login authentication gate, celebration confetti engine, and <strong>PWA offline app support</strong>.
+            <p class="text-slate-300 text-sm mb-4 leading-relaxed">
+              Modern Cyberpunk mobile web game featuring an unbeatable <strong>Minimax AI algorithm</strong>, procedural real-time <strong>Web Audio synthesizer</strong>, Email login authentication gate, confetti particle engine, and <strong>PWA offline app support</strong>.
             </p>
           </div>
           <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400 pt-3 border-t border-slate-800">
-            <span class="text-cyan-400 font-semibold">JavaScript (ES6+)</span> • 
-            <span>Minimax Algorithm</span> • 
-            <span>Web Audio API</span> • 
-            <span>PWA & Service Worker</span> • 
-            <span>Cyberpunk UI</span>
+            <span class="text-cyan-400 font-semibold">JavaScript</span> • 
+            <span>Minimax AI</span> • 
+            <span>Web Audio</span> • 
+            <span>PWA</span>
           </div>
         </div>
 
-        <div class="p-6 rounded-xl bg-[#1e293b] border border-slate-800 flex flex-col justify-between hover:border-slate-600 transition">
+        <!-- Wani Garments E-Commerce Project -->
+        <div class="p-6 rounded-xl bg-[#1e293b] border border-amber-500/30 shadow-lg shadow-amber-500/5 flex flex-col justify-between hover:border-amber-400 transition">
           <div>
             <div class="flex justify-between items-center mb-4">
-              <i class="far fa-folder text-blue-400 text-3xl"></i>
-              <a href="#" class="text-slate-400 hover:text-white"><i class="fab fa-github text-xl"></i></a>
+              <div class="flex items-center gap-2">
+                <i class="fas fa-shopping-bag text-amber-400 text-3xl"></i>
+                <span class="text-[10px] uppercase font-bold tracking-wider text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">E-Commerce Web App</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-amber-400/80 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">Client Project</span>
+              </div>
             </div>
-            <h4 class="text-xl font-semibold text-white mb-2">Food Delivery Operations Engine</h4>
-            <p class="text-slate-400 text-sm mb-4 leading-relaxed">
-              An automated tracking and order management dashboard built to simplify dispatch, inventory tracking, and driver metrics.
+            <h4 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+              Wani Garments <span class="text-amber-400">✨</span>
+            </h4>
+            <p class="text-slate-300 text-sm mb-4 leading-relaxed">
+              Luxury ready-made dresses &amp; traditional Kashmiri fashion web platform. Features dynamic catalog filtering, product search, luxury visual showcase, and automated <strong>direct WhatsApp order dispatch</strong>.
             </p>
           </div>
-          <div class="flex gap-2 text-xs font-mono text-slate-500">
-            <span>JavaScript</span> • <span>REST API</span> • <span>Tailwind</span>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-xl bg-[#1e293b] border border-slate-800 flex flex-col justify-between hover:border-slate-600 transition">
-          <div>
-            <div class="flex justify-between items-center mb-4">
-              <i class="far fa-folder text-blue-400 text-3xl"></i>
-              <a href="#" class="text-slate-400 hover:text-white"><i class="fab fa-github text-xl"></i></a>
-            </div>
-            <h4 class="text-xl font-semibold text-white mb-2">Data Parser & Validation Utility</h4>
-            <p class="text-slate-400 text-sm mb-4 leading-relaxed">
-              High-performance pattern-matching module to sanitize and validate complex structured strings and input streams.
-            </p>
-          </div>
-          <div class="flex gap-2 text-xs font-mono text-slate-500">
-            <span>Python</span> • <span>Regex</span> • <span>CLI</span>
+          <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400 pt-3 border-t border-slate-800">
+            <span class="text-amber-400 font-semibold">Tailwind CSS</span> • 
+            <span>JavaScript</span> • 
+            <span>Lucide Icons</span> • 
+            <span>WhatsApp Commerce</span>
           </div>
         </div>
       </div>
