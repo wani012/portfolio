@@ -221,7 +221,7 @@
           <!-- Outer Spinning Border Frame -->
           <div class="relative w-full h-full rounded-full p-[3px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-500 shadow-2xl">
             <div class="w-full h-full rounded-full overflow-hidden bg-dark-900 border-2 border-dark-900">
-              <img src="profile.jpg?v=4k" alt="Furkan Farooq - Software Engineer" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700 ease-out" />
+              <img src="profile.jpg?v=new" alt="Furkan Farooq - Software Engineer" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700 ease-out" />
             </div>
           </div>
 
@@ -339,7 +339,29 @@
 
         <div class="grid lg:grid-cols-12 gap-10 items-start">
           
-          <!-- Narrative Column -->
+          <!-- Left Column: Full-Visibility Portrait Card (5 cols) -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-sm rounded-3xl overflow-hidden glass-panel border border-slate-700/80 shadow-2xl shadow-cyan-500/10 group">
+              <!-- Glow Aura on Hover -->
+              <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 rounded-3xl opacity-25 group-hover:opacity-60 blur-lg transition duration-500 pointer-events-none"></div>
+              
+              <div class="relative overflow-hidden rounded-3xl bg-dark-900">
+                <img src="profile_portrait.jpg?v=new" alt="Furkan Farooq - Software Engineer" class="w-full h-auto aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                
+                <!-- Bottom Ambient Fade & Badge -->
+                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-dark-950/20 to-transparent"></div>
+                
+                <div class="absolute bottom-4 left-4 right-4 text-center">
+                  <div class="inline-flex items-center gap-2 bg-dark-900/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-xl">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>Furkan Farooq • Kishtwar, J&amp;K</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Narrative & Strength Highlights (7 cols) -->
           <div class="lg:col-span-7 space-y-6 text-slate-300 text-base leading-relaxed">
             <p class="text-lg font-medium text-slate-200">
               I am a results-driven software engineer who loves turning complex ideas into clean, resilient, and engaging web solutions.
@@ -352,7 +374,7 @@
             </p>
 
             <!-- Quick Info Cards -->
-            <div class="pt-4 grid sm:grid-cols-2 gap-3 text-sm">
+            <div class="grid sm:grid-cols-2 gap-3 text-sm pt-2">
               <div class="p-4 rounded-xl glass-panel border border-slate-800/80 flex items-center gap-3">
                 <i class="fas fa-map-pin text-cyan-400 text-lg"></i>
                 <div>
@@ -369,45 +391,44 @@
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Feature Cards Column -->
-          <div class="lg:col-span-5 grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
-            
-            <div class="glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 transition-all">
-              <div class="flex items-center gap-3.5 mb-2">
-                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                  <i class="fas fa-layer-group"></i>
+            <!-- Core Capabilities Cards -->
+            <div class="space-y-3 pt-2">
+              <div class="glass-panel glass-panel-hover p-4 rounded-xl border border-slate-800/80 transition-all flex items-start gap-3.5">
+                <div class="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5">
+                  <i class="fas fa-layer-group text-sm"></i>
                 </div>
-                <h3 class="font-bold text-white text-base">Full-Stack Architecture</h3>
+                <div>
+                  <h3 class="font-bold text-white text-sm">Full-Stack Architecture</h3>
+                  <p class="text-xs text-slate-400 mt-0.5 leading-normal">
+                    Modern JavaScript (ES6+), React, Node.js, and responsive Tailwind UI designs with clean state flows.
+                  </p>
+                </div>
               </div>
-              <p class="text-xs text-slate-400 leading-normal">
-                End-to-end web engineering utilizing modern JavaScript (ES6+), React, Node.js, and responsive Tailwind UI design.
-              </p>
-            </div>
 
-            <div class="glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 transition-all">
-              <div class="flex items-center gap-3.5 mb-2">
-                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                  <i class="fas fa-brain"></i>
+              <div class="glass-panel glass-panel-hover p-4 rounded-xl border border-slate-800/80 transition-all flex items-start gap-3.5">
+                <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
+                  <i class="fas fa-brain text-sm"></i>
                 </div>
-                <h3 class="font-bold text-white text-base">Algorithmic Heuristics</h3>
+                <div>
+                  <h3 class="font-bold text-white text-sm">Algorithmic Heuristics</h3>
+                  <p class="text-xs text-slate-400 mt-0.5 leading-normal">
+                    Minimax AI decision trees, real-time procedural Web Audio sound synthesis, and robust data structures.
+                  </p>
+                </div>
               </div>
-              <p class="text-xs text-slate-400 leading-normal">
-                Implementation of optimization algorithms, game tree solvers, procedural Web Audio generation, and clean data structures.
-              </p>
-            </div>
 
-            <div class="glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 transition-all">
-              <div class="flex items-center gap-3.5 mb-2">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                  <i class="fas fa-bolt"></i>
+              <div class="glass-panel glass-panel-hover p-4 rounded-xl border border-slate-800/80 transition-all flex items-start gap-3.5">
+                <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+                  <i class="fas fa-bolt text-sm"></i>
                 </div>
-                <h3 class="font-bold text-white text-base">Business &amp; Civic Solutions</h3>
+                <div>
+                  <h3 class="font-bold text-white text-sm">Business &amp; Civic Solutions</h3>
+                  <p class="text-xs text-slate-400 mt-0.5 leading-normal">
+                    E-commerce WhatsApp automated ordering, document verification gateways, and recruitment job boards.
+                  </p>
+                </div>
               </div>
-              <p class="text-xs text-slate-400 leading-normal">
-                Building impactful digital tools: e-commerce WhatsApp ordering, document upload gateways, and government job vacancy systems.
-              </p>
             </div>
 
           </div>
@@ -934,7 +955,7 @@
       <!-- Resume Header -->
       <div class="border-b border-slate-800 pb-6 mb-6">
         <div class="flex items-center gap-4 mb-3">
-          <img src="profile.jpg?v=4k" alt="Furkan Farooq" class="w-16 h-16 rounded-2xl object-cover border border-cyan-500/40">
+          <img src="profile.jpg?v=new" alt="Furkan Farooq" class="w-16 h-16 rounded-2xl object-cover border border-cyan-500/40">
           <div>
             <h3 class="text-2xl font-extrabold text-white">Furkan Farooq</h3>
             <p class="text-sm font-mono text-cyan-400 font-semibold">Software Engineer &amp; Full-Stack Builder</p>
