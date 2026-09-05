@@ -1,28 +1,28 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Furkan Farooq - Resume</title>
   <style>
-    @page { size: A4; margin: 15mm; }
+    @page { size: A4; margin: 12mm 14mm; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; color: #1e293b; background: #fff; line-height: 1.5; font-size: 10pt; }
-    .header { border-bottom: 2px solid #0284c7; padding-bottom: 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
-    .name { font-size: 22pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
-    .role { font-size: 11pt; font-weight: 600; color: #0284c7; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
-    .contact-info { text-align: right; font-size: 8.5pt; color: #475569; line-height: 1.4; }
+    body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; color: #1e293b; background: #fff; line-height: 1.42; font-size: 9.2pt; }
+    .header { border-bottom: 2px solid #0284c7; padding-bottom: 10px; margin-bottom: 11px; display: flex; justify-content: space-between; align-items: center; }
+    .name { font-size: 20pt; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+    .role { font-size: 10.5pt; font-weight: 600; color: #0284c7; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+    .contact-info { text-align: right; font-size: 8.2pt; color: #475569; line-height: 1.35; }
     .contact-info a { color: #0284c7; text-decoration: none; font-weight: 500; }
-    .section-title { font-size: 10.5pt; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-top: 12px; margin-bottom: 8px; }
-    p { margin-bottom: 6px; }
-    .project { margin-bottom: 10px; }
+    .section-title { font-size: 9.8pt; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 3px; margin-top: 9px; margin-bottom: 6px; }
+    p { margin-bottom: 4px; }
+    .project { margin-bottom: 8px; }
     .project-header { display: flex; justify-content: space-between; align-items: baseline; }
-    .project-name { font-weight: 700; font-size: 10pt; color: #0f172a; }
-    .project-links a { color: #0284c7; font-size: 8.5pt; text-decoration: none; margin-left: 8px; font-weight: 600; }
-    .project-desc { font-size: 8.8pt; color: #334155; margin-top: 2px; }
-    .skills-grid { display: grid; grid-template-columns: 110px 1fr; row-gap: 5px; font-size: 8.8pt; }
+    .project-name { font-weight: 700; font-size: 9.3pt; color: #0f172a; }
+    .project-links a { color: #0284c7; font-size: 8pt; text-decoration: none; margin-left: 8px; font-weight: 600; }
+    .project-desc { font-size: 8.5pt; color: #334155; margin-top: 2px; line-height: 1.35; }
+    .skills-grid { display: grid; grid-template-columns: 105px 1fr; row-gap: 4px; font-size: 8.5pt; }
     .skill-cat { font-weight: 700; color: #0f172a; }
     .skill-val { color: #334155; }
-    .highlight-pill { background: #f0f9ff; color: #0369a1; padding: 1px 6px; border-radius: 4px; font-size: 8pt; font-weight: 600; border: 1px solid #bae6fd; }
+    .highlight-pill { background: #f0f9ff; color: #0369a1; padding: 1px 5px; border-radius: 4px; font-size: 7.6pt; font-weight: 600; border: 1px solid #bae6fd; }
   </style>
 </head>
 <body>
@@ -41,7 +41,7 @@
   </div>
 
   <div class="section-title">Professional Summary</div>
-  <p style="font-size: 9pt; color: #334155;">
+  <p style="font-size: 8.8pt; color: #334155;">
     Results-driven Software Engineer with proven hands-on experience building scalable web applications, real-time algorithmic game engines, and transactional e-commerce platforms. Proficient in JavaScript (ES6+), React.js, Node.js, Python, Tailwind CSS, and Firebase cloud data synchronization. Passionate about writing clean, maintainable code with high performance, accessibility, and intuitive user experiences.
   </p>
 
@@ -50,11 +50,11 @@
     <div class="skill-cat">Languages:</div>
     <div class="skill-val">JavaScript (ES6+), Python, HTML5, Modern CSS3, SQL</div>
     <div class="skill-cat">Frontend:</div>
-    <div class="skill-val">React.js, Tailwind CSS, Responsive Web Design, Web Audio API, PWA, Lucide / FontAwesome</div>
+    <div class="skill-val">React.js, Tailwind CSS, Responsive Web Design, Web Audio API, SVG/Canvas, PWA, Lucide / FontAwesome</div>
     <div class="skill-cat">Backend &amp; DB:</div>
     <div class="skill-val">Node.js, Express, Firebase Firestore, Firebase Authentication, Relational SQL Databases</div>
     <div class="skill-cat">Tools &amp; DevOps:</div>
-    <div class="skill-val">Git, GitHub, Vercel, Docker, RESTful APIs, Webhooks, Performance Optimization</div>
+    <div class="skill-val">Git, GitHub, Vercel CI/CD, Docker, RESTful APIs, Webhooks, Performance Optimization</div>
   </div>
 
   <div class="section-title">Key Featured Projects</div>
@@ -77,9 +77,26 @@
 
   <div class="project">
     <div class="project-header">
+      <span class="project-name">Nexus — Cyber Circuit Runner (Full-Stack Web Game &amp; Real-time Systems)</span>
+      <span class="project-links">
+        <a href="https://nexusgame-website.vercel.app">Live Demo ↗</a>
+        <a href="https://github.com/wani012/Nexus-game">GitHub Repo ↗</a>
+      </span>
+    </div>
+    <div class="project-desc">
+      Engineered an adrenaline-fueled procedural 25-node circuit puzzle featuring dynamic level scaling, reverse protocols, zero-asset Web Audio synthesis, and real-time global leaderboard synchronization via Firebase Firestore with 60 FPS Canvas rendering.
+    </div>
+    <div style="margin-top: 3px;">
+      <span class="highlight-pill">JavaScript</span> <span class="highlight-pill">Firebase Firestore</span> <span class="highlight-pill">Web Audio API</span> <span class="highlight-pill">SVG/Canvas</span> <span class="highlight-pill">Vercel CI/CD</span>
+    </div>
+  </div>
+
+  <div class="project">
+    <div class="project-header">
       <span class="project-name">Wani Garments (Luxury Kashmiri Fashion E-Commerce)</span>
       <span class="project-links">
         <a href="https://wani-garments.vercel.app/">Live Store ↗</a>
+        <a href="https://github.com/wani012/wani-garments">GitHub Repo ↗</a>
       </span>
     </div>
     <div class="project-desc">
@@ -107,12 +124,12 @@
   </div>
 
   <div class="section-title">Education &amp; Credentials</div>
-  <div style="display: flex; justify-content: space-between; font-size: 9pt;">
+  <div style="display: flex; justify-content: space-between; font-size: 8.8pt;">
     <div>
       <p style="font-weight: 700; color: #0f172a; margin-bottom: 1px;">Computer Science &amp; Engineering Fundamentals</p>
       <p style="color: #475569;">Jammu &amp; Kashmir, India</p>
     </div>
-    <div style="text-align: right; color: #475569; font-size: 8.5pt;">
+    <div style="text-align: right; color: #475569; font-size: 8.2pt;">
       Kishtwar, J&amp;K
     </div>
   </div>
