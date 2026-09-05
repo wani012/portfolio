@@ -1,13 +1,19 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Furkan Farooq | Software Engineer &amp; Full-Stack Builder</title>
-  <meta name="description" content="Portfolio of Furkan Farooq - Software Engineer, Full-Stack Web Developer, and Game Engineer based in Kishtwar, Jammu & Kashmir. Creator of FURU Zero Kaata Pro, Wani Garments, and BHAT Cyber Cafe." />
-  <meta name="keywords" content="Furkan Farooq, Software Engineer, Web Developer, Minimax AI, J&K, Kishtwar, Full Stack Developer, Tailwind CSS, JavaScript, React" />
+  <meta name="description" content="Elite portfolio of Furkan Farooq - Software Engineer and Full-Stack Builder based in Kishtwar, Jammu & Kashmir. Creator of FURU Zero Kaata Pro, Wani Garments, and BHAT Cyber Cafe." />
+  <meta name="keywords" content="Furkan Farooq, Software Engineer, Web Developer, Minimax AI, J&K, Kishtwar, Full Stack Developer, Tailwind CSS, JavaScript, React, Firebase" />
   <meta name="author" content="Furkan Farooq" />
+
+  <!-- Open Graph & Social Sharing -->
+  <meta property="og:title" content="Furkan Farooq | Software Engineer &amp; Full-Stack Builder" />
+  <meta property="og:description" content="Engineering scalable web architectures, algorithmic game systems, and high-performance digital products from Kishtwar, Jammu &amp; Kashmir." />
+  <meta property="og:image" content="./profile.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="./logo.svg" />
@@ -17,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Font Awesome 6 -->
+  <!-- Font Awesome 6.5 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <!-- Tailwind CSS CDN -->
@@ -48,6 +54,7 @@
             'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             'spin-slow': 'spin 12s linear infinite',
             'float': 'float 6s ease-in-out infinite',
+            'shimmer': 'shimmer 2.5s infinite',
           },
           keyframes: {
             'gradient-x': {
@@ -58,6 +65,9 @@
               '0%, 100%': { transform: 'translateY(0px)' },
               '50%': { transform: 'translateY(-10px)' },
             },
+            'shimmer': {
+              '100%': { transform: 'translateX(100%)' }
+            }
           },
         },
       },
@@ -86,23 +96,69 @@
       background-size: 28px 28px;
     }
 
-    /* Glassmorphism Styles */
+    /* Refined Multi-Layer Glassmorphism */
     .glass-panel {
-      background: rgba(13, 20, 38, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(11, 18, 36, 0.72);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    .glass-panel-hover {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .glass-panel-hover:hover {
-      background: rgba(18, 28, 54, 0.85);
-      border-color: rgba(6, 182, 212, 0.35);
-      box-shadow: 0 16px 35px -10px rgba(6, 182, 212, 0.12);
+      background: rgba(16, 26, 52, 0.88);
+      border-color: rgba(6, 182, 212, 0.4);
+      box-shadow: 0 16px 35px -10px rgba(6, 182, 212, 0.15), inset 0 1px 2px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
     }
     .glass-nav {
-      background: rgba(8, 13, 26, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(7, 12, 24, 0.88);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Project Cards Subtle Glowing Borders & Micro-Interactions */
+    .project-card {
+      position: relative;
+      background: rgba(10, 17, 34, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 1.25rem;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+    
+    .project-card-cyan {
+      border: 1px solid rgba(6, 182, 212, 0.32);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(6, 182, 212, 0.2);
+    }
+    .project-card-cyan:hover {
+      border-color: rgba(6, 182, 212, 0.85);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px -10px rgba(6, 182, 212, 0.3), 0 0 30px -4px rgba(6, 182, 212, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+    }
+
+    .project-card-amber {
+      border: 1px solid rgba(245, 158, 11, 0.32);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(245, 158, 11, 0.2);
+    }
+    .project-card-amber:hover {
+      border-color: rgba(245, 158, 11, 0.85);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px -10px rgba(245, 158, 11, 0.3), 0 0 30px -4px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+    }
+
+    .project-card-blue {
+      border: 1px solid rgba(59, 130, 246, 0.32);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(59, 130, 246, 0.2);
+    }
+    .project-card-blue:hover {
+      border-color: rgba(59, 130, 246, 0.85);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px -10px rgba(59, 130, 246, 0.3), 0 0 30px -4px rgba(59, 130, 246, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.18);
     }
 
     /* Text Glow */
@@ -123,6 +179,12 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
+
+    /* Focus visible accessibility */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid #06b6d4;
+      outline-offset: 2px;
+    }
   </style>
 </head>
 <body class="bg-dark-950 text-slate-200 font-sans antialiased selection:bg-cyan-500 selection:text-white relative overflow-x-hidden min-h-screen">
@@ -131,7 +193,7 @@
   <div id="scrollProgress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 z-50 w-0 transition-all duration-150"></div>
 
   <!-- Ambient Background Lighting / Aurora Gradients -->
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
     <div class="absolute -top-40 -right-40 w-96 h-96 md:w-[550px] md:h-[550px] bg-cyan-500/10 rounded-full blur-3xl"></div>
     <div class="absolute top-1/3 -left-48 w-96 h-96 md:w-[600px] md:h-[600px] bg-blue-600/10 rounded-full blur-3xl"></div>
     <div class="absolute bottom-20 right-10 w-80 h-80 md:w-[500px] md:h-[500px] bg-indigo-600/10 rounded-full blur-3xl"></div>
@@ -140,23 +202,28 @@
 
   <!-- Top Navigation Bar -->
   <header class="fixed top-0 left-0 w-full glass-nav z-40">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
       
-      <!-- Brand Logo -->
-      <a href="#hero" class="flex items-center gap-3 group">
-        <div class="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300">
-          <img src="./logo.svg" alt="Furkan Farooq Monogram" class="w-full h-full object-cover">
+      <!-- Brand Logo with furu123 photo & FF monogram badge -->
+      <a href="#hero" class="flex items-center gap-3.5 group" aria-label="Furkan Farooq Portfolio Home">
+        <div class="relative w-11 h-11 rounded-2xl p-[2px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-500 shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-400/50 group-hover:scale-105 transition-all duration-300">
+          <div class="w-full h-full rounded-[14px] overflow-hidden bg-dark-950 relative">
+            <img src="furu123.png" alt="Furkan Farooq - Logo" class="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-500" />
+            <!-- FF Monogram Badge Overlay -->
+            <span class="absolute bottom-0 right-0 text-[8px] font-mono font-black bg-cyan-500 text-dark-950 px-1 py-0.5 rounded-tl tracking-tighter leading-none shadow-md">FF</span>
+          </div>
         </div>
         <div class="flex flex-col">
-          <span class="text-lg font-extrabold tracking-wider text-white group-hover:text-cyan-400 transition-colors">
-            FURKAN<span class="text-cyan-400">.</span>
+          <span class="text-base sm:text-lg font-extrabold tracking-wider text-white group-hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+            FURKAN<span class="text-cyan-400 font-black">.</span>
+            <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">FF</span>
           </span>
-          <span class="text-[10px] font-mono tracking-widest text-slate-400 uppercase -mt-1">Software Engineer</span>
+          <span class="text-[10px] font-mono tracking-widest text-slate-400 uppercase -mt-0.5">Software Engineer &amp; Builder</span>
         </div>
       </a>
 
       <!-- Desktop Nav Links -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300" aria-label="Main Navigation">
         <a href="#about" class="nav-link hover:text-cyan-400 transition-colors py-1 relative">About</a>
         <a href="#skills" class="nav-link hover:text-cyan-400 transition-colors py-1 relative">Skills</a>
         <a href="#projects" class="nav-link hover:text-cyan-400 transition-colors py-1 relative">Projects</a>
@@ -166,16 +233,16 @@
 
       <!-- Header Action Buttons -->
       <div class="hidden md:flex items-center gap-3">
-        <button onclick="openResumeModal()" class="px-4 py-2 rounded-xl text-xs font-semibold font-mono text-slate-300 border border-slate-700/80 hover:border-cyan-400 hover:text-cyan-300 transition-all flex items-center gap-2">
-          <i class="fas fa-file-alt text-cyan-400"></i> View Resume
-        </button>
-        <a href="https://wa.me/917889899325?text=Hi%20Furkan,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/35 transition-all flex items-center gap-2">
+        <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event)" aria-label="Download Furkan Farooq Resume PDF" class="px-3.5 py-2 rounded-xl text-xs font-semibold font-mono text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-500/10 transition-all flex items-center gap-2">
+          <i class="fas fa-download text-cyan-400"></i> Resume PDF
+        </a>
+        <a href="https://wa.me/917889899325?text=Hi%20Furkan,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener noreferrer" aria-label="Chat with Furkan Farooq on WhatsApp" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/35 transition-all flex items-center gap-2">
           <i class="fab fa-whatsapp text-sm"></i> Let's Chat
         </a>
       </div>
 
       <!-- Mobile Hamburger Button -->
-      <button id="mobileMenuBtn" aria-label="Toggle Navigation Menu" class="md:hidden p-2.5 rounded-xl border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+      <button id="mobileMenuBtn" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="mobileMenu" class="md:hidden p-2.5 rounded-xl border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
         <i id="menuIcon" class="fas fa-bars text-lg"></i>
       </button>
 
@@ -190,10 +257,13 @@
       <a href="#contact" class="mobile-nav-link block py-2 text-slate-300 hover:text-cyan-400 text-base font-medium">Get In Touch</a>
       
       <div class="pt-3 border-t border-slate-800/80 flex flex-col gap-2.5">
-        <button onclick="openResumeModal(); toggleMobileMenu();" class="w-full py-2.5 rounded-xl text-center text-xs font-mono font-semibold text-slate-300 border border-slate-700 hover:border-cyan-400">
-          <i class="fas fa-file-alt text-cyan-400 mr-2"></i> View Resume / CV
+        <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event); toggleMobileMenu();" class="w-full py-2.5 rounded-xl text-center text-xs font-mono font-semibold text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/10 flex items-center justify-center gap-2">
+          <i class="fas fa-download text-cyan-400"></i> Download Resume PDF
+        </a>
+        <button onclick="openResumeModal(); toggleMobileMenu();" class="w-full py-2.5 rounded-xl text-center text-xs font-mono font-semibold text-slate-300 border border-slate-700 hover:border-cyan-400 flex items-center justify-center gap-2">
+          <i class="fas fa-file-alt text-cyan-400"></i> View Resume / CV Modal
         </button>
-        <a href="https://wa.me/917889899325?text=Hi%20Furkan,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener" class="w-full py-2.5 rounded-xl text-center text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center gap-2">
+        <a href="https://wa.me/917889899325?text=Hi%20Furkan,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl text-center text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center gap-2">
           <i class="fab fa-whatsapp"></i> Chat on WhatsApp
         </a>
       </div>
@@ -204,14 +274,14 @@
   <main class="relative z-10 pt-28">
 
     <!-- HERO SECTION -->
-    <section id="hero" class="min-h-[85vh] flex items-center justify-center px-6 py-12 md:py-20">
+    <section id="hero" class="min-h-[85vh] flex items-center justify-center px-4 sm:px-6 py-12 md:py-20">
       <div class="max-w-4xl mx-auto text-center">
         
         <!-- Status Pill -->
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-cyan-500/30 text-xs font-mono text-cyan-300 mb-8 shadow-sm">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span class="w-2 h-2 rounded-full bg-emerald-400 -ml-4"></span>
-          <span>Available for Freelance &amp; Engineering Roles</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping" aria-hidden="true"></span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 -ml-4" aria-hidden="true"></span>
+          <span>Available for Freelance &amp; Full-Time Roles</span>
         </div>
 
         <!-- Avatar Showcase with Animated Gradient Ring -->
@@ -227,7 +297,7 @@
           </div>
 
           <!-- Verified Engineer Badge -->
-          <div class="absolute bottom-1 right-2 w-7 h-7 rounded-full bg-blue-600 border-2 border-dark-900 flex items-center justify-center text-white text-xs shadow-md" title="Verified Full-Stack Builder">
+          <div class="absolute bottom-1 right-2 w-7 h-7 rounded-full bg-blue-600 border-2 border-dark-900 flex items-center justify-center text-white text-xs shadow-md" title="Verified Full-Stack Builder" aria-label="Verified Engineer">
             <i class="fas fa-check text-[10px]"></i>
           </div>
         </div>
@@ -255,30 +325,45 @@
           <span class="text-slate-200 font-medium">Kishtwar, Jammu &amp; Kashmir</span>.
         </p>
 
-        <!-- Primary CTA Buttons -->
-        <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
-          <a href="#projects" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm transition-all shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 flex items-center gap-2.5">
+        <!-- Primary CTA Buttons (View Work, Download Resume, View CV, Get in Touch) -->
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-12">
+          <!-- View Work Button -->
+          <a href="#projects" class="px-6 sm:px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm transition-all duration-300 shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 flex items-center gap-2.5 group">
             <span>Explore Featured Work</span>
-            <i class="fas fa-arrow-right text-xs"></i>
+            <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
           </a>
-          <button onclick="openResumeModal()" class="px-7 py-3.5 rounded-xl glass-panel glass-panel-hover text-slate-200 font-semibold text-sm border border-slate-700/80 hover:border-cyan-400 hover:text-cyan-300 transition-all flex items-center gap-2.5">
-            <i class="fas fa-file-invoice text-cyan-400"></i>
-            <span>Curriculum Vitae</span>
+
+          <!-- Download Resume Button (Recruiter Direct) -->
+          <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event)" class="px-6 sm:px-7 py-3.5 rounded-xl glass-panel text-cyan-300 hover:text-white font-semibold text-sm border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-500/15 transition-all duration-300 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/25 hover:-translate-y-0.5 flex items-center gap-2.5 group">
+            <i class="fas fa-file-arrow-down text-cyan-400 group-hover:scale-110 transition-transform"></i>
+            <span>Download Resume</span>
+          </a>
+
+          <!-- View CV Modal Trigger -->
+          <button onclick="openResumeModal()" class="px-5 sm:px-6 py-3.5 rounded-xl glass-panel text-slate-300 hover:text-white font-semibold text-sm border border-slate-700/80 hover:border-slate-500 hover:bg-slate-800/40 transition-all duration-300 flex items-center gap-2">
+            <i class="fas fa-eye text-slate-400"></i>
+            <span>View CV</span>
           </button>
-          <a href="#contact" class="px-7 py-3.5 rounded-xl glass-panel text-slate-300 hover:text-white font-semibold text-sm border border-slate-800 hover:border-slate-600 transition-all flex items-center gap-2">
+
+          <!-- Get in Touch CTA -->
+          <a href="#contact" class="px-5 sm:px-6 py-3.5 rounded-xl glass-panel text-slate-300 hover:text-white font-semibold text-sm border border-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center gap-2">
+            <i class="fas fa-paper-plane text-xs text-slate-400"></i>
             <span>Get in Touch</span>
           </a>
         </div>
 
         <!-- Quick Connect Chips -->
-        <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-slate-400 pt-6 border-t border-slate-800/60">
-          <a href="https://github.com/wani012" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-cyan-400 transition-colors bg-slate-900/60 px-3.5 py-1.5 rounded-lg border border-slate-800">
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-mono text-slate-400 pt-6 border-t border-slate-800/60">
+          <a href="https://github.com/wani012" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-cyan-400 transition-colors bg-slate-900/60 px-3.5 py-1.5 rounded-lg border border-slate-800">
             <i class="fab fa-github text-sm text-slate-200"></i> github.com/wani012
           </a>
-          <a href="https://wa.me/917889899325" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-emerald-400 transition-colors bg-slate-900/60 px-3.5 py-1.5 rounded-lg border border-slate-800">
+          <a href="https://linkedin.com/in/wani012" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-blue-400 transition-colors bg-slate-900/60 px-3.5 py-1.5 rounded-lg border border-slate-800">
+            <i class="fab fa-linkedin text-sm text-blue-400"></i> LinkedIn Profile
+          </a>
+          <a href="https://wa.me/917889899325" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-emerald-400 transition-colors bg-slate-900/60 px-3.5 py-1.5 rounded-lg border border-slate-800">
             <i class="fab fa-whatsapp text-sm text-emerald-400"></i> +91 7889899325
           </a>
-          <button onclick="copyEmail()" class="flex items-center gap-2 hover:text-cyan-400 transition-colors bg-slate-900/60 px-3.5 py-1.5 rounded-lg border border-slate-800" title="Click to copy email">
+          <button onclick="copyEmail()" class="flex items-center gap-2 hover:text-cyan-400 transition-colors bg-slate-900/60 px-3.5 py-1.5 rounded-lg border border-slate-800" title="Click to copy email" aria-label="Copy Email">
             <i class="fas fa-envelope text-sm text-cyan-400"></i> wanifuru6@gmail.com
           </button>
         </div>
@@ -287,7 +372,7 @@
     </section>
 
     <!-- KEY METRICS & IMPACT BAR -->
-    <section id="stats" class="py-12 px-6">
+    <section id="stats" class="py-12 px-4 sm:px-6">
       <div class="max-w-6xl mx-auto">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           
@@ -328,7 +413,7 @@
     </section>
 
     <!-- ABOUT SECTION -->
-    <section id="about" class="py-24 px-6">
+    <section id="about" class="py-20 md:py-24 px-4 sm:px-6">
       <div class="max-w-6xl mx-auto">
         
         <!-- Section Header -->
@@ -440,7 +525,7 @@
     </section>
 
     <!-- SKILLS & TECH STACK SECTION -->
-    <section id="skills" class="py-24 px-6 bg-dark-900/40 border-y border-slate-800/60">
+    <section id="skills" class="py-20 md:py-24 px-4 sm:px-6 bg-dark-900/40 border-y border-slate-800/60">
       <div class="max-w-6xl mx-auto">
         
         <!-- Section Header -->
@@ -454,11 +539,11 @@
           </div>
 
           <!-- Category Filter Tabs -->
-          <div class="inline-flex p-1.5 rounded-xl glass-panel border border-slate-800/80 gap-1 text-xs font-mono">
-            <button onclick="filterSkills('all')" class="skill-tab active px-3.5 py-1.5 rounded-lg font-semibold bg-cyan-500 text-white transition-all" data-filter="all">All</button>
-            <button onclick="filterSkills('frontend')" class="skill-tab px-3.5 py-1.5 rounded-lg font-medium text-slate-400 hover:text-white transition-all" data-filter="frontend">Frontend</button>
-            <button onclick="filterSkills('backend')" class="skill-tab px-3.5 py-1.5 rounded-lg font-medium text-slate-400 hover:text-white transition-all" data-filter="backend">Backend &amp; DB</button>
-            <button onclick="filterSkills('tools')" class="skill-tab px-3.5 py-1.5 rounded-lg font-medium text-slate-400 hover:text-white transition-all" data-filter="tools">DevOps &amp; APIs</button>
+          <div class="inline-flex p-1.5 rounded-xl glass-panel border border-slate-800/80 gap-1 text-xs font-mono" role="tablist" aria-label="Skills Filter">
+            <button onclick="filterSkills('all')" class="skill-tab active px-3.5 py-1.5 rounded-lg font-semibold bg-cyan-500 text-white transition-all" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button onclick="filterSkills('frontend')" class="skill-tab px-3.5 py-1.5 rounded-lg font-medium text-slate-400 hover:text-white transition-all" data-filter="frontend" role="tab" aria-selected="false">Frontend</button>
+            <button onclick="filterSkills('backend')" class="skill-tab px-3.5 py-1.5 rounded-lg font-medium text-slate-400 hover:text-white transition-all" data-filter="backend" role="tab" aria-selected="false">Backend &amp; DB</button>
+            <button onclick="filterSkills('tools')" class="skill-tab px-3.5 py-1.5 rounded-lg font-medium text-slate-400 hover:text-white transition-all" data-filter="tools" role="tab" aria-selected="false">DevOps &amp; APIs</button>
           </div>
         </div>
 
@@ -467,7 +552,7 @@
           
           <!-- JavaScript -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="frontend backend">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center text-yellow-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center text-yellow-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fab fa-js"></i>
             </div>
             <h4 class="font-bold text-white text-sm">JavaScript (ES6+)</h4>
@@ -476,7 +561,7 @@
 
           <!-- React -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="frontend">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-sky-400/10 border border-sky-400/20 flex items-center justify-center text-sky-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-sky-400/10 border border-sky-400/20 flex items-center justify-center text-sky-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fab fa-react"></i>
             </div>
             <h4 class="font-bold text-white text-sm">React.js</h4>
@@ -485,7 +570,7 @@
 
           <!-- Tailwind CSS -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="frontend">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fas fa-wind"></i>
             </div>
             <h4 class="font-bold text-white text-sm">Tailwind CSS</h4>
@@ -494,7 +579,7 @@
 
           <!-- HTML5 & Modern CSS3 -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="frontend">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-orange-400/10 border border-orange-400/20 flex items-center justify-center text-orange-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-orange-400/10 border border-orange-400/20 flex items-center justify-center text-orange-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fab fa-html5"></i>
             </div>
             <h4 class="font-bold text-white text-sm">HTML5 &amp; CSS3</h4>
@@ -503,7 +588,7 @@
 
           <!-- Node.js -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="backend">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fab fa-node"></i>
             </div>
             <h4 class="font-bold text-white text-sm">Node.js</h4>
@@ -512,7 +597,7 @@
 
           <!-- Python -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="backend">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fab fa-python"></i>
             </div>
             <h4 class="font-bold text-white text-sm">Python</h4>
@@ -521,7 +606,7 @@
 
           <!-- SQL & Databases -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="backend">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fas fa-database"></i>
             </div>
             <h4 class="font-bold text-white text-sm">Databases &amp; SQL</h4>
@@ -530,7 +615,7 @@
 
           <!-- RESTful APIs -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="backend tools">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fas fa-network-wired"></i>
             </div>
             <h4 class="font-bold text-white text-sm">RESTful APIs</h4>
@@ -539,7 +624,7 @@
 
           <!-- Git & GitHub -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="tools">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fab fa-git-alt"></i>
             </div>
             <h4 class="font-bold text-white text-sm">Git &amp; GitHub</h4>
@@ -548,7 +633,7 @@
 
           <!-- Docker & CI/CD -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="tools">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-cyan-600/10 border border-cyan-600/20 flex items-center justify-center text-cyan-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-cyan-600/10 border border-cyan-600/20 flex items-center justify-center text-cyan-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fab fa-docker"></i>
             </div>
             <h4 class="font-bold text-white text-sm">Docker &amp; CI/CD</h4>
@@ -557,7 +642,7 @@
 
           <!-- PWA & Offline Apps -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="frontend tools">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fas fa-mobile-screen"></i>
             </div>
             <h4 class="font-bold text-white text-sm">PWA &amp; Service Workers</h4>
@@ -566,7 +651,7 @@
 
           <!-- Web Audio API & Synth -->
           <div class="skill-item glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-800/80 text-center transition-all group" data-category="frontend tools">
-            <div class="w-12 h-12 mx-auto rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-2xl mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform">
               <i class="fas fa-wave-square"></i>
             </div>
             <h4 class="font-bold text-white text-sm">Web Audio API</h4>
@@ -579,7 +664,7 @@
     </section>
 
     <!-- FEATURED PROJECTS SHOWCASE -->
-    <section id="projects" class="py-24 px-6">
+    <section id="projects" class="py-20 md:py-24 px-4 sm:px-6">
       <div class="max-w-6xl mx-auto">
         
         <!-- Section Header -->
@@ -596,13 +681,16 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           
           <!-- PROJECT 1: FURU Zero Kaata Pro (v2.0) -->
-          <article class="glass-panel glass-panel-hover rounded-2xl border border-cyan-500/50 p-7 flex flex-col justify-between transition-all duration-300 relative group overflow-hidden shadow-xl shadow-cyan-500/10">
-            <div class="absolute top-0 right-0 w-36 h-36 bg-cyan-500/15 rounded-full blur-2xl pointer-events-none group-hover:bg-cyan-500/25 transition-all"></div>
-            
+          <article class="project-card project-card-cyan p-7 flex flex-col justify-between group">
+            <!-- Subtle Top Glowing Accent Line -->
+            <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true"></div>
+            <!-- Ambient Radial Glow -->
+            <div class="absolute top-0 right-0 w-40 h-40 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-cyan-500/30 transition-all duration-500"></div>
+
             <div>
               <!-- Top Row: Icon & Status Badges -->
               <div class="flex items-center justify-between gap-2 mb-6">
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-xl shadow-inner">
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-xl shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
                   <i class="fas fa-gamepad"></i>
                 </div>
                 <div class="flex items-center gap-1.5">
@@ -659,10 +747,10 @@
 
               <!-- Action Links -->
               <div class="flex items-center gap-2.5">
-                <a href="https://tictactoe-game-app-xi.vercel.app/" target="_blank" rel="noopener" class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-semibold text-center transition shadow-md shadow-cyan-600/25 flex items-center justify-center gap-1.5">
+                <a href="https://tictactoe-game-app-xi.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Play FURU Zero Kaata Pro Live" class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-semibold text-center transition shadow-md shadow-cyan-600/25 flex items-center justify-center gap-1.5">
                   <i class="fas fa-play text-[10px]"></i> Play Live Game
                 </a>
-                <a href="https://github.com/wani012/tictactoe-game-app" target="_blank" rel="noopener" class="py-2.5 px-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white text-xs font-semibold text-center transition flex items-center justify-center gap-1.5" title="GitHub Repository">
+                <a href="https://github.com/wani012/tictactoe-game-app" target="_blank" rel="noopener noreferrer" aria-label="View FURU Zero Kaata Source Code on GitHub" class="py-2.5 px-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white text-xs font-semibold text-center transition flex items-center justify-center gap-1.5" title="GitHub Repository">
                   <i class="fab fa-github"></i> Code
                 </a>
               </div>
@@ -670,13 +758,16 @@
           </article>
 
           <!-- PROJECT 2: Wani Garments -->
-          <article class="glass-panel glass-panel-hover rounded-2xl border border-amber-500/40 p-7 flex flex-col justify-between transition-all duration-300 relative group overflow-hidden shadow-xl shadow-amber-500/10">
-            <div class="absolute top-0 right-0 w-36 h-36 bg-amber-500/15 rounded-full blur-2xl pointer-events-none group-hover:bg-amber-500/25 transition-all"></div>
+          <article class="project-card project-card-amber p-7 flex flex-col justify-between group">
+            <!-- Subtle Top Glowing Accent Line -->
+            <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true"></div>
+            <!-- Ambient Radial Glow -->
+            <div class="absolute top-0 right-0 w-40 h-40 bg-amber-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/30 transition-all duration-500"></div>
 
             <div>
               <!-- Top Row: Icon & Status Badges -->
               <div class="flex items-center justify-between gap-2 mb-6">
-                <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl shadow-inner">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
                   <i class="fas fa-bag-shopping"></i>
                 </div>
                 <div class="flex items-center gap-1.5">
@@ -731,10 +822,10 @@
 
               <!-- Action Links -->
               <div class="flex items-center gap-2.5">
-                <a href="https://wani-garments.vercel.app/" target="_blank" rel="noopener" class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white text-xs font-semibold text-center transition shadow-md shadow-amber-500/20 flex items-center justify-center gap-1.5">
+                <a href="https://wani-garments.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Visit Wani Garments Live Store" class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white text-xs font-semibold text-center transition shadow-md shadow-amber-500/20 flex items-center justify-center gap-1.5">
                   <i class="fas fa-store text-xs"></i> Visit Live Store
                 </a>
-                <a href="https://wa.me/919469965924?text=Hello%20Shahida%20Begum%20ji,%20I%20visited%20Wani%20Garments%20website%20and%20want%20to%20inquire%20about%20ready-made%20dresses." target="_blank" rel="noopener" class="py-2.5 px-3 rounded-xl border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 text-xs font-semibold text-center transition flex items-center justify-center gap-1.5" title="Chat on WhatsApp">
+                <a href="https://wa.me/919469965924?text=Hello%20Shahida%20Begum%20ji,%20I%20visited%20Wani%20Garments%20website%20and%20want%20to%20inquire%20about%20ready-made%20dresses." target="_blank" rel="noopener noreferrer" aria-label="Order via WhatsApp from Wani Garments" class="py-2.5 px-3 rounded-xl border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 text-xs font-semibold text-center transition flex items-center justify-center gap-1.5" title="Chat on WhatsApp">
                   <i class="fab fa-whatsapp"></i> Order
                 </a>
               </div>
@@ -742,13 +833,16 @@
           </article>
 
           <!-- PROJECT 3: BHAT Cyber Cafe & CSC Portal -->
-          <article class="glass-panel glass-panel-hover rounded-2xl border border-blue-500/40 p-7 flex flex-col justify-between transition-all duration-300 relative group overflow-hidden shadow-xl shadow-blue-500/10">
-            <div class="absolute top-0 right-0 w-36 h-36 bg-blue-500/15 rounded-full blur-2xl pointer-events-none group-hover:bg-blue-500/25 transition-all"></div>
+          <article class="project-card project-card-blue p-7 flex flex-col justify-between group">
+            <!-- Subtle Top Glowing Accent Line -->
+            <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true"></div>
+            <!-- Ambient Radial Glow -->
+            <div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-blue-500/30 transition-all duration-500"></div>
 
             <div>
               <!-- Top Row: Icon & Status Badges -->
               <div class="flex items-center justify-between gap-2 mb-6">
-                <div class="w-12 h-12 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl shadow-inner">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
                   <i class="fas fa-id-card"></i>
                 </div>
                 <div class="flex items-center gap-1.5">
@@ -803,10 +897,10 @@
 
               <!-- Action Links -->
               <div class="flex items-center gap-2.5">
-                <a href="https://cyber-cafe-csc.vercel.app/" target="_blank" rel="noopener" class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold text-center transition shadow-md shadow-blue-600/20 flex items-center justify-center gap-1.5">
+                <a href="https://cyber-cafe-csc.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Visit BHAT Cyber Cafe Live Portal" class="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold text-center transition shadow-md shadow-blue-600/20 flex items-center justify-center gap-1.5">
                   <i class="fas fa-arrow-up-right-from-square text-xs"></i> Visit Live Portal
                 </a>
-                <a href="https://github.com/wani012/cyber-cafe-csc" target="_blank" rel="noopener" class="py-2.5 px-3 rounded-xl border border-slate-700 hover:border-blue-400 text-slate-300 hover:text-white text-xs font-semibold text-center transition flex items-center justify-center gap-1.5" title="GitHub Repository">
+                <a href="https://github.com/wani012/cyber-cafe-csc" target="_blank" rel="noopener noreferrer" aria-label="View BHAT Cyber Cafe Source Code on GitHub" class="py-2.5 px-3 rounded-xl border border-slate-700 hover:border-blue-400 text-slate-300 hover:text-white text-xs font-semibold text-center transition flex items-center justify-center gap-1.5" title="GitHub Repository">
                   <i class="fab fa-github"></i> Code
                 </a>
               </div>
@@ -819,7 +913,7 @@
     </section>
 
     <!-- CONTACT & CONNECT SECTION -->
-    <section id="contact" class="py-24 px-6 bg-dark-900/50 border-t border-slate-800/60">
+    <section id="contact" class="py-20 md:py-24 px-4 sm:px-6 bg-dark-900/50 border-t border-slate-800/60">
       <div class="max-w-6xl mx-auto">
         
         <!-- Section Header -->
@@ -838,7 +932,7 @@
           <div class="lg:col-span-5 space-y-5">
             
             <!-- WhatsApp Direct Card -->
-            <a href="https://wa.me/917889899325?text=Hi%20Furkan,%20I%20am%20reaching%20out%20from%20your%20portfolio!" target="_blank" rel="noopener" class="glass-panel p-5 rounded-2xl border border-emerald-500/30 hover:border-emerald-400 transition flex items-center gap-4 group">
+            <a href="https://wa.me/917889899325?text=Hi%20Furkan,%20I%20am%20reaching%20out%20from%20your%20portfolio!" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp with Furkan Farooq" class="glass-panel p-5 rounded-2xl border border-emerald-500/30 hover:border-emerald-400 transition flex items-center gap-4 group">
               <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl group-hover:scale-110 transition-transform">
                 <i class="fab fa-whatsapp"></i>
               </div>
@@ -862,7 +956,7 @@
                   </a>
                 </div>
               </div>
-              <button onclick="copyEmail()" class="p-2.5 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-400 hover:text-cyan-300 transition" title="Copy to clipboard">
+              <button onclick="copyEmail()" class="p-2.5 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-400 hover:text-cyan-300 transition" title="Copy to clipboard" aria-label="Copy Email to Clipboard">
                 <i class="fas fa-copy"></i>
               </button>
             </div>
@@ -879,22 +973,25 @@
               </div>
             </div>
 
-            <!-- Social Links Grid -->
+            <!-- Social Links Grid with Actual Verified Profiles -->
             <div class="pt-3">
               <p class="text-xs font-mono text-slate-400 mb-3 uppercase tracking-wider">Social &amp; Developer Profiles</p>
-              <div class="flex gap-3">
-                <a href="https://github.com/wani012" target="_blank" rel="noopener" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all hover:-translate-y-1" title="GitHub: wani012">
+              <div class="flex flex-wrap gap-3">
+                <a href="https://github.com/wani012" target="_blank" rel="noopener noreferrer" aria-label="Furkan Farooq on GitHub" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/25" title="GitHub: wani012">
                   <i class="fab fa-github text-lg"></i>
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-blue-400 text-slate-300 hover:text-blue-400 flex items-center justify-center transition-all hover:-translate-y-1" title="LinkedIn">
+                <a href="https://linkedin.com/in/wani012" target="_blank" rel="noopener noreferrer" aria-label="Furkan Farooq on LinkedIn" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-blue-400 text-slate-300 hover:text-blue-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/25" title="LinkedIn Profile">
                   <i class="fab fa-linkedin text-lg"></i>
                 </a>
-                <a href="https://x.com" target="_blank" rel="noopener" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-sky-400 text-slate-300 hover:text-sky-400 flex items-center justify-center transition-all hover:-translate-y-1" title="X / Twitter">
+                <a href="https://x.com/wani012" target="_blank" rel="noopener noreferrer" aria-label="Furkan Farooq on X (Twitter)" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-sky-400 text-slate-300 hover:text-sky-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-500/25" title="X / Twitter">
                   <i class="fab fa-x-twitter text-lg"></i>
                 </a>
-                <button onclick="openResumeModal()" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 flex items-center justify-center transition-all hover:-translate-y-1" title="View Resume">
+                <a href="https://wa.me/917889899325" target="_blank" rel="noopener noreferrer" aria-label="Direct WhatsApp Message" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/25" title="WhatsApp: +91 7889899325">
+                  <i class="fab fa-whatsapp text-lg"></i>
+                </a>
+                <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event)" aria-label="Download Resume PDF" class="w-11 h-11 rounded-xl glass-panel border border-slate-800 hover:border-rose-400 text-slate-300 hover:text-rose-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-rose-500/25" title="Download Resume PDF">
                   <i class="fas fa-file-pdf text-lg"></i>
-                </button>
+                </a>
               </div>
             </div>
 
@@ -902,7 +999,7 @@
 
           <!-- Interactive Message Form -->
           <div class="lg:col-span-7">
-            <div class="glass-panel p-8 rounded-3xl border border-slate-800/80 shadow-2xl">
+            <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800/80 shadow-2xl">
               <h3 class="text-xl font-extrabold text-white mb-2">Send a Message</h3>
               <p class="text-xs text-slate-400 mb-6">Fill in details below to start a conversation or request a project quotation.</p>
 
@@ -948,20 +1045,50 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="py-10 px-6 border-t border-slate-800/80 bg-dark-950 relative z-10">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-      <div class="flex items-center gap-2 font-mono">
-        <span>&copy; 2026 Furkan Farooq.</span>
-        <span>•</span>
-        <span>All Rights Reserved.</span>
+  <footer class="py-12 px-4 sm:px-6 border-t border-slate-800/80 bg-dark-950 relative z-10">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <!-- Brand & Copyright -->
+      <div class="flex flex-col sm:flex-row items-center gap-3 text-xs text-slate-400 font-mono text-center sm:text-left">
+        <span class="text-white font-semibold flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span> Furkan Farooq
+        </span>
+        <span class="hidden sm:inline text-slate-600">•</span>
+        <span>&copy; 2026 All Rights Reserved.</span>
+        <span class="hidden sm:inline text-slate-600">•</span>
+        <span class="text-slate-500">Built with Tailwind &amp; Pure Craft</span>
       </div>
-      <div class="flex items-center gap-4 text-slate-400">
-        <a href="#hero" class="hover:text-cyan-400 transition">Back to Top &uarr;</a>
-        <span>•</span>
-        <a href="https://github.com/wani012" target="_blank" rel="noopener" class="hover:text-cyan-400 transition">GitHub</a>
-        <span>•</span>
-        <a href="mailto:wanifuru6@gmail.com" class="hover:text-cyan-400 transition">Email</a>
+
+      <!-- Footer Social Media Icons Dock -->
+      <div class="flex items-center gap-2.5">
+        <a href="https://github.com/wani012" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" class="w-9 h-9 rounded-xl glass-panel border border-slate-800 hover:border-cyan-400 text-slate-400 hover:text-cyan-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">
+          <i class="fab fa-github text-sm"></i>
+        </a>
+        <a href="https://linkedin.com/in/wani012" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" class="w-9 h-9 rounded-xl glass-panel border border-slate-800 hover:border-blue-400 text-slate-400 hover:text-blue-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/20">
+          <i class="fab fa-linkedin text-sm"></i>
+        </a>
+        <a href="https://x.com/wani012" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter Profile" class="w-9 h-9 rounded-xl glass-panel border border-slate-800 hover:border-sky-400 text-slate-400 hover:text-sky-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-500/20">
+          <i class="fab fa-x-twitter text-sm"></i>
+        </a>
+        <a href="https://wa.me/917889899325" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Profile" class="w-9 h-9 rounded-xl glass-panel border border-slate-800 hover:border-emerald-400 text-slate-400 hover:text-emerald-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/20">
+          <i class="fab fa-whatsapp text-sm"></i>
+        </a>
+        <a href="mailto:wanifuru6@gmail.com" aria-label="Send Email" class="w-9 h-9 rounded-xl glass-panel border border-slate-800 hover:border-cyan-400 text-slate-400 hover:text-cyan-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">
+          <i class="fas fa-envelope text-sm"></i>
+        </a>
+        <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event)" aria-label="Download Resume PDF" class="w-9 h-9 rounded-xl glass-panel border border-slate-800 hover:border-rose-400 text-slate-400 hover:text-rose-400 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-rose-500/20" title="Resume PDF">
+          <i class="fas fa-file-pdf text-sm"></i>
+        </a>
       </div>
+
+      <!-- Quick Jump Link -->
+      <div class="text-xs font-mono text-slate-500">
+        <a href="#hero" class="hover:text-cyan-400 transition flex items-center gap-1.5">
+          <span>Back to Top</span>
+          <i class="fas fa-arrow-up text-[10px]"></i>
+        </a>
+      </div>
+
     </div>
   </footer>
 
@@ -977,7 +1104,7 @@
   </div>
 
   <!-- RESUME / CV POPUP MODAL -->
-  <div id="resumeModal" class="fixed inset-0 bg-dark-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+  <div id="resumeModal" class="fixed inset-0 bg-dark-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="resumeTitle">
     <div class="glass-panel border border-slate-700/80 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl relative">
       
       <!-- Close Button -->
@@ -990,7 +1117,7 @@
         <div class="flex items-center gap-4 mb-3">
           <img src="profile.jpg" alt="Furkan Farooq" class="w-16 h-16 rounded-2xl object-cover border border-cyan-500/40">
           <div>
-            <h3 class="text-2xl font-extrabold text-white">Furkan Farooq</h3>
+            <h3 id="resumeTitle" class="text-2xl font-extrabold text-white">Furkan Farooq</h3>
             <p class="text-sm font-mono text-cyan-400 font-semibold">Software Engineer &amp; Full-Stack Builder</p>
           </div>
         </div>
@@ -1032,53 +1159,56 @@
             <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
               <div class="flex justify-between items-center font-bold text-white mb-1">
                 <span>FURU Zero Kaata Pro (v2.0 Tournament &amp; Firebase Edition)</span>
-                <a href="https://tictactoe-game-app-xi.vercel.app/" target="_blank" class="text-cyan-400 hover:underline font-mono text-xs">Live Vercel App ↗</a>
+                <a href="https://tictactoe-game-app-xi.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline font-mono text-xs">Live Vercel App ↗</a>
               </div>
               <p class="text-xs text-slate-400 mb-1.5">
                 Competitive tournament engine with live global leaderboards, Firebase Auth &amp; Firestore cloud sync, unbeatable Minimax tree search, Monetag rewarded ad economy, and procedural Web Audio synthesizer.
               </p>
               <div class="flex gap-3 text-[11px] font-mono text-slate-400">
-                <a href="https://tictactoe-game-app-xi.vercel.app/" target="_blank" class="text-cyan-400 hover:underline">Play Live</a> • 
-                <a href="https://github.com/wani012/tictactoe-game-app" target="_blank" class="text-slate-300 hover:underline">GitHub Repository</a>
+                <a href="https://tictactoe-game-app-xi.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">Play Live</a> • 
+                <a href="https://github.com/wani012/tictactoe-game-app" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:underline">GitHub Repository</a>
               </div>
             </div>
 
             <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
               <div class="flex justify-between items-center font-bold text-white mb-1">
                 <span>Wani Garments (Luxury Kashmiri Fashion E-Commerce)</span>
-                <a href="https://wani-garments.vercel.app/" target="_blank" class="text-amber-400 hover:underline font-mono text-xs">Live Store ↗</a>
+                <a href="https://wani-garments.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline font-mono text-xs">Live Store ↗</a>
               </div>
               <p class="text-xs text-slate-400 mb-1.5">
                 Luxury Kashmiri bridal &amp; ready-made fashion platform with dynamic product search, category filters, high-resolution visual showcase, and direct WhatsApp automated checkout dispatch.
               </p>
               <div class="flex gap-3 text-[11px] font-mono text-slate-400">
-                <a href="https://wani-garments.vercel.app/" target="_blank" class="text-amber-400 hover:underline">Visit Live Store</a> • 
-                <a href="https://wa.me/919469965924" target="_blank" class="text-emerald-400 hover:underline">Order WhatsApp</a>
+                <a href="https://wani-garments.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline">Visit Live Store</a> • 
+                <a href="https://wa.me/919469965924" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Order WhatsApp</a>
               </div>
             </div>
 
             <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
               <div class="flex justify-between items-center font-bold text-white mb-1">
                 <span>BHAT CYBER CAFE &amp; CSC (J&amp;K Civic &amp; Job Portal)</span>
-                <a href="https://cyber-cafe-csc.vercel.app/" target="_blank" class="text-blue-400 hover:underline font-mono text-xs">Live Portal ↗</a>
+                <a href="https://cyber-cafe-csc.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline font-mono text-xs">Live Portal ↗</a>
               </div>
               <p class="text-xs text-slate-400 mb-1.5">
                 Online recruitment facilitation portal for Jammu &amp; Kashmir vacancies (JKSSB/JKPSC), mandatory document checklists, drag-drop file upload, and automated WhatsApp application routing.
               </p>
               <div class="flex gap-3 text-[11px] font-mono text-slate-400">
-                <a href="https://cyber-cafe-csc.vercel.app/" target="_blank" class="text-blue-400 hover:underline">Visit Live Portal</a> • 
-                <a href="https://github.com/wani012/cyber-cafe-csc" target="_blank" class="text-slate-300 hover:underline">GitHub Repository</a>
+                <a href="https://cyber-cafe-csc.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Visit Live Portal</a> • 
+                <a href="https://github.com/wani012/cyber-cafe-csc" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:underline">GitHub Repository</a>
               </div>
             </div>
           </div>
         </div>
 
-      <!-- Action Bar -->
-        <div class="pt-4 border-t border-slate-800 flex flex-wrap gap-3 justify-end">
-          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition flex items-center gap-2">
-            <i class="fas fa-print"></i> Print / Save as PDF
+        <!-- Action Bar -->
+        <div class="pt-4 border-t border-slate-800 flex flex-wrap gap-3 justify-end items-center">
+          <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event)" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs transition flex items-center gap-2 shadow-md shadow-cyan-500/20">
+            <i class="fas fa-download"></i> Download Resume PDF
+          </a>
+          <button onclick="window.print()" class="px-4 py-2 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white font-semibold text-xs transition flex items-center gap-2">
+            <i class="fas fa-print"></i> Print / Save
           </button>
-          <button onclick="closeResumeModal()" class="px-4 py-2 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 text-xs font-semibold transition">
+          <button onclick="closeResumeModal()" class="px-4 py-2 rounded-xl border border-slate-800 hover:border-slate-600 text-slate-400 hover:text-slate-200 text-xs font-semibold transition">
             Close
           </button>
         </div>
@@ -1140,9 +1270,11 @@
       if (isHidden) {
         mobileMenu.classList.remove("hidden");
         menuIcon.classList.replace("fa-bars", "fa-times");
+        mobileMenuBtn.setAttribute("aria-expanded", "true");
       } else {
         mobileMenu.classList.add("hidden");
         menuIcon.classList.replace("fa-times", "fa-bars");
+        mobileMenuBtn.setAttribute("aria-expanded", "false");
       }
     }
     if (mobileMenuBtn) {
@@ -1188,12 +1320,15 @@
     function filterSkills(category) {
       const tabs = document.querySelectorAll(".skill-tab");
       tabs.forEach(tab => {
-        if (tab.getAttribute("data-filter") === category) {
+        const isSelected = tab.getAttribute("data-filter") === category;
+        if (isSelected) {
           tab.classList.add("active", "bg-cyan-500", "text-white");
           tab.classList.remove("text-slate-400");
+          tab.setAttribute("aria-selected", "true");
         } else {
           tab.classList.remove("active", "bg-cyan-500", "text-white");
           tab.classList.add("text-slate-400");
+          tab.setAttribute("aria-selected", "false");
         }
       });
 
@@ -1229,7 +1364,12 @@
       }, 3500);
     }
 
-    // 6. Copy Email to Clipboard
+    // 6. Resume Download Feedback
+    function handleResumeDownload(e) {
+      showToast("Downloading Furkan Farooq's Resume (PDF)...", "fa-file-arrow-down");
+    }
+
+    // 7. Copy Email to Clipboard
     function copyEmail() {
       const email = "wanifuru6@gmail.com";
       if (navigator.clipboard) {
@@ -1253,7 +1393,7 @@
       showToast("Email copied to clipboard: " + text);
     }
 
-    // 7. Contact Form Handler
+    // 8. Contact Form Handler
     function handleFormSubmit(e) {
       e.preventDefault();
       const name = document.getElementById("senderName").value.trim();
@@ -1262,11 +1402,15 @@
       const message = document.getElementById("senderMessage").value.trim();
 
       if (!name || !email || !message) {
-        showToast("Please fill all required fields!", "fa-exclamation-triangle");
+        showToast("Please fill all required fields!", "fa-triangle-exclamation");
         return;
       }
 
-      const mailtoUrl = `mailto:wanifuru6@gmail.com?subject=${encodeURIComponent(subject + " (from " + name + ")")}&body=${encodeURIComponent("Sender Name: " + name + "\nSender Email: " + email + "\n\nMessage:\n" + message)}`;
+      const mailtoUrl = `mailto:wanifuru6@gmail.com?subject=${encodeURIComponent(subject + " (from " + name + ")")}&body=${encodeURIComponent("Sender Name: " + name + "
+Sender Email: " + email + "
+
+Message:
+" + message)}`;
       
       window.location.href = mailtoUrl;
       showToast("Drafting email to wanifuru6@gmail.com...", "fa-envelope");
@@ -1284,7 +1428,7 @@
       showToast("Redirecting to WhatsApp chat...", "fa-brands fa-whatsapp");
     }
 
-    // 8. Resume Modal Logic
+    // 9. Resume Modal Logic
     const resumeModal = document.getElementById("resumeModal");
     function openResumeModal() {
       if (!resumeModal) return;

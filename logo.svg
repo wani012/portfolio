@@ -3,37 +3,43 @@
     <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#38bdf8" />
       <stop offset="50%" stop-color="#3b82f6" />
-      <stop offset="100%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#6366f1" />
     </linearGradient>
     <linearGradient id="sparkGold" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fffb00" />
       <stop offset="100%" stop-color="#f59e0b" />
     </linearGradient>
     <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feGaussianBlur stdDeviation="6" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
+    <clipPath id="squircleClip">
+      <rect x="12" y="12" width="176" height="176" rx="42" />
+    </clipPath>
   </defs>
 
-  <!-- Squircle Base -->
-  <rect x="10" y="10" width="180" height="180" rx="46" fill="#0f172a" stroke="url(#logoGrad)" stroke-width="4" filter="url(#glowBlue)"/>
+  <!-- Outer Squircle Frame with Cyan/Indigo Gradient -->
+  <rect x="10" y="10" width="180" height="180" rx="46" fill="#070c18" stroke="url(#logoGrad)" stroke-width="4" filter="url(#glowBlue)"/>
 
-  <!-- Inner Ambient Glow Circle -->
-  <circle cx="100" cy="100" r="65" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.25" stroke-dasharray="6 6"/>
+  <!-- furu123 Photo inside Squircle -->
+  <g clip-path="url(#squircleClip)">
+    <image href="furu123.png" x="12" y="12" width="176" height="176" preserveAspectRatio="xMidYMid slice" opacity="0.95"/>
+    <rect x="12" y="12" width="176" height="176" fill="url(#logoGrad)" opacity="0.18" />
+    <rect x="12" y="110" width="176" height="80" fill="#070c18" opacity="0.75" />
+  </g>
 
-  <!-- Monogram FF (Furkan Farooq) -->
-  <!-- First F (Main) -->
-  <path d="M 52,52 L 102,52 L 102,68 L 74,68 L 74,90 L 98,90 L 98,106 L 74,106 L 74,148 L 52,148 Z" fill="url(#logoGrad)"/>
+  <!-- Inner Ambient Glow Ring -->
+  <rect x="14" y="14" width="172" height="172" rx="40" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.45"/>
 
-  <!-- Second F (Offset layered in Cyan) -->
-  <path d="M 108,68 L 148,68 L 148,82 L 126,82 L 126,100 L 144,100 L 144,114 L 126,114 L 126,148 L 108,148 Z" fill="#38bdf8" opacity="0.95"/>
+  <!-- FF Monogram Overlay Badge in corner -->
+  <g transform="translate(108, 108)">
+    <rect x="0" y="0" width="70" height="70" rx="20" fill="#070c18" stroke="#38bdf8" stroke-width="2.5" opacity="0.95" filter="url(#glowBlue)"/>
+    <text x="35" y="46" font-family="'JetBrains Mono', monospace" font-size="30" font-weight="900" fill="#38bdf8" text-anchor="middle">FF</text>
+  </g>
 
-  <!-- Electric Spark Bolt ⚡ in center -->
-  <polygon points="102,96 114,76 107,76 118,54 104,80 111,80" fill="url(#sparkGold)" filter="url(#glowBlue)"/>
-
-  <!-- Spark Star at top right -->
-  <polygon points="152,48 155,54 161,56 155,58 152,64 149,58 143,56 149,54" fill="#38bdf8"/>
+  <!-- Electric Spark Bolt ⚡ -->
+  <polygon points="45,46 55,30 49,30 58,14 47,34 52,34" fill="url(#sparkGold)" filter="url(#glowBlue)"/>
 </svg>
