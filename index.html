@@ -204,21 +204,23 @@
   <header class="fixed top-0 left-0 w-full glass-nav z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
       
-      <!-- Brand Logo with furu123 photo & FF monogram badge -->
+      <!-- Brand Logo -->
       <a href="#hero" class="flex items-center gap-3.5 group" aria-label="Furkan Farooq Portfolio Home">
+        <!-- Profile Avatar Icon with Cyberpunk Glow -->
         <div class="relative w-11 h-11 rounded-2xl p-[2px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-500 shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-400/50 group-hover:scale-105 transition-all duration-300">
           <div class="w-full h-full rounded-[14px] overflow-hidden bg-dark-950 relative">
-            <img src="furu123.png" alt="Furkan Farooq - Logo" class="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-500" />
-            <!-- FF Monogram Badge Overlay -->
-            <span class="absolute bottom-0 right-0 text-[8px] font-mono font-black bg-cyan-500 text-dark-950 px-1 py-0.5 rounded-tl tracking-tighter leading-none shadow-md">FF</span>
+            <img src="furu123.png" alt="Furkan Farooq - Profile Logo" class="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-500" />
           </div>
         </div>
+
+        <!-- Brand Typography -->
         <div class="flex flex-col">
-          <span class="text-base sm:text-lg font-extrabold tracking-wider text-white group-hover:text-cyan-400 transition-colors flex items-center gap-1.5">
-            FURKAN<span class="text-cyan-400 font-black">.</span>
-            <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">FF</span>
+          <span class="text-base sm:text-lg font-extrabold tracking-wider text-white group-hover:text-cyan-400 transition-colors">
+            FURKAN FAROOQ
           </span>
-          <span class="text-[10px] font-mono tracking-widest text-slate-400 uppercase -mt-0.5">Software Engineer &amp; Builder</span>
+          <span class="text-[10px] font-mono tracking-widest text-slate-400 uppercase -mt-0.5">
+            SOFTWARE ENGINEER &amp; BUILDER
+          </span>
         </div>
       </a>
 
@@ -431,16 +433,32 @@
               <!-- Glow Aura on Hover -->
               <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 rounded-3xl opacity-25 group-hover:opacity-60 blur-lg transition duration-500 pointer-events-none"></div>
               
-              <div class="relative overflow-hidden rounded-3xl bg-dark-900">
-                <img src="profile_portrait.jpg" alt="Furkan Farooq - Software Engineer" class="w-full h-auto aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+              <div class="relative overflow-hidden rounded-3xl bg-dark-900 p-3 flex flex-col items-center">
+                <!-- Floating Logo Emblem Badge on Photo Card -->
+                <div class="absolute top-5 right-5 z-20 flex items-center gap-2 bg-dark-950/85 backdrop-blur-md px-3 py-1 rounded-full border border-cyan-500/40 shadow-xl">
+                  <div class="w-5 h-5 rounded-md overflow-hidden bg-dark-900 border border-cyan-400/60 p-0.5 flex items-center justify-center">
+                    <img src="furu123.png" alt="Logo" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[10px] font-mono font-bold text-cyan-300">FURKAN FAROOQ</span>
+                </div>
+
+                <!-- Main Photo Display (furu123) -->
+                <div class="w-full aspect-[3/4] flex items-center justify-center overflow-hidden rounded-2xl bg-dark-950/70 relative">
+                  <img id="aboutImage" src="furu123_transparent.png" alt="Furkan Farooq - Software Engineer" class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-700 ease-out" />
+                  <!-- Bottom Ambient Fade -->
+                  <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent pointer-events-none"></div>
+                </div>
                 
-                <!-- Bottom Ambient Fade & Badge -->
-                <div class="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-dark-950/20 to-transparent"></div>
-                
-                <div class="absolute bottom-4 left-4 right-4 text-center">
-                  <div class="inline-flex items-center gap-2 bg-dark-900/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-xl">
+                <!-- Bottom Status Pill & Interactive Switcher -->
+                <div class="w-full text-center mt-3 z-20">
+                  <div class="inline-flex items-center gap-2 bg-dark-900/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-xl mb-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span>Furkan Farooq • Kishtwar, J&amp;K</span>
+                  </div>
+                  <!-- Interactive Photo Switcher -->
+                  <div class="flex items-center justify-center gap-2">
+                    <button type="button" onclick="setAboutPhoto('furu123')" id="btnPhoto1" class="text-[10px] font-mono px-3 py-1 rounded-lg bg-cyan-500 text-white border border-cyan-400 font-semibold transition">Outdoor (furu123)</button>
+                    <button type="button" onclick="setAboutPhoto('portrait')" id="btnPhoto2" class="text-[10px] font-mono px-3 py-1 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700 hover:text-white transition">Portrait View</button>
                   </div>
                 </div>
               </div>
@@ -1314,6 +1332,25 @@
 
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // About Me Photo Switcher
+    function setAboutPhoto(type) {
+      const img = document.getElementById("aboutImage");
+      const btn1 = document.getElementById("btnPhoto1");
+      const btn2 = document.getElementById("btnPhoto2");
+      if (!img) return;
+      if (type === 'furu123') {
+        img.src = 'furu123_transparent.png';
+        img.className = 'w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-700 ease-out';
+        if (btn1) btn1.className = 'text-[10px] font-mono px-3 py-1 rounded-lg bg-cyan-500 text-white border border-cyan-400 font-semibold transition';
+        if (btn2) btn2.className = 'text-[10px] font-mono px-3 py-1 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700 hover:text-white transition';
+      } else {
+        img.src = 'profile_portrait.jpg';
+        img.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out';
+        if (btn2) btn2.className = 'text-[10px] font-mono px-3 py-1 rounded-lg bg-cyan-500 text-white border border-cyan-400 font-semibold transition';
+        if (btn1) btn1.className = 'text-[10px] font-mono px-3 py-1 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700 hover:text-white transition';
+      }
     }
 
     // 4. Skills Filter
