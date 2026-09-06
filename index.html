@@ -198,15 +198,200 @@
       outline: 2px solid #06b6d4;
       outline-offset: 2px;
     }
+    /* Theme Base Variables & Surface Setup */
+    :root, html[data-theme="dark"], [data-theme="dark"], body:not(.light-theme) {
+      --bg-surface: radial-gradient(circle at 50% 30%, #0c1527 0%, #030712 100%);
+      --node-color-1: #00f3ff;
+      --node-color-2: #818cf8;
+      --line-color: rgba(0, 243, 255, 0.22);
+      --mouse-laser: rgba(168, 85, 247, 0.35);
+    }
+
+    html[data-theme="light"], [data-theme="light"], body.light-theme {
+      --bg-surface: radial-gradient(circle at 50% 30%, #f1f5f9 0%, #ffffff 100%);
+      --node-color-1: #2563eb;
+      --node-color-2: #64748b;
+      --line-color: rgba(71, 85, 105, 0.18);
+      --mouse-laser: rgba(37, 99, 235, 0.3);
+    }
+
+    html {
+      background: var(--bg-surface);
+      min-height: 100vh;
+      transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      background: transparent !important;
+    }
+
+    /* Fixed Full-Viewport Background Canvas */
+    #custom-canvas-mesh {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      display: block;
+    }
+
+    /* Content layers ensure strong contrast above canvas */
+    main, section, footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Light Theme Styling & Strong Contrast Enforcement */
+    body.light-theme {
+      color: #0f172a !important;
+    }
+    body.light-theme h1,
+    body.light-theme h2,
+    body.light-theme h3,
+    body.light-theme h4,
+    body.light-theme .text-white {
+      color: #0f172a !important;
+    }
+    body.light-theme .brand-title {
+      color: #0f172a !important;
+    }
+    body.light-theme .text-slate-200 {
+      color: #1e293b !important;
+    }
+    body.light-theme .text-slate-300 {
+      color: #334155 !important;
+    }
+    body.light-theme .text-slate-400 {
+      color: #475569 !important;
+    }
+    body.light-theme .text-slate-500 {
+      color: #64748b !important;
+    }
+    body.light-theme .ambient-glow-layer {
+      opacity: 0.25;
+    }
+    body.light-theme .glass-nav {
+      background: rgba(255, 255, 255, 0.88);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+    }
+    body.light-theme .nav-link {
+      color: #334155;
+    }
+    body.light-theme .nav-link:hover,
+    body.light-theme .nav-link.active-nav {
+      color: #0284c7;
+    }
+    body.light-theme .glass-panel {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    body.light-theme .glass-panel-hover:hover {
+      background: rgba(248, 250, 252, 0.96);
+      border-color: rgba(37, 99, 235, 0.35);
+      box-shadow: 0 16px 35px -10px rgba(37, 99, 235, 0.12);
+    }
+    body.light-theme .project-card {
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+    }
+    body.light-theme .project-card-cyan {
+      border-color: rgba(6, 182, 212, 0.45);
+    }
+    body.light-theme .project-card-cyan:hover {
+      box-shadow: 0 20px 45px -10px rgba(6, 182, 212, 0.2), 0 0 30px -4px rgba(6, 182, 212, 0.25);
+    }
+    body.light-theme .project-card-amber {
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+    body.light-theme .project-card-amber:hover {
+      box-shadow: 0 20px 45px -10px rgba(245, 158, 11, 0.2), 0 0 30px -4px rgba(245, 158, 11, 0.25);
+    }
+    body.light-theme .project-card-blue {
+      border-color: rgba(59, 130, 246, 0.45);
+    }
+    body.light-theme .project-card-blue:hover {
+      box-shadow: 0 20px 45px -10px rgba(59, 130, 246, 0.2), 0 0 30px -4px rgba(59, 130, 246, 0.25);
+    }
+    body.light-theme .project-card-purple {
+      border-color: rgba(168, 85, 247, 0.45);
+    }
+    body.light-theme .project-card-purple:hover {
+      box-shadow: 0 20px 45px -10px rgba(168, 85, 247, 0.2), 0 0 30px -4px rgba(168, 85, 247, 0.25);
+    }
+    body.light-theme .project-card a.border-slate-700 {
+      border-color: rgba(203, 213, 225, 0.9);
+      color: #334155;
+      background: rgba(248, 250, 252, 0.8);
+    }
+    body.light-theme .project-card a.border-slate-700:hover {
+      border-color: #0284c7;
+      color: #0284c7;
+      background: rgba(240, 249, 255, 0.9);
+    }
+    body.light-theme .border-slate-800,
+    body.light-theme .border-slate-800\/80,
+    body.light-theme .border-slate-800\/60,
+    body.light-theme .border-slate-700,
+    body.light-theme .border-slate-700\/80 {
+      border-color: rgba(226, 232, 240, 0.9);
+    }
+    body.light-theme .bg-dark-900\/50,
+    body.light-theme .bg-dark-900,
+    body.light-theme .bg-dark-950,
+    body.light-theme .bg-slate-900\/60,
+    body.light-theme .bg-slate-900\/50 {
+      background-color: rgba(248, 250, 252, 0.88);
+    }
+    body.light-theme .bg-grid-pattern {
+      background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+    }
+    body.light-theme input,
+    body.light-theme textarea {
+      background-color: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    body.light-theme input::placeholder,
+    body.light-theme textarea::placeholder {
+      color: #94a3b8 !important;
+    }
+    body.light-theme #resumeModal .glass-panel {
+      background: rgba(255, 255, 255, 0.96);
+      border-color: rgba(203, 213, 225, 0.9);
+    }
+    body.light-theme .theme-toggle-btn {
+      background: rgba(241, 245, 249, 0.9);
+      border-color: rgba(203, 213, 225, 0.9);
+      color: #0f172a;
+    }
+    body.light-theme .nav-resume-btn {
+      color: #0284c7;
+      border-color: rgba(2, 132, 199, 0.4);
+    }
+    body.light-theme .nav-resume-btn:hover {
+      background: rgba(2, 132, 199, 0.1);
+      border-color: #0284c7;
+    }
+    body.light-theme a.bg-gradient-to-r,
+    body.light-theme button.bg-gradient-to-r {
+      color: #ffffff !important;
+    }
   </style>
 </head>
-<body class="bg-dark-950 text-slate-200 font-sans antialiased selection:bg-cyan-500 selection:text-white relative overflow-x-hidden min-h-screen">
+<body class="text-slate-200 font-sans antialiased selection:bg-cyan-500 selection:text-white relative overflow-x-hidden min-h-screen">
+
+  <!-- Bespoke Interactive Particle Network Background (Mekanav-inspired with Dark/Light sync) -->
+  <canvas id="custom-canvas-mesh"></canvas>
 
   <!-- Scroll Progress Indicator -->
   <div id="scrollProgress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 z-50 w-0 transition-all duration-150"></div>
 
   <!-- Ambient Background Lighting / Aurora Gradients -->
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+  <div class="ambient-glow-layer fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true" style="z-index: -2;">
     <div class="absolute -top-40 -right-40 w-96 h-96 md:w-[550px] md:h-[550px] bg-cyan-500/10 rounded-full blur-3xl"></div>
     <div class="absolute top-1/3 -left-48 w-96 h-96 md:w-[600px] md:h-[600px] bg-blue-600/10 rounded-full blur-3xl"></div>
     <div class="absolute bottom-20 right-10 w-80 h-80 md:w-[500px] md:h-[500px] bg-indigo-600/10 rounded-full blur-3xl"></div>
@@ -215,24 +400,26 @@
 
   <!-- Top Navigation Bar -->
   <header class="fixed top-0 left-0 w-full glass-nav z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 h-20 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <a href="#hero" class="flex items-center gap-3.5 group" aria-label="Furkan Farooq Portfolio Home">
+      <a href="#hero" class="flex items-center gap-2 sm:gap-3 group min-w-0" aria-label="Furkan Farooq Portfolio Home">
         <!-- Profile Avatar Icon with Cyberpunk Glow -->
-        <div class="relative w-11 h-11 rounded-2xl p-[2px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-500 shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-400/50 group-hover:scale-105 transition-all duration-300">
-          <div class="w-full h-full rounded-[14px] overflow-hidden bg-dark-950 relative">
+        <div class="relative w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl p-[2px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-500 shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-400/50 group-hover:scale-105 transition-all duration-300 shrink-0">
+          <div class="w-full h-full rounded-[10px] sm:rounded-[14px] overflow-hidden bg-dark-950 relative">
             <img src="furu123.png" alt="Furkan Farooq - Profile Logo" class="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-500" />
           </div>
         </div>
 
         <!-- Brand Typography -->
-        <div class="flex flex-col">
-          <span class="text-base sm:text-lg font-extrabold tracking-wider text-white group-hover:text-cyan-400 transition-colors">
+        <div class="flex flex-col min-w-0">
+          <span class="brand-title text-sm sm:text-base md:text-lg font-extrabold tracking-wider text-white group-hover:text-cyan-400 transition-colors whitespace-nowrap">
             FURKAN FAROOQ
           </span>
-          <span class="text-[10px] font-mono tracking-widest text-slate-400 uppercase -mt-0.5">
-            SOFTWARE ENGINEER &amp; BUILDER
+          <span class="text-[8.5px] sm:text-[10px] font-mono tracking-wider sm:tracking-widest text-slate-400 uppercase -mt-0.5 whitespace-nowrap">
+            <span class="xs:hidden">SOFTWARE ENG.</span>
+            <span class="hidden xs:inline sm:hidden">SOFTWARE ENGINEER</span>
+            <span class="hidden sm:inline">SOFTWARE ENGINEER &amp; BUILDER</span>
           </span>
         </div>
       </a>
@@ -247,8 +434,13 @@
       </nav>
 
       <!-- Header Action Buttons -->
-      <div class="hidden md:flex items-center gap-3">
-        <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event)" aria-label="Download Furkan Farooq Resume PDF" class="px-3.5 py-2 rounded-xl text-xs font-semibold font-mono text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-500/10 transition-all flex items-center gap-2">
+      <div class="hidden md:flex items-center gap-3 shrink-0">
+        <!-- Theme Toggle Button (Desktop) -->
+        <button id="themeToggleBtn" aria-label="Toggle Light/Dark Theme" title="Toggle Theme" class="theme-toggle-btn w-10 h-10 rounded-xl border border-slate-700/80 hover:border-cyan-400 bg-slate-800/50 hover:bg-slate-700/70 text-slate-300 hover:text-white transition-all flex items-center justify-center shadow-sm">
+          <i id="themeIcon" class="fas fa-sun text-yellow-400 text-sm"></i>
+        </button>
+
+        <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event)" aria-label="Download Furkan Farooq Resume PDF" class="nav-resume-btn px-3.5 py-2 rounded-xl text-xs font-semibold font-mono text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-500/10 transition-all flex items-center gap-2">
           <i class="fas fa-download text-cyan-400"></i> Resume PDF
         </a>
         <a href="https://wa.me/917889899325?text=Hi%20Furkan,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener noreferrer" aria-label="Chat with Furkan Farooq on WhatsApp" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/35 transition-all flex items-center gap-2">
@@ -256,10 +448,18 @@
         </a>
       </div>
 
-      <!-- Mobile Hamburger Button -->
-      <button id="mobileMenuBtn" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="mobileMenu" class="md:hidden p-2.5 rounded-xl border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-        <i id="menuIcon" class="fas fa-bars text-lg"></i>
-      </button>
+      <!-- Mobile Header Actions (Theme Toggle & Hamburger) -->
+      <div class="flex md:hidden items-center gap-2 shrink-0">
+        <!-- Theme Toggle Button (Mobile Header) -->
+        <button id="mobileThemeToggleBtn" aria-label="Toggle Light/Dark Theme" title="Toggle Theme" class="theme-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+          <i id="mobileThemeIcon" class="fas fa-sun text-yellow-400 text-sm"></i>
+        </button>
+
+        <!-- Mobile Hamburger Button -->
+        <button id="mobileMenuBtn" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="mobileMenu" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+          <i id="menuIcon" class="fas fa-bars text-base"></i>
+        </button>
+      </div>
 
     </div>
 
@@ -277,6 +477,9 @@
         </a>
         <button onclick="openResumeModal(); toggleMobileMenu();" class="w-full py-2.5 rounded-xl text-center text-xs font-mono font-semibold text-slate-300 border border-slate-700 hover:border-cyan-400 flex items-center justify-center gap-2">
           <i class="fas fa-file-alt text-cyan-400"></i> View Resume / CV Modal
+        </button>
+        <button onclick="toggleTheme()" class="w-full py-2.5 rounded-xl text-center text-xs font-mono font-semibold text-slate-300 border border-slate-700 hover:border-cyan-400 flex items-center justify-center gap-2">
+          <i class="fas fa-circle-half-stroke text-cyan-400"></i> Switch Theme (<span id="mobileMenuThemeText">Light Mode</span>)
         </button>
         <a href="https://wa.me/917889899325?text=Hi%20Furkan,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl text-center text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center gap-2">
           <i class="fab fa-whatsapp"></i> Chat on WhatsApp
@@ -1556,11 +1759,8 @@
         return;
       }
 
-      const mailtoUrl = `mailto:wanifuru6@gmail.com?subject=${encodeURIComponent(subject + " (from " + name + ")")}&body=${encodeURIComponent("Sender Name: " + name + "
-Sender Email: " + email + "
-
-Message:
-" + message)}`;
+      const mailBody = "Sender Name: " + name + "\nSender Email: " + email + "\n\nMessage:\n" + message;
+      const mailtoUrl = "mailto:wanifuru6@gmail.com?subject=" + encodeURIComponent(subject + " (from " + name + ")") + "&body=" + encodeURIComponent(mailBody);
       
       window.location.href = mailtoUrl;
       showToast("Drafting email to wanifuru6@gmail.com...", "fa-envelope");
@@ -1604,6 +1804,297 @@ Message:
         closeResumeModal();
       }
     });
+
+    // 10. Theme Management & Sync
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const mobileThemeToggleBtn = document.getElementById("mobileThemeToggleBtn");
+    const themeIcon = document.getElementById("themeIcon");
+    const mobileThemeIcon = document.getElementById("mobileThemeIcon");
+    const mobileMenuThemeText = document.getElementById("mobileMenuThemeText");
+
+    function getPreferredTheme() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryTheme = urlParams.get("theme");
+      if (queryTheme === "light" || queryTheme === "dark") return queryTheme;
+
+      const stored = localStorage.getItem("portfolio-theme");
+      if (stored === "light" || stored === "dark") return stored;
+      return "dark"; // Default to dark cyberpunk
+    }
+
+    function applyTheme(theme, notify = false) {
+      const isLight = theme === "light";
+      if (isLight) {
+        document.documentElement.setAttribute("data-theme", "light");
+        document.body.classList.add("light-theme");
+        if (themeIcon) {
+          themeIcon.className = "fas fa-moon text-indigo-500 text-sm";
+        }
+        if (mobileThemeIcon) {
+          mobileThemeIcon.className = "fas fa-moon text-indigo-500 text-base";
+        }
+        if (mobileMenuThemeText) {
+          mobileMenuThemeText.textContent = "Dark Mode";
+        }
+      } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        document.body.classList.remove("light-theme");
+        if (themeIcon) {
+          themeIcon.className = "fas fa-sun text-yellow-400 text-sm";
+        }
+        if (mobileThemeIcon) {
+          mobileThemeIcon.className = "fas fa-sun text-yellow-400 text-base";
+        }
+        if (mobileMenuThemeText) {
+          mobileMenuThemeText.textContent = "Light Mode";
+        }
+      }
+      localStorage.setItem("portfolio-theme", theme);
+      if (notify && typeof showToast === "function") {
+        showToast(isLight ? "Light mode activated" : "Dark mode activated", isLight ? "fa-sun" : "fa-moon");
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") === "light" || 
+                      document.body.classList.contains("light-theme") ? "light" : "dark";
+      const next = current === "light" ? "dark" : "light";
+      applyTheme(next, true);
+    }
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", toggleTheme);
+    }
+    if (mobileThemeToggleBtn) {
+      mobileThemeToggleBtn.addEventListener("click", toggleTheme);
+    }
+
+    // Initialize Theme immediately
+    applyTheme(getPreferredTheme());
+
+    // 11. Bespoke Interactive HTML5 Canvas Particle Mesh Engine (Mekanav style)
+    (function initCustomCanvasMesh() {
+      const canvas = document.getElementById("custom-canvas-mesh");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d", { alpha: true });
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let dpr = 1;
+      let particles = [];
+      const mouse = { x: null, y: null, active: false };
+
+      function getThemeColors() {
+        const isLight = document.documentElement.getAttribute("data-theme") === "light" || 
+                        document.body.classList.contains("light-theme");
+        return isLight ? {
+          node1: "#2563eb",
+          node2: "#64748b",
+          lineRgb: "71, 85, 105",
+          baseLineAlpha: 0.18,
+          laserRgb: "37, 99, 235",
+          baseLaserAlpha: 0.30
+        } : {
+          node1: "#00f3ff",
+          node2: "#818cf8",
+          lineRgb: "0, 243, 255",
+          baseLineAlpha: 0.22,
+          laserRgb: "168, 85, 247",
+          baseLaserAlpha: 0.35
+        };
+      }
+
+      let activePalette = getThemeColors();
+
+      // Theme Change Observer: updates color palette dynamically without restarting particles
+      const themeObserver = new MutationObserver(() => {
+        activePalette = getThemeColors();
+      });
+      themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+      themeObserver.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.65;
+          this.vy = (Math.random() - 0.5) * 0.65;
+          this.radius = Math.random() * 1.5 + 1.2;
+          this.colorType = Math.random() > 0.4 ? 1 : 2;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          // Smooth edge bounce
+          if (this.x <= 0) {
+            this.x = 0;
+            this.vx = Math.abs(this.vx);
+          } else if (this.x >= width) {
+            this.x = width;
+            this.vx = -Math.abs(this.vx);
+          }
+          if (this.y <= 0) {
+            this.y = 0;
+            this.vy = Math.abs(this.vy);
+          } else if (this.y >= height) {
+            this.y = height;
+            this.vy = -Math.abs(this.vy);
+          }
+
+          // Subtle spring elastic connection to cursor within 140px
+          if (mouse.active && mouse.x !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 140 && dist > 0.1) {
+              const spring = (1 - dist / 140) * 0.025;
+              this.x += dx * spring;
+              this.y += dy * spring;
+            }
+          }
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.colorType === 1 ? activePalette.node1 : activePalette.node2;
+          ctx.fill();
+        }
+      }
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        if (ctx.resetTransform) {
+          ctx.resetTransform();
+        } else {
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        ctx.scale(dpr, dpr);
+
+        // Particle count: ~70 nodes desktop, scaled down to 35 on screens < 768px for zero battery drain
+        const targetCount = width < 768 ? 35 : 70;
+        while (particles.length < targetCount) {
+          particles.push(new Particle());
+        }
+        if (particles.length > targetCount) {
+          particles.length = targetCount;
+        }
+      }
+
+      let resizeRaf = null;
+      window.addEventListener("resize", () => {
+        if (!resizeRaf) {
+          resizeRaf = requestAnimationFrame(() => {
+            resize();
+            resizeRaf = null;
+          });
+        }
+      });
+
+      // Mouse & Touch tracking with smooth fallback
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+      });
+
+      window.addEventListener("mouseleave", () => {
+        mouse.active = false;
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      window.addEventListener("touchstart", (e) => {
+        if (e.touches && e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+          mouse.active = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener("touchmove", (e) => {
+        if (e.touches && e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+          mouse.active = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener("touchend", () => {
+        mouse.active = false;
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      // Initialize
+      resize();
+
+      // 60fps Animation Loop
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        const count = particles.length;
+
+        // 1. Dynamic Linking: Draw lines between particles within 110px
+        ctx.lineWidth = 0.85;
+        for (let i = 0; i < count; i++) {
+          const p1 = particles[i];
+          for (let j = i + 1; j < count; j++) {
+            const p2 = particles[j];
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            if (Math.abs(dx) < 110 && Math.abs(dy) < 110) {
+              const dist = Math.hypot(dx, dy);
+              if (dist < 110) {
+                const alpha = (1 - dist / 110) * activePalette.baseLineAlpha;
+                ctx.strokeStyle = `rgba(${activePalette.lineRgb}, ${alpha.toFixed(3)})`;
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+              }
+            }
+          }
+        }
+
+        // 2. Mouse Laser Interaction within 140px
+        if (mouse.active && mouse.x !== null) {
+          ctx.lineWidth = 1.15;
+          for (let i = 0; i < count; i++) {
+            const p = particles[i];
+            const dx = mouse.x - p.x;
+            const dy = mouse.y - p.y;
+            if (Math.abs(dx) < 140 && Math.abs(dy) < 140) {
+              const dist = Math.hypot(dx, dy);
+              if (dist < 140) {
+                const alpha = (1 - dist / 140) * activePalette.baseLaserAlpha;
+                ctx.strokeStyle = `rgba(${activePalette.laserRgb}, ${alpha.toFixed(3)})`;
+                ctx.beginPath();
+                ctx.moveTo(mouse.x, mouse.y);
+                ctx.lineTo(p.x, p.y);
+                ctx.stroke();
+              }
+            }
+          }
+        }
+
+        // 3. Update physics & draw particles
+        for (let i = 0; i < count; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      requestAnimationFrame(animate);
+    })();
   </script>
 
 </body>
