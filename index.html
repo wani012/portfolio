@@ -242,6 +242,18 @@
       position: relative;
       z-index: 1;
     }
+    /* Glowing Ambient Aura Behind Hero Section */
+    #hero {
+      position: relative;
+    }
+    #hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 35%, rgba(0, 243, 255, 0.08) 0%, rgba(99, 102, 241, 0.04) 45%, transparent 70%);
+      z-index: 0;
+    }
 
     /* Light Theme Styling & Strong Contrast Enforcement */
     body.light-theme {
@@ -493,7 +505,7 @@
 
     <!-- HERO SECTION -->
     <section id="hero" class="min-h-[85vh] flex items-center justify-center px-4 sm:px-6 py-12 md:py-20">
-      <div class="max-w-4xl mx-auto text-center">
+      <div class="max-w-4xl mx-auto text-center relative z-10">
         
         <!-- Status Pill -->
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-cyan-500/30 text-xs font-mono text-cyan-300 mb-8 shadow-sm">
@@ -1943,13 +1955,13 @@
             this.vy = -Math.abs(this.vy);
           }
 
-          // Subtle spring elastic connection to cursor within 140px
+          // Magnetic elastic connection to cursor within 140px
           if (mouse.active && mouse.x !== null) {
             const dx = mouse.x - this.x;
             const dy = mouse.y - this.y;
             const dist = Math.hypot(dx, dy);
             if (dist < 140 && dist > 0.1) {
-              const spring = (1 - dist / 140) * 0.025;
+              const spring = (1 - dist / 140) * 0.035;
               this.x += dx * spring;
               this.y += dy * spring;
             }
@@ -1978,7 +1990,7 @@
         ctx.scale(dpr, dpr);
 
         // Particle count: ~70 nodes desktop, scaled down to 35 on screens < 768px for zero battery drain
-        const targetCount = width < 768 ? 35 : 70;
+        const targetCount = width < 768 ? 35 : 75;
         while (particles.length < targetCount) {
           particles.push(new Particle());
         }
@@ -2041,19 +2053,21 @@
 
         const count = particles.length;
 
-        // 1. Dynamic Linking: Draw lines between particles within 110px
-        ctx.lineWidth = 0.85;
+        // 1. Dynamic Interconnecting Lines (Constellation Mesh within 115px)
+        ctx.lineWidth = 0.75;
         for (let i = 0; i < count; i++) {
           const p1 = particles[i];
           for (let j = i + 1; j < count; j++) {
             const p2 = particles[j];
             const dx = p2.x - p1.x;
             const dy = p2.y - p1.y;
-            if (Math.abs(dx) < 110 && Math.abs(dy) < 110) {
+            if (Math.abs(dx) < 115 && Math.abs(dy) < 115) {
               const dist = Math.hypot(dx, dy);
-              if (dist < 110) {
-                const alpha = (1 - dist / 110) * activePalette.baseLineAlpha;
-                ctx.strokeStyle = `rgba(${activePalette.lineRgb}, ${alpha.toFixed(3)})`;
+              if (dist < 115) {
+                const alpha = (1 - dist / 115) * (activePalette.isLight ? 0.20 : 0.25);
+                ctx.strokeStyle = activePalette.isLight
+                  ? `rgba(71, 85, 105, ${alpha.toFixed(3)})`
+                  : `rgba(0, 243, 255, ${alpha.toFixed(3)})`;
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
@@ -2063,7 +2077,7 @@
           }
         }
 
-        // 2. Mouse Laser Interaction within 140px
+        // 2. Mouse Magnetic Connection & Electric Laser Trails within 140px
         if (mouse.active && mouse.x !== null) {
           ctx.lineWidth = 1.15;
           for (let i = 0; i < count; i++) {
@@ -2073,8 +2087,10 @@
             if (Math.abs(dx) < 140 && Math.abs(dy) < 140) {
               const dist = Math.hypot(dx, dy);
               if (dist < 140) {
-                const alpha = (1 - dist / 140) * activePalette.baseLaserAlpha;
-                ctx.strokeStyle = `rgba(${activePalette.laserRgb}, ${alpha.toFixed(3)})`;
+                const laserAlpha = (1 - dist / 140) * (activePalette.isLight ? 0.35 : 0.40);
+                ctx.strokeStyle = activePalette.isLight
+                  ? `rgba(37, 99, 235, ${laserAlpha.toFixed(3)})`
+                  : `rgba(168, 85, 247, ${laserAlpha.toFixed(3)})`;
                 ctx.beginPath();
                 ctx.moveTo(mouse.x, mouse.y);
                 ctx.lineTo(p.x, p.y);
