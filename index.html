@@ -262,7 +262,7 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: radial-gradient(circle at 50% 35%, rgba(0, 243, 255, 0.08) 0%, rgba(99, 102, 241, 0.04) 45%, transparent 70%);
+      background: radial-gradient(circle at 50% 28%, rgba(0, 140, 255, 0.25) 0%, rgba(0, 102, 255, 0.08) 40%, transparent 72%);
       z-index: 0;
     }
 
@@ -1916,11 +1916,11 @@
           baseLaserAlpha: 0.30
         } : {
           isLight: false,
-          node1: "#00f3ff",
-          node2: "#818cf8",
-          lineRgb: "0, 243, 255",
+          node1: "#00e5ff",
+          node2: "#38bdf8",
+          lineRgb: "0, 140, 255",
           baseLineAlpha: 0.25,
-          laserRgb: "168, 85, 247",
+          laserRgb: "0, 140, 255",
           baseLaserAlpha: 0.40
         };
       }
@@ -2076,7 +2076,7 @@
                 const alpha = (1 - dist / 115) * 0.25;
                 ctx.strokeStyle = activePalette.isLight
                   ? `rgba(71, 85, 105, ${alpha.toFixed(3)})`
-                  : `rgba(0, 243, 255, ${alpha.toFixed(3)})`;
+                  : `rgba(0, 140, 255, ${alpha.toFixed(3)})`;
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
@@ -2099,7 +2099,7 @@
                 const laserAlpha = (1 - dist / 140) * 0.40;
                 ctx.strokeStyle = activePalette.isLight
                   ? `rgba(37, 99, 235, ${laserAlpha.toFixed(3)})`
-                  : `rgba(168, 85, 247, 0.4)`;
+                  : `rgba(0, 140, 255, ${laserAlpha.toFixed(3)})`;
                 ctx.beginPath();
                 ctx.moveTo(mouse.x, mouse.y);
                 ctx.lineTo(p.x, p.y);
