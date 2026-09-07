@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slow-Motion Rain &amp; Liquid Puddle Ripples — Developer Portfolio Background</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            charcoal: {
+              950: '#08090d',
+              900: '#0d0f17',
+              850: '#12141f',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #08090d;
+      color: #f1f5f9;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .luxury-glass {
+      background: rgba(13, 15, 23, 0.72);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .pill-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    input[type=range] {
+      accent-color: #38bdf8;
+    }
+  </style>
+</head>
+<body class="relative font-sans antialiased selection:bg-cyan-500 selection:text-white flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 md:p-10">
+
+  <!-- Fixed Top Header -->
+  <header class="fixed top-5 left-1/2 -translate-x-1/2 z-30 w-full max-w-3xl px-4 pointer-events-auto">
+    <div class="luxury-glass rounded-2xl px-5 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 p-[2px] shadow-lg shadow-cyan-500/20 flex items-center justify-center">
+          <div class="w-full h-full bg-charcoal-950 rounded-[10px] flex items-center justify-center">
+            <i class="fas fa-droplet text-sky-400 text-xs"></i>
+          </div>
+        </div>
+        <div>
+          <h1 class="text-sm font-bold tracking-wide text-white">Slow-Motion Rain &amp; Ripples</h1>
+          <p class="text-[10px] font-mono text-slate-400">Puddle Ripple System • 60 FPS</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full pill-card text-[11px] font-mono text-cyan-300">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>Glide Cursor</span>
+        </span>
+        <button onclick="triggerPuddleDrip()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white text-xs font-semibold shadow-md shadow-sky-500/20 transition flex items-center gap-1.5">
+          <i class="fas fa-water text-[10px]"></i>
+          <span>Drip</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Showcase Card -->
+  <main class="relative z-20 w-full max-w-2xl my-auto pt-24 pb-12 pointer-events-auto">
+    <div class="luxury-glass rounded-3xl p-6 sm:p-10 relative overflow-hidden group">
+      
+      <!-- Top Subtle Cyan Glow Line -->
+      <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-sky-400/60 to-transparent"></div>
+
+      <!-- Pill Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full pill-card border border-sky-500/30 text-xs font-mono text-sky-300 mb-4">
+        <i class="fas fa-umbrella text-xs"></i>
+        <span>Calming Ambient Weather Layer</span>
+      </div>
+
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-3">
+        Ultra-Thin Slowmo Rain &amp; <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-400">Concentric Puddle Ripples</span>
+      </h2>
+
+      <p class="text-slate-300 text-sm leading-relaxed mb-6">
+        Designed specifically for developer portfolios. Ultra-thin vertical raindrops fall with calming low terminal velocity, while your cursor generates periodic liquid water droplets and expanding concentric ripples.
+      </p>
+
+      <!-- Feature Badges -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+        <div class="pill-card p-3 rounded-xl">
+          <div class="text-xs font-bold text-sky-400 mb-0.5"><i class="fas fa-feather"></i> Ultra-Thin Streaks</div>
+          <p class="text-[10px] font-mono text-slate-400">0.65px - 1.2px stroke</p>
+        </div>
+        <div class="pill-card p-3 rounded-xl">
+          <div class="text-xs font-bold text-indigo-400 mb-0.5"><i class="fas fa-circle-notch"></i> Puddle Ripples</div>
+          <p class="text-[10px] font-mono text-slate-400">Natural periodic drips</p>
+        </div>
+        <div class="pill-card p-3 rounded-xl col-span-2 sm:col-span-1">
+          <div class="text-xs font-bold text-emerald-400 mb-0.5"><i class="fas fa-gauge-high"></i> Pure 60 FPS</div>
+          <p class="text-[10px] font-mono text-slate-400">Zero GC stutter / leaks</p>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="border-t border-white/10 pt-5">
+        <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-sky-400 mb-3 flex items-center gap-2">
+          <i class="fas fa-sliders"></i> Interactive Tuning
+        </h3>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-xs font-mono">
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-slate-300">
+              <span>Rain Density:</span>
+              <span id="densityVal" class="text-sky-400 font-bold">80 drops</span>
+            </div>
+            <input type="range" id="densitySlider" min="30" max="160" value="80" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-slate-300">
+              <span>Drip Frequency:</span>
+              <span id="dripVal" class="text-sky-400 font-bold">650ms</span>
+            </div>
+            <input type="range" id="dripSlider" min="250" max="1400" value="650" step="50" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+          </div>
+        </div>
+
+        <div class="mt-5 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <span class="text-[11px] font-mono text-slate-400">
+            <i class="fas fa-mouse-pointer text-sky-400 mr-1"></i> Glide or hold cursor still to watch concentric ripples
+          </span>
+          <button onclick="triggerPuddleDrip()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold transition shadow-md shadow-sky-500/20 flex items-center gap-2">
+            <i class="fas fa-tint"></i> Trigger Center Drip
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="relative z-20 text-xs font-mono text-slate-500 text-center pb-4">
+    <span>SlowMoRainRipples • Zero External Heavy Dependencies</span>
+  </footer>
+
+  <!-- Include Script -->
+  <script src="slowmo-rain-ripples.js"></script>
+  <script>
+    const engine = new SlowMoRainRipples({
+      baseColor: '#08090d',
+      dropCount: 80,
+      dripInterval: 650
+    });
+
+    const densitySlider = document.getElementById('densitySlider');
+    const densityVal = document.getElementById('densityVal');
+    const dripSlider = document.getElementById('dripSlider');
+    const dripVal = document.getElementById('dripVal');
+
+    densitySlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      densityVal.textContent = val + ' drops';
+      while (engine.raindrops.length < val) engine.raindrops.push(engine.createRaindrop(false));
+      if (engine.raindrops.length > val) engine.raindrops.length = val;
+    });
+
+    dripSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      dripVal.textContent = val + 'ms';
+      engine.options.dripInterval = val;
+    });
+
+    function triggerPuddleDrip() {
+      const x = window.innerWidth / 2;
+      const y = window.innerHeight / 2;
+      engine.spawnConcentricRipples(x, y, 3);
+    }
+  </script>
+</body>
+</html>
