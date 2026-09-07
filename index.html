@@ -1953,8 +1953,8 @@
     // Initialize Theme immediately
     applyTheme(getPreferredTheme());
 
-    // 11. Bespoke Interactive HTML5 Canvas — Quantum Cyber Circuit Board & Neural Data Bus Engine
-    (function initQuantumCyberCircuitEngine() {
+    // 11. Bespoke Interactive HTML5 Canvas — Cyberpunk Neural Spider Web & Cosmic Constellation Engine
+    (function initNeuralSpiderCosmicEngine() {
       const canvas = document.getElementById("custom-canvas-mesh");
       if (!canvas) return;
       const ctx = canvas.getContext("2d", { alpha: true });
@@ -1963,47 +1963,57 @@
       let height = window.innerHeight;
       let dpr = 1;
 
-      const GRID_SIZE = 64;
-      let traces = [];
-      let nodes = [];
-      let chips = [];
-      let pulses = [];
-      let shockwaves = [];
-
+      // Mouse & 3D Parallax Tracking State
       const mouse = {
-        x: -9999,
-        y: -9999,
+        x: width * 0.5,
+        y: height * 0.40,
+        targetX: width * 0.5,
+        targetY: height * 0.40,
         active: false,
-        lastMoveTime: 0,
-        currentInfluence: 0,
-        targetInfluence: 0
+        lastActiveTime: 0,
+        tiltX: 0,
+        tiltY: 0,
+        targetTiltX: 0,
+        targetTiltY: 0
       };
+
+      const shockwaves = [];
 
       function getThemeColors() {
         const isLight = document.documentElement.getAttribute("data-theme") === "light" || 
                         document.body.classList.contains("light-theme");
         return isLight ? {
           isLight: true,
-          traceCyan: "rgba(37, 99, 235,",    // Sapphire blue
-          traceViolet: "rgba(79, 70, 229,",  // Indigo
-          chipBorder: "rgba(37, 99, 235, 0.09)",
-          chipBg: "rgba(37, 99, 235, 0.012)",
-          chipText: "rgba(37, 99, 235, 0.24)",
-          pulseCyan: "rgba(37, 99, 235, 0.65)",
-          pulseViolet: "rgba(79, 70, 229, 0.65)",
-          cursorAura: "rgba(37, 99, 235, 0.40)",
-          pulseHead: "#1d4ed8"
+          spiderLine: "rgba(37, 99, 235, 0.70)",
+          spiderJoint: "#059669",
+          spiderTip: "#2563eb",
+          spiderShadow: "#2563eb",
+          spokeColor: "rgba(37, 99, 235, 0.08)",
+          ringCyan: "rgba(37, 99, 235,",
+          ringEmerald: "rgba(5, 150, 105,",
+          particleColors: [
+            "rgba(37, 99, 235,",
+            "rgba(5, 150, 105,",
+            "rgba(79, 70, 229,",
+            "rgba(100, 116, 139,"
+          ],
+          shockwaveColor: "rgba(37, 99, 235,"
         } : {
           isLight: false,
-          traceCyan: "rgba(0, 243, 255,",    // Subtle electric cyan
-          traceViolet: "rgba(168, 85, 247,", // Soft cyber violet
-          chipBorder: "rgba(0, 243, 255, 0.08)",
-          chipBg: "rgba(6, 182, 212, 0.012)",
-          chipText: "rgba(0, 243, 255, 0.24)",
-          pulseCyan: "rgba(0, 243, 255, 0.65)",
-          pulseViolet: "rgba(168, 85, 247, 0.65)",
-          cursorAura: "rgba(0, 243, 255, 0.45)",
-          pulseHead: "#cffafe"
+          spiderLine: "rgba(0, 243, 255, 0.75)",
+          spiderJoint: "#10b981",
+          spiderTip: "#00f3ff",
+          spiderShadow: "#00f3ff",
+          spokeColor: "rgba(0, 243, 255, 0.09)",
+          ringCyan: "rgba(0, 243, 255,",
+          ringEmerald: "rgba(16, 185, 129,",
+          particleColors: [
+            "rgba(0, 243, 255,",
+            "rgba(16, 185, 129,",
+            "rgba(168, 85, 247,",
+            "rgba(226, 232, 240,"
+          ],
+          shockwaveColor: "rgba(0, 243, 255,"
         };
       }
 
@@ -2015,88 +2025,285 @@
       themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
       themeObserver.observe(document.body, { attributes: true, attributeFilter: ["class"] });
 
-      function generateCircuit() {
-        traces = [];
-        nodes = [];
-        chips = [];
-        pulses = [];
+      // 1. Cosmic Neural Constellation Particles
+      const PARTICLE_COUNT = 130;
+      const particles = [];
 
-        const cols = Math.ceil(width / GRID_SIZE) + 2;
-        const rows = Math.ceil(height / GRID_SIZE) + 2;
-
-        // Generate IC Chips (Faint, architectural microprocessors)
-        const chipCount = width < 768 ? 2 : 4;
-        const chipLabels = ["CPU_0", "KERNEL", "BUS_IO", "QUANTUM", "ALU_CORE"];
-        for (let i = 0; i < chipCount; i++) {
-          const gx = Math.floor(2 + Math.random() * (cols - 5));
-          const gy = Math.floor(2 + Math.random() * (rows - 5));
-          chips.push({
-            x: gx * GRID_SIZE,
-            y: gy * GRID_SIZE,
-            w: GRID_SIZE * (Math.random() > 0.5 ? 2 : 3),
-            h: GRID_SIZE * 2,
-            label: chipLabels[i % chipLabels.length]
-          });
+      class ConstellationParticle {
+        constructor() {
+          this.reset(true);
         }
 
-        // Generate Circuit Bus Traces (Delicate, soft opacity)
-        const traceCount = Math.floor((cols * rows) / 4);
-        for (let i = 0; i < traceCount; i++) {
-          const startX = Math.floor(Math.random() * cols) * GRID_SIZE;
-          const startY = Math.floor(Math.random() * rows) * GRID_SIZE;
+        reset(initial = false) {
+          this.x = (Math.random() - 0.5) * width * 1.6;
+          this.y = (Math.random() - 0.5) * height * 1.6;
+          this.z = initial ? (Math.random() - 0.5) * 500 : 250;
+          this.baseRadius = 0.8 + Math.random() * 1.8;
+          
+          this.vx = (Math.random() - 0.5) * 0.35;
+          this.vy = (Math.random() - 0.5) * 0.35;
+          this.vz = (Math.random() - 0.5) * 0.4;
 
-          const points = [{ x: startX, y: startY }];
-          let currX = startX;
-          let currY = startY;
-          const segments = 2 + Math.floor(Math.random() * 4);
+          this.colorIndex = Math.floor(Math.random() * 4);
+          this.baseAlpha = 0.25 + Math.random() * 0.45;
+          this.pulseSpeed = 0.02 + Math.random() * 0.03;
+          this.pulsePhase = Math.random() * Math.PI * 2;
+        }
 
-          for (let s = 0; s < segments; s++) {
-            const dir = Math.floor(Math.random() * 4);
-            const dist = (1 + Math.floor(Math.random() * 3)) * GRID_SIZE;
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.z += this.vz;
 
-            if (dir === 0) currX += dist;
-            else if (dir === 1) currX -= dist;
-            else if (dir === 2) currY += dist;
-            else currY -= dist;
+          const boundX = width * 0.9;
+          const boundY = height * 0.9;
+          if (this.x < -boundX) this.x = boundX;
+          if (this.x > boundX) this.x = -boundX;
+          if (this.y < -boundY) this.y = boundY;
+          if (this.y > boundY) this.y = -boundY;
+          if (this.z < -300) this.z = 300;
+          if (this.z > 300) this.z = -300;
 
-            // 45-degree angled bend
-            if (Math.random() < 0.35) {
-              const diag = GRID_SIZE;
-              currX += (Math.random() > 0.5 ? diag : -diag);
-              currY += (Math.random() > 0.5 ? diag : -diag);
-            }
-
-            points.push({ x: currX, y: currY });
-          }
-
-          const isCyan = Math.random() > 0.4;
-          traces.push({
-            points,
-            isCyan,
-            // Delicate, muted base opacity (0.04 to 0.08)
-            opacity: 0.04 + Math.random() * 0.04
-          });
-
-          // Terminal Vias & Solder Pads
-          nodes.push({ x: startX, y: startY, type: "via" });
-          nodes.push({ x: currX, y: currY, type: "pad" });
-
-          // Calming, gentle electron pulses
-          if (Math.random() < 0.55) {
-            pulses.push({
-              traceIndex: traces.length - 1,
-              progress: Math.random(),
-              speed: 0.003 + Math.random() * 0.005,
-              isCyan: Math.random() > 0.35
-            });
-          }
+          this.pulsePhase += this.pulseSpeed;
         }
       }
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(new ConstellationParticle());
+      }
+
+      // 2. Spider Web Lattice (Radial Spokes & Polygonal Concentric Rings)
+      const SPOKE_COUNT = 16;
+      const RING_COUNT = 8;
+      let webRings = [];
+      let webSpokes = [];
+      let energyPulses = [];
+
+      function generateSpiderWeb(scale) {
+        webRings = [];
+        webSpokes = [];
+
+        for (let i = 0; i < SPOKE_COUNT; i++) {
+          const angle = (i / SPOKE_COUNT) * Math.PI * 2;
+          const maxRadius = Math.max(width, height) * 0.95;
+          webSpokes.push({
+            angle,
+            startX: Math.cos(angle) * (scale * 0.2),
+            startY: Math.sin(angle) * (scale * 0.2),
+            endX: Math.cos(angle) * maxRadius,
+            endY: Math.sin(angle) * maxRadius
+          });
+        }
+
+        const ringDistances = [0.35, 0.60, 0.90, 1.28, 1.75, 2.35, 3.05, 3.85];
+        for (let r = 0; r < RING_COUNT; r++) {
+          const ringDist = ringDistances[r] * scale;
+          const ringPoints = [];
+          for (let i = 0; i < SPOKE_COUNT; i++) {
+            const angle = (i / SPOKE_COUNT) * Math.PI * 2;
+            const sag = (i % 2 === 0 ? 0.96 : 1.04);
+            ringPoints.push({
+              x: Math.cos(angle) * ringDist * sag,
+              y: Math.sin(angle) * ringDist * sag,
+              baseAngle: angle,
+              baseDist: ringDist * sag
+            });
+          }
+          webRings.push(ringPoints);
+        }
+
+        energyPulses = [];
+        for (let i = 0; i < 20; i++) {
+          energyPulses.push({
+            type: Math.random() > 0.4 ? "spoke" : "ring",
+            spokeIndex: Math.floor(Math.random() * SPOKE_COUNT),
+            ringIndex: Math.floor(Math.random() * RING_COUNT),
+            progress: Math.random(),
+            speed: 0.0035 + Math.random() * 0.007,
+            isCyan: Math.random() > 0.35
+          });
+        }
+      }
+
+      // 3. Geometric Cyber Spider Vector Definitions
+      function getSpiderGeometry(R, time) {
+        const breath = Math.sin(time * 1.8) * 0.035;
+        const r = R * (1 + breath);
+
+        const nodes = {
+          headCrown: { x: 0, y: -0.62 * r, z: 20 },
+          fangL_Tip: { x: -0.14 * r, y: -0.80 * r, z: 28 },
+          fangR_Tip: { x: 0.14 * r, y: -0.80 * r, z: 28 },
+          fangL_Mid: { x: -0.10 * r, y: -0.68 * r, z: 24 },
+          fangR_Mid: { x: 0.10 * r, y: -0.68 * r, z: 24 },
+          eyeL1: { x: -0.09 * r, y: -0.52 * r, z: 22 },
+          eyeR1: { x: 0.09 * r, y: -0.52 * r, z: 22 },
+          eyeL2: { x: -0.05 * r, y: -0.56 * r, z: 24 },
+          eyeR2: { x: 0.05 * r, y: -0.56 * r, z: 24 },
+
+          thoraxTop: { x: 0, y: -0.42 * r, z: 18 },
+          thoraxL_Outer: { x: -0.32 * r, y: -0.22 * r, z: 14 },
+          thoraxR_Outer: { x: 0.32 * r, y: -0.22 * r, z: 14 },
+          thoraxL_Inner: { x: -0.18 * r, y: -0.08 * r, z: 22 },
+          thoraxR_Inner: { x: 0.18 * r, y: -0.08 * r, z: 22 },
+          thoraxMid: { x: 0, y: -0.10 * r, z: 26 },
+          thoraxWaist: { x: 0, y: 0.08 * r, z: 16 },
+
+          abdomTopL: { x: -0.22 * r, y: 0.16 * r, z: 14 },
+          abdomTopR: { x: 0.22 * r, y: 0.16 * r, z: 14 },
+          abdomMidL: { x: -0.40 * r, y: 0.44 * r, z: 10 },
+          abdomMidR: { x: 0.40 * r, y: 0.44 * r, z: 10 },
+          abdomCore: { x: 0, y: 0.48 * r, z: 24 },
+          abdomLowerL: { x: -0.26 * r, y: 0.78 * r, z: 8 },
+          abdomLowerR: { x: 0.26 * r, y: 0.78 * r, z: 8 },
+          spinneretMid: { x: 0, y: 0.88 * r, z: 14 },
+          spinneretTip: { x: 0, y: 1.14 * r, z: 18 }
+        };
+
+        const legWave = Math.sin(time * 2.2);
+        const legWave2 = Math.cos(time * 2.2);
+
+        const legs = [
+          [
+            nodes.thoraxL_Outer,
+            { x: -0.44 * r, y: -0.62 * r, z: 16 },
+            { x: -0.80 * r, y: -0.98 * r + legWave * 4, z: 22 },
+            { x: -1.15 * r, y: -1.35 * r + legWave * 6, z: 8 },
+            { x: -1.48 * r, y: -1.60 * r, z: 0 }
+          ],
+          [
+            nodes.thoraxL_Outer,
+            { x: -0.62 * r, y: -0.35 * r, z: 16 },
+            { x: -1.10 * r, y: -0.48 * r - legWave2 * 5, z: 20 },
+            { x: -1.55 * r, y: -0.62 * r - legWave2 * 6, z: 6 },
+            { x: -1.90 * r, y: -0.70 * r, z: 0 }
+          ],
+          [
+            nodes.abdomTopL,
+            { x: -0.64 * r, y: 0.20 * r, z: 16 },
+            { x: -1.14 * r, y: 0.44 * r + legWave * 5, z: 20 },
+            { x: -1.58 * r, y: 0.78 * r + legWave * 6, z: 6 },
+            { x: -1.92 * r, y: 1.05 * r, z: 0 }
+          ],
+          [
+            nodes.abdomMidL,
+            { x: -0.52 * r, y: 0.62 * r, z: 14 },
+            { x: -0.88 * r, y: 1.02 * r - legWave2 * 4, z: 18 },
+            { x: -1.18 * r, y: 1.45 * r - legWave2 * 6, z: 6 },
+            { x: -1.38 * r, y: 1.88 * r, z: 0 }
+          ],
+          [
+            nodes.thoraxR_Outer,
+            { x: 0.44 * r, y: -0.62 * r, z: 16 },
+            { x: 0.80 * r, y: -0.98 * r - legWave * 4, z: 22 },
+            { x: 1.15 * r, y: -1.35 * r - legWave * 6, z: 8 },
+            { x: 1.48 * r, y: -1.60 * r, z: 0 }
+          ],
+          [
+            nodes.thoraxR_Outer,
+            { x: 0.62 * r, y: -0.35 * r, z: 16 },
+            { x: 1.10 * r, y: -0.48 * r + legWave2 * 5, z: 20 },
+            { x: 1.55 * r, y: -0.62 * r + legWave2 * 6, z: 6 },
+            { x: 1.90 * r, y: -0.70 * r, z: 0 }
+          ],
+          [
+            nodes.abdomTopR,
+            { x: 0.64 * r, y: 0.20 * r, z: 16 },
+            { x: 1.14 * r, y: 0.44 * r - legWave * 5, z: 20 },
+            { x: 1.58 * r, y: 0.78 * r - legWave * 6, z: 6 },
+            { x: 1.92 * r, y: 1.05 * r, z: 0 }
+          ],
+          [
+            nodes.abdomMidR,
+            { x: 0.52 * r, y: 0.62 * r, z: 14 },
+            { x: 0.88 * r, y: 1.02 * r + legWave2 * 4, z: 18 },
+            { x: 1.18 * r, y: 1.45 * r + legWave2 * 6, z: 6 },
+            { x: 1.38 * r, y: 1.88 * r, z: 0 }
+          ]
+        ];
+
+        const edges = [
+          [nodes.headCrown, nodes.fangL_Mid],
+          [nodes.fangL_Mid, nodes.fangL_Tip],
+          [nodes.headCrown, nodes.fangR_Mid],
+          [nodes.fangR_Mid, nodes.fangR_Tip],
+          [nodes.fangL_Mid, nodes.eyeL1],
+          [nodes.fangR_Mid, nodes.eyeR1],
+          [nodes.eyeL1, nodes.eyeL2],
+          [nodes.eyeR1, nodes.eyeR2],
+          [nodes.headCrown, nodes.thoraxTop],
+          [nodes.eyeL1, nodes.thoraxTop],
+          [nodes.eyeR1, nodes.thoraxTop],
+
+          [nodes.thoraxTop, nodes.thoraxL_Outer],
+          [nodes.thoraxTop, nodes.thoraxR_Outer],
+          [nodes.thoraxL_Outer, nodes.thoraxL_Inner],
+          [nodes.thoraxR_Outer, nodes.thoraxR_Inner],
+          [nodes.thoraxL_Inner, nodes.thoraxMid],
+          [nodes.thoraxR_Inner, nodes.thoraxMid],
+          [nodes.thoraxTop, nodes.thoraxMid],
+          [nodes.thoraxMid, nodes.thoraxWaist],
+          [nodes.thoraxL_Outer, nodes.thoraxWaist],
+          [nodes.thoraxR_Outer, nodes.thoraxWaist],
+
+          [nodes.thoraxWaist, nodes.abdomTopL],
+          [nodes.thoraxWaist, nodes.abdomTopR],
+          [nodes.abdomTopL, nodes.abdomMidL],
+          [nodes.abdomTopR, nodes.abdomMidR],
+          [nodes.abdomTopL, nodes.abdomCore],
+          [nodes.abdomTopR, nodes.abdomCore],
+          [nodes.thoraxWaist, nodes.abdomCore],
+          [nodes.abdomMidL, nodes.abdomCore],
+          [nodes.abdomMidR, nodes.abdomCore],
+          [nodes.abdomMidL, nodes.abdomLowerL],
+          [nodes.abdomMidR, nodes.abdomLowerR],
+          [nodes.abdomLowerL, nodes.abdomCore],
+          [nodes.abdomLowerR, nodes.abdomCore],
+          [nodes.abdomLowerL, nodes.spinneretMid],
+          [nodes.abdomLowerR, nodes.spinneretMid],
+          [nodes.abdomCore, nodes.spinneretMid],
+          [nodes.spinneretMid, nodes.spinneretTip]
+        ];
+
+        return { nodes, edges, legs };
+      }
+
+      // 4. 3D Projection & Parallax Transformation
+      function project3D(pt, cx, cy, tiltX, tiltY) {
+        const z = pt.z || 0;
+        const radX = tiltX * 0.0006;
+        const radY = tiltY * 0.0006;
+
+        const cosY = Math.cos(radY);
+        const sinY = Math.sin(radY);
+        const cosX = Math.cos(radX);
+        const sinX = Math.sin(radX);
+
+        const x1 = pt.x * cosY + z * sinY;
+        const z1 = -pt.x * sinY + z * cosY;
+
+        const y2 = pt.y * cosX - z1 * sinX;
+        const z2 = pt.y * sinX + z1 * cosX;
+
+        const fov = 750;
+        const perspective = fov / (fov + z2);
+
+        return {
+          x: cx + x1 * perspective,
+          y: cy + y2 * perspective,
+          scale: perspective,
+          z: z2
+        };
+      }
+
+      // 5. Resize & High-DPI Scaling
+      let spiderScale = 160;
 
       function resize() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         width = window.innerWidth;
         height = window.innerHeight;
+
         canvas.width = Math.floor(width * dpr);
         canvas.height = Math.floor(height * dpr);
         canvas.style.width = `${width}px`;
@@ -2108,125 +2315,77 @@
           ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
         ctx.scale(dpr, dpr);
-        generateCircuit();
+
+        spiderScale = Math.min(width, height) * (width < 768 ? 0.28 : 0.22);
+        generateSpiderWeb(spiderScale);
       }
 
-      let resizeRaf = null;
-      window.addEventListener("resize", () => {
-        if (!resizeRaf) {
-          resizeRaf = requestAnimationFrame(() => {
-            resize();
-            resizeRaf = null;
-          });
-        }
-      }, { passive: true });
+      window.addEventListener("resize", resize, { passive: true });
+      resize();
 
-      // Mouse & Touch Tracking
+      // 6. Mouse & Touch Event Listeners
       window.addEventListener("mousemove", (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
+        mouse.targetX = e.clientX;
+        mouse.targetY = e.clientY;
         mouse.active = true;
-        mouse.targetInfluence = 1.0;
-        mouse.lastMoveTime = performance.now();
-      }, { passive: true });
+        mouse.lastActiveTime = performance.now();
 
-      const handlePointerLeave = () => {
-        mouse.active = false;
-        mouse.targetInfluence = 0;
-        mouse.x = -9999;
-        mouse.y = -9999;
-      };
-
-      window.addEventListener("mouseleave", handlePointerLeave, { passive: true });
-      document.addEventListener("mouseleave", handlePointerLeave, { passive: true });
-      document.addEventListener("mouseout", (e) => {
-        if (!e.relatedTarget && !e.toElement) handlePointerLeave();
-      }, { passive: true });
-      window.addEventListener("blur", handlePointerLeave, { passive: true });
-
-      window.addEventListener("touchstart", (e) => {
-        if (e.touches && e.touches.length > 0) {
-          mouse.x = e.touches[0].clientX;
-          mouse.y = e.touches[0].clientY;
-          mouse.active = true;
-          mouse.targetInfluence = 1.0;
-          mouse.lastMoveTime = performance.now();
-        }
+        mouse.targetTiltX = (e.clientY - height * 0.5);
+        mouse.targetTiltY = (e.clientX - width * 0.5);
       }, { passive: true });
 
       window.addEventListener("touchmove", (e) => {
         if (e.touches && e.touches.length > 0) {
-          mouse.x = e.touches[0].clientX;
-          mouse.y = e.touches[0].clientY;
+          mouse.targetX = e.touches[0].clientX;
+          mouse.targetY = e.touches[0].clientY;
           mouse.active = true;
-          mouse.targetInfluence = 1.0;
-          mouse.lastMoveTime = performance.now();
+          mouse.lastActiveTime = performance.now();
+
+          mouse.targetTiltX = (e.touches[0].clientY - height * 0.5);
+          mouse.targetTiltY = (e.touches[0].clientX - width * 0.5);
         }
       }, { passive: true });
 
-      window.addEventListener("touchend", handlePointerLeave, { passive: true });
-      window.addEventListener("touchcancel", handlePointerLeave, { passive: true });
-
-      // Gentle Click Shockwave Burst
       window.addEventListener("click", (e) => {
-        if (shockwaves.length >= 5) shockwaves.shift();
+        if (shockwaves.length >= 6) shockwaves.shift();
         shockwaves.push({
           x: e.clientX,
           y: e.clientY,
           radius: 0,
-          maxRadius: 240,
-          growthRate: 4.0,
-          opacity: 0.45,
-          decay: 0.02
+          maxRadius: Math.min(width, height) * 0.85,
+          speed: 7.0,
+          opacity: 0.90,
+          decay: 0.016
         });
       }, { passive: true });
 
-      resize();
+      // 7. Main Animation & Rendering Loop (60 FPS)
+      const startTime = performance.now();
 
-      function getPointAlongTrace(trace, progress) {
-        const points = trace.points;
-        let totalLen = 0;
-        const lens = [];
-        for (let i = 0; i < points.length - 1; i++) {
-          const d = Math.hypot(points[i+1].x - points[i].x, points[i+1].y - points[i].y);
-          lens.push(d);
-          totalLen += d;
-        }
+      function render(now) {
+        const time = (now - startTime) * 0.001;
 
-        let targetDist = (progress % 1.0) * totalLen;
-        for (let i = 0; i < lens.length; i++) {
-          if (targetDist <= lens[i]) {
-            const segProgress = targetDist / (lens[i] || 1);
-            return {
-              x: points[i].x + (points[i+1].x - points[i].x) * segProgress,
-              y: points[i].y + (points[i+1].y - points[i].y) * segProgress
-            };
-          }
-          targetDist -= lens[i];
-        }
-        return { x: points[0].x, y: points[0].y };
-      }
-
-      function animate() {
         ctx.clearRect(0, 0, width, height);
 
-        const now = performance.now();
-        if (now - mouse.lastMoveTime > 2800) {
-          mouse.targetInfluence = 0;
+        mouse.x += (mouse.targetX - mouse.x) * 0.06;
+        mouse.y += (mouse.targetY - mouse.y) * 0.06;
+        mouse.tiltX += (mouse.targetTiltX - mouse.tiltX) * 0.05;
+        mouse.tiltY += (mouse.targetTiltY - mouse.tiltY) * 0.05;
+
+        if (now - mouse.lastActiveTime > 2500) {
+          const idleAngle = time * 0.8;
+          mouse.targetTiltX = Math.sin(idleAngle) * 55;
+          mouse.targetTiltY = Math.cos(idleAngle * 0.7) * 75;
         }
 
-        // Smooth physical dampening when mouse leaves
-        mouse.currentInfluence += (mouse.targetInfluence - mouse.currentInfluence) * 0.045;
+        // Adaptive spider center aligns with hero avatar position
+        const cx = width * 0.5 + (mouse.tiltY * 0.035);
+        const cy = height * 0.40 + (mouse.tiltX * 0.035);
 
-        // Hero central focus zone: slightly softens lines right behind main hero typography
-        const heroCenterX = width * 0.5;
-        const heroCenterY = height * 0.42;
-        const heroRadius = Math.min(width * 0.36, 340);
-
-        // Update shockwaves
+        // A. Expanding Shockwaves
         for (let s = shockwaves.length - 1; s >= 0; s--) {
           const sw = shockwaves[s];
-          sw.radius += sw.growthRate;
+          sw.radius += sw.speed;
           sw.opacity -= sw.decay;
 
           if (sw.opacity <= 0 || sw.radius >= sw.maxRadius) {
@@ -2236,165 +2395,227 @@
 
           ctx.beginPath();
           ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
-          ctx.strokeStyle = activePalette.isLight 
-            ? `rgba(37, 99, 235, ${sw.opacity.toFixed(3)})` 
-            : `rgba(0, 243, 255, ${sw.opacity.toFixed(3)})`;
-          ctx.lineWidth = 1.0;
+          ctx.strokeStyle = `${activePalette.shockwaveColor}${sw.opacity.toFixed(3)})`;
+          ctx.lineWidth = 1.6;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = activePalette.spiderShadow;
           ctx.stroke();
+          ctx.shadowBlur = 0;
         }
 
-        // 1. Draw Static Circuit Traces (Soft, light, high-clarity)
-        for (let i = 0; i < traces.length; i++) {
-          const tr = traces[i];
-          const pts = tr.points;
+        // B. Cosmic Constellation Particles & Synapse Filaments
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.update();
 
-          ctx.beginPath();
-          ctx.moveTo(pts[0].x, pts[0].y);
-          for (let p = 1; p < pts.length; p++) {
-            ctx.lineTo(pts[p].x, pts[p].y);
+          const proj = project3D(p, cx, cy, mouse.tiltX * 0.5, mouse.tiltY * 0.5);
+
+          const dx = proj.x - mouse.x;
+          const dy = proj.y - mouse.y;
+          const distToMouse = Math.hypot(dx, dy);
+
+          if (distToMouse < 150) {
+            const pull = (1 - distToMouse / 150) * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(proj.x, proj.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `${activePalette.ringCyan}${(pull * 0.65).toFixed(3)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
           }
 
-          // Hero center focus attenuation: keeps main title in razor-sharp focus
-          const midPt = pts[Math.floor(pts.length / 2)];
-          const distToHero = Math.hypot(midPt.x - heroCenterX, midPt.y - heroCenterY);
-          const focusFactor = distToHero < heroRadius ? (0.55 + 0.45 * (distToHero / heroRadius)) : 1.0;
-
-          let boost = 0;
-          if (mouse.currentInfluence > 0.01) {
-            for (let p = 0; p < pts.length; p++) {
-              const d = Math.hypot(pts[p].x - mouse.x, pts[p].y - mouse.y);
-              if (d < 160) {
-                boost = Math.max(boost, (1 - d / 160) * 0.22 * mouse.currentInfluence);
-              }
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dist3D = Math.hypot(p.x - p2.x, p.y - p2.y, p.z - p2.z);
+            if (dist3D < 130) {
+              const proj2 = project3D(p2, cx, cy, mouse.tiltX * 0.5, mouse.tiltY * 0.5);
+              const linkAlpha = (1 - dist3D / 130) * 0.18;
+              const colorBase = activePalette.particleColors[p.colorIndex];
+              ctx.beginPath();
+              ctx.moveTo(proj.x, proj.y);
+              ctx.lineTo(proj2.x, proj2.y);
+              ctx.strokeStyle = `${colorBase}${linkAlpha.toFixed(3)})`;
+              ctx.lineWidth = 0.55;
+              ctx.stroke();
             }
           }
 
-          const baseColor = tr.isCyan ? activePalette.traceCyan : activePalette.traceViolet;
-          const finalOpacity = ((tr.opacity * focusFactor) + boost).toFixed(3);
-          ctx.strokeStyle = `${baseColor}${finalOpacity})`;
-          ctx.lineWidth = boost > 0 ? 0.9 : 0.65;
-          ctx.stroke();
-        }
-
-        // 2. Draw IC Chips (Subtle, sleek watermark style)
-        for (let i = 0; i < chips.length; i++) {
-          const ch = chips[i];
-          ctx.fillStyle = activePalette.chipBg;
-          ctx.strokeStyle = activePalette.chipBorder;
-          ctx.lineWidth = 0.8;
-          ctx.strokeRect(ch.x, ch.y, ch.w, ch.h);
-          ctx.fillRect(ch.x, ch.y, ch.w, ch.h);
-
-          // Micro-pins on chip border
-          ctx.fillStyle = activePalette.chipBorder;
-          for (let px = ch.x + 8; px < ch.x + ch.w - 8; px += 14) {
-            ctx.fillRect(px, ch.y - 2, 3, 2);
-            ctx.fillRect(px, ch.y + ch.h, 3, 2);
-          }
-
-          ctx.font = "500 9px 'JetBrains Mono', monospace";
-          ctx.fillStyle = activePalette.chipText;
-          ctx.textAlign = "center";
-          ctx.fillText(ch.label, ch.x + ch.w / 2, ch.y + ch.h / 2 + 3);
-        }
-
-        // 3. Draw Circular Vias & Solder Pads (Delicate micro-dots)
-        for (let i = 0; i < nodes.length; i++) {
-          const nd = nodes[i];
-          const d = mouse.currentInfluence > 0.01 ? Math.hypot(nd.x - mouse.x, nd.y - mouse.y) : 999;
-          const isNear = d < 140;
+          const pulse = Math.sin(p.pulsePhase) * 0.25;
+          const r = Math.max(0.4, p.baseRadius * proj.scale + pulse);
+          const alpha = Math.min(1, Math.max(0.1, (p.baseAlpha + pulse) * proj.scale));
+          const colorBase = activePalette.particleColors[p.colorIndex];
 
           ctx.beginPath();
-          ctx.arc(nd.x, nd.y, nd.type === "pad" ? 2.2 : 1.4, 0, Math.PI * 2);
-          ctx.fillStyle = isNear 
-            ? (activePalette.isLight ? "rgba(37, 99, 235, 0.45)" : "rgba(0, 243, 255, 0.45)") 
-            : (activePalette.isLight ? "rgba(37, 99, 235, 0.12)" : "rgba(0, 243, 255, 0.10)");
+          ctx.arc(proj.x, proj.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = `${colorBase}${alpha.toFixed(3)})`;
           ctx.fill();
 
-          if (nd.type === "pad") {
+          if (p.baseRadius > 1.8) {
             ctx.beginPath();
-            ctx.arc(nd.x, nd.y, 4.0, 0, Math.PI * 2);
-            ctx.strokeStyle = isNear 
-              ? (activePalette.isLight ? "rgba(37, 99, 235, 0.35)" : "rgba(0, 243, 255, 0.35)") 
-              : (activePalette.isLight ? "rgba(37, 99, 235, 0.06)" : "rgba(0, 243, 255, 0.06)");
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+            ctx.arc(proj.x, proj.y, r * 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = `${colorBase}${(alpha * 0.15).toFixed(3)})`;
+            ctx.fill();
           }
         }
 
-        // 4. Draw Traveling Light Pulses (Smooth, gentle electrons)
-        for (let i = 0; i < pulses.length; i++) {
-          const pl = pulses[i];
-          pl.progress += pl.speed;
-          if (pl.progress >= 1.0) pl.progress = 0;
-
-          const tr = traces[pl.traceIndex];
-          if (!tr) continue;
-
-          const curPt = getPointAlongTrace(tr, pl.progress);
-          const tailPt = getPointAlongTrace(tr, Math.max(0, pl.progress - 0.035));
-
-          const pulseColor = pl.isCyan ? activePalette.pulseCyan : activePalette.pulseViolet;
-          const grad = ctx.createLinearGradient(tailPt.x, tailPt.y, curPt.x, curPt.y);
-          grad.addColorStop(0, "rgba(0, 243, 255, 0)");
-          grad.addColorStop(1, pulseColor);
+        // C. Sprawling Spider Web (Spokes & Rings)
+        for (let i = 0; i < webSpokes.length; i++) {
+          const sp = webSpokes[i];
+          const pStart = project3D({ x: sp.startX, y: sp.startY, z: 0 }, cx, cy, mouse.tiltX, mouse.tiltY);
+          const pEnd = project3D({ x: sp.endX, y: sp.endY, z: -50 }, cx, cy, mouse.tiltX, mouse.tiltY);
 
           ctx.beginPath();
-          ctx.moveTo(tailPt.x, tailPt.y);
-          ctx.lineTo(curPt.x, curPt.y);
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.3;
-          ctx.lineCap = "round";
+          ctx.moveTo(pStart.x, pStart.y);
+          ctx.lineTo(pEnd.x, pEnd.y);
+          ctx.strokeStyle = activePalette.spokeColor;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+
+        for (let r = 0; r < webRings.length; r++) {
+          const ring = webRings[r];
+          ctx.beginPath();
+          const firstPt = project3D({ x: ring[0].x, y: ring[0].y, z: 0 }, cx, cy, mouse.tiltX, mouse.tiltY);
+          ctx.moveTo(firstPt.x, firstPt.y);
+
+          for (let p = 1; p < ring.length; p++) {
+            const pt = project3D({ x: ring[p].x, y: ring[p].y, z: 0 }, cx, cy, mouse.tiltX, mouse.tiltY);
+            ctx.lineTo(pt.x, pt.y);
+          }
+          ctx.closePath();
+
+          const ringAlpha = (0.17 - r * 0.016).toFixed(3);
+          ctx.strokeStyle = r % 2 === 0 
+            ? `${activePalette.ringCyan}${ringAlpha})` 
+            : `${activePalette.ringEmerald}${ringAlpha})`;
+          ctx.lineWidth = 0.65;
           ctx.stroke();
 
-          // Soft glowing head
-          ctx.shadowBlur = 3;
-          ctx.shadowColor = pulseColor;
+          for (let p = 0; p < ring.length; p++) {
+            const pt = project3D({ x: ring[p].x, y: ring[p].y, z: 0 }, cx, cy, mouse.tiltX, mouse.tiltY);
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, 1.2, 0, Math.PI * 2);
+            ctx.fillStyle = `${activePalette.ringCyan}0.24)`;
+            ctx.fill();
+          }
+        }
+
+        for (let i = 0; i < energyPulses.length; i++) {
+          const ep = energyPulses[i];
+          ep.progress += ep.speed;
+          if (ep.progress >= 1.0) ep.progress = 0;
+
+          let pulsePos = { x: 0, y: 0 };
+          if (ep.type === "spoke") {
+            const sp = webSpokes[ep.spokeIndex];
+            pulsePos.x = sp.startX + (sp.endX - sp.startX) * ep.progress;
+            pulsePos.y = sp.startY + (sp.endY - sp.startY) * ep.progress;
+          } else {
+            const ring = webRings[ep.ringIndex];
+            const seg = (ep.progress * SPOKE_COUNT);
+            const segIdx = Math.floor(seg) % SPOKE_COUNT;
+            const nextIdx = (segIdx + 1) % SPOKE_COUNT;
+            const subProgress = seg % 1.0;
+            pulsePos.x = ring[segIdx].x + (ring[nextIdx].x - ring[segIdx].x) * subProgress;
+            pulsePos.y = ring[segIdx].y + (ring[nextIdx].y - ring[segIdx].y) * subProgress;
+          }
+
+          const proj = project3D({ x: pulsePos.x, y: pulsePos.y, z: 5 }, cx, cy, mouse.tiltX, mouse.tiltY);
+          const color = ep.isCyan ? activePalette.spiderTip : activePalette.spiderJoint;
+
           ctx.beginPath();
-          ctx.arc(curPt.x, curPt.y, 1.4, 0, Math.PI * 2);
-          ctx.fillStyle = activePalette.pulseHead;
+          ctx.arc(proj.x, proj.y, 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = color;
           ctx.fill();
           ctx.shadowBlur = 0;
         }
 
-        // 5. Interactive Cursor Probe / Subtle Laser Router
-        if (mouse.currentInfluence > 0.01 && mouse.x > 0) {
-          ctx.beginPath();
-          ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
-          ctx.strokeStyle = activePalette.cursorAura;
-          ctx.lineWidth = 1.0;
-          ctx.stroke();
+        // D. Central Geometric Arachnid Wireframe
+        const spider = getSpiderGeometry(spiderScale, time);
 
-          // Connect subtle 45-degree circuit routes to nearest 2 nodes
-          let closeNodes = [];
-          for (let i = 0; i < nodes.length; i++) {
-            const d = Math.hypot(nodes[i].x - mouse.x, nodes[i].y - mouse.y);
-            if (d < 140) closeNodes.push({ node: nodes[i], d });
-          }
-          closeNodes.sort((a, b) => a.d - b.d);
-          closeNodes = closeNodes.slice(0, 2);
-
-          for (let i = 0; i < closeNodes.length; i++) {
-            const nd = closeNodes[i].node;
-            const alpha = (1 - closeNodes[i].d / 140) * 0.28 * mouse.currentInfluence;
-
-            const midX = mouse.x + (nd.x - mouse.x) * 0.5;
-            ctx.beginPath();
-            ctx.moveTo(mouse.x, mouse.y);
-            ctx.lineTo(midX, mouse.y);
-            ctx.lineTo(nd.x, nd.y);
-            ctx.strokeStyle = activePalette.isLight 
-              ? `rgba(37, 99, 235, ${alpha.toFixed(3)})` 
-              : `rgba(0, 243, 255, ${alpha.toFixed(3)})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
+        const projNodes = {};
+        for (const [key, node] of Object.entries(spider.nodes)) {
+          projNodes[key] = project3D(node, cx, cy, mouse.tiltX, mouse.tiltY);
         }
 
-        requestAnimationFrame(animate);
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = activePalette.spiderShadow;
+        ctx.lineWidth = 1.35;
+
+        for (let i = 0; i < spider.edges.length; i++) {
+          const edge = spider.edges[i];
+          const p1 = project3D(edge[0], cx, cy, mouse.tiltX, mouse.tiltY);
+          const p2 = project3D(edge[1], cx, cy, mouse.tiltX, mouse.tiltY);
+
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = activePalette.spiderLine;
+          ctx.stroke();
+        }
+
+        // 8 Articulated Cybernetic Legs
+        for (let l = 0; l < spider.legs.length; l++) {
+          const leg = spider.legs[l];
+          const projLeg = leg.map(pt => project3D(pt, cx, cy, mouse.tiltX, mouse.tiltY));
+
+          ctx.beginPath();
+          ctx.moveTo(projLeg[0].x, projLeg[0].y);
+          for (let p = 1; p < projLeg.length; p++) {
+            ctx.lineTo(projLeg[p].x, projLeg[p].y);
+          }
+          ctx.strokeStyle = activePalette.spiderLine;
+          ctx.lineWidth = 1.45;
+          ctx.stroke();
+
+          for (let p = 1; p < projLeg.length - 1; p++) {
+            const joint = projLeg[p];
+            ctx.beginPath();
+            ctx.arc(joint.x, joint.y, 2.2, 0, Math.PI * 2);
+            ctx.fillStyle = activePalette.spiderJoint;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = activePalette.spiderJoint;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+
+          const tip = projLeg[projLeg.length - 1];
+          ctx.beginPath();
+          ctx.arc(tip.x, tip.y, 2.6, 0, Math.PI * 2);
+          ctx.fillStyle = activePalette.spiderTip;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = activePalette.spiderTip;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+
+        // Cybernetic Eyes & Thorax Core
+        const eyes = [projNodes.eyeL1, projNodes.eyeR1, projNodes.eyeL2, projNodes.eyeR2];
+        for (let i = 0; i < eyes.length; i++) {
+          const eye = eyes[i];
+          ctx.beginPath();
+          ctx.arc(eye.x, eye.y, 2.4, 0, Math.PI * 2);
+          ctx.fillStyle = activePalette.spiderJoint;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = activePalette.spiderJoint;
+          ctx.fill();
+        }
+
+        ctx.beginPath();
+        ctx.arc(projNodes.thoraxMid.x, projNodes.thoraxMid.y, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowBlur = 14;
+        ctx.shadowColor = activePalette.spiderTip;
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+
+        requestAnimationFrame(render);
       }
 
-      requestAnimationFrame(animate);
+      requestAnimationFrame(render);
     })();
   </script>
 

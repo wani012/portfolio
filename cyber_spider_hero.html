@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk Neural Spider Web Emblem | Furkan Farooq</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       RESET & CYBER THEME BASE
+       ========================================================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    :root {
+      --bg-dark: #05070d;
+      --bg-void: #020307;
+      --neon-cyan: #00f3ff;
+      --neon-green: #10b981;
+      --neon-violet: #a855f7;
+      --electric-silver: #e2e8f0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-void);
+      font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #ffffff;
+      user-select: none;
+    }
+
+    /* ==========================================================================
+       HERO CONTAINER & ATMOSPHERIC GLOW
+       ========================================================================== */
+    .hero-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, #0a1124 0%, #050811 50%, var(--bg-void) 100%);
+    }
+
+    /* Deep atmospheric background bloom */
+    .ambient-glow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: 
+        radial-gradient(circle at 50% 48%, rgba(0, 243, 255, 0.11) 0%, rgba(16, 185, 129, 0.04) 38%, transparent 72%),
+        radial-gradient(circle at 50% 45%, rgba(168, 85, 247, 0.06) 15%, transparent 60%);
+      filter: blur(48px);
+    }
+
+    /* Hardware-Accelerated Interactive Canvas */
+    #neural-spider-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 2;
+    }
+
+    /* Cinematic Radial Vignette Framing */
+    .vignette-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(2, 3, 7, 0.55) 75%, rgba(2, 3, 7, 0.95) 100%);
+    }
+
+    /* ==========================================================================
+       HUD / TELEMETRY OVERLAYS
+       ========================================================================== */
+    .hud-element {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: rgba(0, 243, 255, 0.45);
+      z-index: 4;
+      pointer-events: none;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-top-left { top: 32px; left: 36px; }
+    .hud-top-right { top: 32px; right: 36px; }
+    .hud-bottom-left { bottom: 32px; left: 36px; }
+    .hud-bottom-right { bottom: 32px; right: 36px; }
+
+    .hud-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 8px var(--neon-cyan);
+      animation: pulse-dot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 0.3; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.25); }
+    }
+
+    /* ==========================================================================
+       HERO CONTENT & CYBER TYPOGRAPHY
+       ========================================================================== */
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      max-width: 920px;
+      padding: 0 20px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: transform 0.12s ease-out;
+    }
+
+    /* Top Status Pill */
+    .cyber-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 20px;
+      border-radius: 9999px;
+      background: rgba(5, 11, 24, 0.85);
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.12), inset 0 0 14px rgba(0, 243, 255, 0.05);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: #93c5fd;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .cyber-pill:hover {
+      border-color: rgba(0, 243, 255, 0.7);
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .cyber-pill .status-indicator {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981, 0 0 18px #10b981;
+      animation: pulse-dot 1.8s infinite ease-in-out;
+    }
+
+    /* Main Name Typography ("FURKAN") */
+    .title-wrapper {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .cyber-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3.4rem, 9.5vw, 6.8rem);
+      font-weight: 900;
+      letter-spacing: clamp(6px, 1.8vw, 15px);
+      text-transform: uppercase;
+      color: #ffffff;
+      line-height: 1.05;
+      text-shadow: 
+        0 0 12px rgba(0, 243, 255, 0.95),
+        0 0 30px rgba(0, 243, 255, 0.6),
+        0 0 70px rgba(0, 243, 255, 0.35);
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Chromatic Aberration & Glitch Distortion */
+    .cyber-title::before,
+    .cyber-title::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      clip: rect(0, 0, 0, 0);
+      pointer-events: none;
+    }
+
+    .cyber-title::before {
+      left: -2px;
+      text-shadow: 2px 0 #ff0055, 0 0 20px rgba(255, 0, 85, 0.6);
+      animation: glitch-anim-1 3.5s infinite linear alternate-reverse;
+    }
+
+    .cyber-title::after {
+      left: 2px;
+      text-shadow: -2px 0 #00f3ff, 0 0 20px rgba(0, 243, 255, 0.6);
+      animation: glitch-anim-2 4s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0%, 85%, 100% { clip: rect(0, 9999px, 0, 0); }
+      87% { clip: rect(15px, 9999px, 45px, 0); transform: skew(0.6deg); }
+      91% { clip: rect(65px, 9999px, 85px, 0); transform: skew(-0.4deg); }
+      95% { clip: rect(2px, 9999px, 20px, 0); transform: skew(0.3deg); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0%, 88%, 100% { clip: rect(0, 9999px, 0, 0); }
+      89% { clip: rect(50px, 9999px, 75px, 0); transform: skew(-0.6deg); }
+      93% { clip: rect(25px, 9999px, 40px, 0); transform: skew(0.5deg); }
+      97% { clip: rect(80px, 9999px, 95px, 0); transform: skew(-0.3deg); }
+    }
+
+    /* Subtitle & Role Tag */
+    .cyber-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.85rem, 1.8vw, 1.15rem);
+      font-weight: 500;
+      color: rgba(226, 232, 240, 0.88);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cyber-subtitle span.highlight {
+      color: var(--neon-cyan);
+      font-weight: 700;
+      text-shadow: 0 0 14px rgba(0, 243, 255, 0.55);
+    }
+
+    /* Interactive Action Buttons */
+    .cta-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn-cyber-primary {
+      position: relative;
+      padding: 13px 34px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #020712;
+      background: linear-gradient(135deg, #00f3ff, #0284c7);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.35);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-cyber-primary:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 38px rgba(0, 243, 255, 0.75), inset 0 0 16px rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-cyber-secondary {
+      position: relative;
+      padding: 13px 32px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #e2e8f0;
+      background: rgba(11, 18, 33, 0.75);
+      border: 1px solid rgba(0, 243, 255, 0.35);
+      border-radius: 8px;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-cyber-secondary:hover {
+      border-color: rgba(0, 243, 255, 0.85);
+      color: #ffffff;
+      box-shadow: 0 0 28px rgba(0, 243, 255, 0.3);
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    /* Bottom Mouse Indicator */
+    .interaction-tip {
+      position: absolute;
+      bottom: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.55);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mouse-icon {
+      width: 14px;
+      height: 22px;
+      border: 1.5px solid rgba(0, 243, 255, 0.4);
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .mouse-icon::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 4px;
+      background: var(--neon-cyan);
+      border-radius: 2px;
+      animation: mouse-scroll 1.5s infinite;
+    }
+
+    @keyframes mouse-scroll {
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      100% { opacity: 0; transform: translate(-50%, 8px); }
+    }
+
+    @media (max-width: 768px) {
+      .hud-element { display: none; }
+      .cyber-subtitle { font-size: 0.75rem; letter-spacing: 0.14em; }
+      .cta-container { flex-direction: column; width: 100%; max-width: 260px; }
+      .btn-cyber-primary, .btn-cyber-secondary { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero-container">
+    <!-- Atmospheric Radial Glow -->
+    <div class="ambient-glow"></div>
+
+    <!-- Main HTML5 Interactive Canvas -->
+    <canvas id="neural-spider-canvas"></canvas>
+
+    <!-- Vignette Frame -->
+    <div class="vignette-overlay"></div>
+
+    <!-- HUD Telemetry Badges -->
+    <div class="hud-element hud-top-left">
+      <span class="hud-dot"></span> SYSTEM // SYNAPSE_V2.099
+    </div>
+    <div class="hud-element hud-top-right">
+      NODE LATENCY: 0.12MS // ONLINE
+    </div>
+    <div class="hud-element hud-bottom-left">
+      ARACHNID GEOMETRY: LOCK ACTIVE
+    </div>
+    <div class="hud-element hud-bottom-right">
+      PARALLAX 3D PERSPECTIVE: ENGAGED
+    </div>
+
+    <!-- Central Hero Content Layer (Framed by the Spider Emblem) -->
+    <div class="hero-content" id="heroContent">
+      <div class="cyber-pill">
+        <span class="status-indicator"></span>
+        Neural Interface Active &bull; Available For Roles
+      </div>
+
+      <div class="title-wrapper">
+        <h1 class="cyber-title" data-text="FURKAN">FURKAN</h1>
+      </div>
+
+      <div class="cyber-subtitle">
+        <span>//</span> SYSTEMS ARCHITECT <span class="highlight">&amp;</span> CREATIVE TECHNOLOGIST
+      </div>
+
+      <div class="cta-container">
+        <a href="#projects" class="btn-cyber-primary">Explore Neural Work &rarr;</a>
+        <a href="#contact" class="btn-cyber-secondary">Connect Terminal</a>
+      </div>
+    </div>
+
+    <!-- Interaction Tip -->
+    <div class="interaction-tip">
+      <div class="mouse-icon"></div>
+      Move Cursor &bull; Click to Pulse Shockwave
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       INTERACTIVE CANVAS ENGINE: NEURAL SPIDER & COSMIC CONSTELLATION WEB
+       ========================================================================== -->
+  <script>
+    (function initNeuralSpiderCosmicEngine() {
+      const canvas = document.getElementById("neural-spider-canvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d", { alpha: true });
+      const heroContent = document.getElementById("heroContent");
+
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let dpr = 1;
+
+      // Mouse and 3D Parallax Tilt state
+      const mouse = {
+        x: width * 0.5,
+        y: height * 0.5,
+        targetX: width * 0.5,
+        targetY: height * 0.5,
+        active: false,
+        lastActiveTime: 0,
+        tiltX: 0,
+        tiltY: 0,
+        targetTiltX: 0,
+        targetTiltY: 0
+      };
+
+      // Click shockwaves
+      const shockwaves = [];
+
+      // ========================================================================
+      // 1. COSMIC NEURAL CONSTELLATION PARTICLES
+      // ========================================================================
+      const PARTICLE_COUNT = 140;
+      const particles = [];
+      const colors = [
+        "rgba(0, 243, 255,",   // Neon Cyan
+        "rgba(16, 185, 129,",  // Emerald Green
+        "rgba(168, 85, 247,",  // Cyber Violet
+        "rgba(226, 232, 240,"   // Electric Silver
+      ];
+
+      class ConstellationParticle {
+        constructor() {
+          this.reset(true);
+        }
+
+        reset(initial = false) {
+          this.x = (Math.random() - 0.5) * width * 1.6;
+          this.y = (Math.random() - 0.5) * height * 1.6;
+          this.z = initial ? (Math.random() - 0.5) * 500 : 250;
+          this.baseRadius = 0.8 + Math.random() * 1.8;
+          
+          this.vx = (Math.random() - 0.5) * 0.35;
+          this.vy = (Math.random() - 0.5) * 0.35;
+          this.vz = (Math.random() - 0.5) * 0.4;
+
+          this.colorBase = colors[Math.floor(Math.random() * colors.length)];
+          this.baseAlpha = 0.25 + Math.random() * 0.45;
+          this.pulseSpeed = 0.02 + Math.random() * 0.03;
+          this.pulsePhase = Math.random() * Math.PI * 2;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.z += this.vz;
+
+          const boundX = width * 0.9;
+          const boundY = height * 0.9;
+          if (this.x < -boundX) this.x = boundX;
+          if (this.x > boundX) this.x = -boundX;
+          if (this.y < -boundY) this.y = boundY;
+          if (this.y > boundY) this.y = -boundY;
+          if (this.z < -300) this.z = 300;
+          if (this.z > 300) this.z = -300;
+
+          this.pulsePhase += this.pulseSpeed;
+        }
+      }
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(new ConstellationParticle());
+      }
+
+      // ========================================================================
+      // 2. SPIDER WEB DATA STRUCTURES (RADIAL SPOKES & POLYGONAL RINGS)
+      // ========================================================================
+      const SPOKE_COUNT = 16;
+      const RING_COUNT = 8;
+      let webRings = [];
+      let webSpokes = [];
+      let energyPulses = [];
+
+      function generateSpiderWeb(scale) {
+        webRings = [];
+        webSpokes = [];
+
+        // Radial spokes radiating outward
+        for (let i = 0; i < SPOKE_COUNT; i++) {
+          const angle = (i / SPOKE_COUNT) * Math.PI * 2;
+          const maxRadius = Math.max(width, height) * 0.95;
+          webSpokes.push({
+            angle,
+            startX: Math.cos(angle) * (scale * 0.2),
+            startY: Math.sin(angle) * (scale * 0.2),
+            endX: Math.cos(angle) * maxRadius,
+            endY: Math.sin(angle) * maxRadius
+          });
+        }
+
+        // Concentric polygonal web rings
+        const ringDistances = [0.35, 0.60, 0.90, 1.28, 1.75, 2.35, 3.05, 3.85];
+        for (let r = 0; r < RING_COUNT; r++) {
+          const ringDist = ringDistances[r] * scale;
+          const ringPoints = [];
+          for (let i = 0; i < SPOKE_COUNT; i++) {
+            const angle = (i / SPOKE_COUNT) * Math.PI * 2;
+            const sag = (i % 2 === 0 ? 0.96 : 1.04);
+            ringPoints.push({
+              x: Math.cos(angle) * ringDist * sag,
+              y: Math.sin(angle) * ringDist * sag,
+              baseAngle: angle,
+              baseDist: ringDist * sag
+            });
+          }
+          webRings.push(ringPoints);
+        }
+
+        // Traveling energy pulses along strands
+        energyPulses = [];
+        for (let i = 0; i < 20; i++) {
+          energyPulses.push({
+            type: Math.random() > 0.4 ? "spoke" : "ring",
+            spokeIndex: Math.floor(Math.random() * SPOKE_COUNT),
+            ringIndex: Math.floor(Math.random() * RING_COUNT),
+            progress: Math.random(),
+            speed: 0.0035 + Math.random() * 0.007,
+            isCyan: Math.random() > 0.35
+          });
+        }
+      }
+
+      // ========================================================================
+      // 3. INTRICATE GEOMETRIC CYBER SPIDER VECTOR DEFINITIONS
+      // ========================================================================
+      function getSpiderGeometry(R, time) {
+        // Organic breathing expansion & contraction
+        const breath = Math.sin(time * 1.8) * 0.035;
+        const r = R * (1 + breath);
+
+        // Core Nodes (Thorax, Fangs, Abdomen)
+        const nodes = {
+          headCrown: { x: 0, y: -0.62 * r, z: 20 },
+          fangL_Tip: { x: -0.14 * r, y: -0.80 * r, z: 28 },
+          fangR_Tip: { x: 0.14 * r, y: -0.80 * r, z: 28 },
+          fangL_Mid: { x: -0.10 * r, y: -0.68 * r, z: 24 },
+          fangR_Mid: { x: 0.10 * r, y: -0.68 * r, z: 24 },
+          eyeL1: { x: -0.09 * r, y: -0.52 * r, z: 22 },
+          eyeR1: { x: 0.09 * r, y: -0.52 * r, z: 22 },
+          eyeL2: { x: -0.05 * r, y: -0.56 * r, z: 24 },
+          eyeR2: { x: 0.05 * r, y: -0.56 * r, z: 24 },
+
+          thoraxTop: { x: 0, y: -0.42 * r, z: 18 },
+          thoraxL_Outer: { x: -0.32 * r, y: -0.22 * r, z: 14 },
+          thoraxR_Outer: { x: 0.32 * r, y: -0.22 * r, z: 14 },
+          thoraxL_Inner: { x: -0.18 * r, y: -0.08 * r, z: 22 },
+          thoraxR_Inner: { x: 0.18 * r, y: -0.08 * r, z: 22 },
+          thoraxMid: { x: 0, y: -0.10 * r, z: 26 },
+          thoraxWaist: { x: 0, y: 0.08 * r, z: 16 },
+
+          abdomTopL: { x: -0.22 * r, y: 0.16 * r, z: 14 },
+          abdomTopR: { x: 0.22 * r, y: 0.16 * r, z: 14 },
+          abdomMidL: { x: -0.40 * r, y: 0.44 * r, z: 10 },
+          abdomMidR: { x: 0.40 * r, y: 0.44 * r, z: 10 },
+          abdomCore: { x: 0, y: 0.48 * r, z: 24 },
+          abdomLowerL: { x: -0.26 * r, y: 0.78 * r, z: 8 },
+          abdomLowerR: { x: 0.26 * r, y: 0.78 * r, z: 8 },
+          spinneretMid: { x: 0, y: 0.88 * r, z: 14 },
+          spinneretTip: { x: 0, y: 1.14 * r, z: 18 }
+        };
+
+        // 8 Articulated Cybernetic Legs with organic oscillation
+        const legWave = Math.sin(time * 2.2);
+        const legWave2 = Math.cos(time * 2.2);
+
+        const legs = [
+          // Leg 1 (Front Left, reaching upward/outward)
+          [
+            nodes.thoraxL_Outer,
+            { x: -0.44 * r, y: -0.62 * r, z: 16 },
+            { x: -0.80 * r, y: -0.98 * r + legWave * 4, z: 22 },
+            { x: -1.15 * r, y: -1.35 * r + legWave * 6, z: 8 },
+            { x: -1.48 * r, y: -1.60 * r, z: 0 }
+          ],
+          // Leg 2 (Upper Mid Left, reaching horizontal/up)
+          [
+            nodes.thoraxL_Outer,
+            { x: -0.62 * r, y: -0.35 * r, z: 16 },
+            { x: -1.10 * r, y: -0.48 * r - legWave2 * 5, z: 20 },
+            { x: -1.55 * r, y: -0.62 * r - legWave2 * 6, z: 6 },
+            { x: -1.90 * r, y: -0.70 * r, z: 0 }
+          ],
+          // Leg 3 (Lower Mid Left, reaching horizontal/down)
+          [
+            nodes.abdomTopL,
+            { x: -0.64 * r, y: 0.20 * r, z: 16 },
+            { x: -1.14 * r, y: 0.44 * r + legWave * 5, z: 20 },
+            { x: -1.58 * r, y: 0.78 * r + legWave * 6, z: 6 },
+            { x: -1.92 * r, y: 1.05 * r, z: 0 }
+          ],
+          // Leg 4 (Back Left, reaching downward)
+          [
+            nodes.abdomMidL,
+            { x: -0.52 * r, y: 0.62 * r, z: 14 },
+            { x: -0.88 * r, y: 1.02 * r - legWave2 * 4, z: 18 },
+            { x: -1.18 * r, y: 1.45 * r - legWave2 * 6, z: 6 },
+            { x: -1.38 * r, y: 1.88 * r, z: 0 }
+          ],
+
+          // Leg 5 (Front Right - Symmetrical Mirror)
+          [
+            nodes.thoraxR_Outer,
+            { x: 0.44 * r, y: -0.62 * r, z: 16 },
+            { x: 0.80 * r, y: -0.98 * r - legWave * 4, z: 22 },
+            { x: 1.15 * r, y: -1.35 * r - legWave * 6, z: 8 },
+            { x: 1.48 * r, y: -1.60 * r, z: 0 }
+          ],
+          // Leg 6 (Upper Mid Right)
+          [
+            nodes.thoraxR_Outer,
+            { x: 0.62 * r, y: -0.35 * r, z: 16 },
+            { x: 1.10 * r, y: -0.48 * r + legWave2 * 5, z: 20 },
+            { x: 1.55 * r, y: -0.62 * r + legWave2 * 6, z: 6 },
+            { x: 1.90 * r, y: -0.70 * r, z: 0 }
+          ],
+          // Leg 7 (Lower Mid Right)
+          [
+            nodes.abdomTopR,
+            { x: 0.64 * r, y: 0.20 * r, z: 16 },
+            { x: 1.14 * r, y: 0.44 * r - legWave * 5, z: 20 },
+            { x: 1.58 * r, y: 0.78 * r - legWave * 6, z: 6 },
+            { x: 1.92 * r, y: 1.05 * r, z: 0 }
+          ],
+          // Leg 8 (Back Right)
+          [
+            nodes.abdomMidR,
+            { x: 0.52 * r, y: 0.62 * r, z: 14 },
+            { x: 0.88 * r, y: 1.02 * r + legWave2 * 4, z: 18 },
+            { x: 1.18 * r, y: 1.45 * r + legWave2 * 6, z: 6 },
+            { x: 1.38 * r, y: 1.88 * r, z: 0 }
+          ]
+        ];
+
+        // Faceted Body Armor Wireframe Edges
+        const edges = [
+          [nodes.headCrown, nodes.fangL_Mid],
+          [nodes.fangL_Mid, nodes.fangL_Tip],
+          [nodes.headCrown, nodes.fangR_Mid],
+          [nodes.fangR_Mid, nodes.fangR_Tip],
+          [nodes.fangL_Mid, nodes.eyeL1],
+          [nodes.fangR_Mid, nodes.eyeR1],
+          [nodes.eyeL1, nodes.eyeL2],
+          [nodes.eyeR1, nodes.eyeR2],
+          [nodes.headCrown, nodes.thoraxTop],
+          [nodes.eyeL1, nodes.thoraxTop],
+          [nodes.eyeR1, nodes.thoraxTop],
+
+          [nodes.thoraxTop, nodes.thoraxL_Outer],
+          [nodes.thoraxTop, nodes.thoraxR_Outer],
+          [nodes.thoraxL_Outer, nodes.thoraxL_Inner],
+          [nodes.thoraxR_Outer, nodes.thoraxR_Inner],
+          [nodes.thoraxL_Inner, nodes.thoraxMid],
+          [nodes.thoraxR_Inner, nodes.thoraxMid],
+          [nodes.thoraxTop, nodes.thoraxMid],
+          [nodes.thoraxMid, nodes.thoraxWaist],
+          [nodes.thoraxL_Outer, nodes.thoraxWaist],
+          [nodes.thoraxR_Outer, nodes.thoraxWaist],
+
+          [nodes.thoraxWaist, nodes.abdomTopL],
+          [nodes.thoraxWaist, nodes.abdomTopR],
+          [nodes.abdomTopL, nodes.abdomMidL],
+          [nodes.abdomTopR, nodes.abdomMidR],
+          [nodes.abdomTopL, nodes.abdomCore],
+          [nodes.abdomTopR, nodes.abdomCore],
+          [nodes.thoraxWaist, nodes.abdomCore],
+          [nodes.abdomMidL, nodes.abdomCore],
+          [nodes.abdomMidR, nodes.abdomCore],
+          [nodes.abdomMidL, nodes.abdomLowerL],
+          [nodes.abdomMidR, nodes.abdomLowerR],
+          [nodes.abdomLowerL, nodes.abdomCore],
+          [nodes.abdomLowerR, nodes.abdomCore],
+          [nodes.abdomLowerL, nodes.spinneretMid],
+          [nodes.abdomLowerR, nodes.spinneretMid],
+          [nodes.abdomCore, nodes.spinneretMid],
+          [nodes.spinneretMid, nodes.spinneretTip]
+        ];
+
+        return { nodes, edges, legs };
+      }
+
+      // ========================================================================
+      // 4. 3D PROJECTION & PARALLAX TRANSFORMATION
+      // ========================================================================
+      function project3D(pt, cx, cy, tiltX, tiltY) {
+        const z = pt.z || 0;
+        const radX = tiltX * 0.0006;
+        const radY = tiltY * 0.0006;
+
+        const cosY = Math.cos(radY);
+        const sinY = Math.sin(radY);
+        const cosX = Math.cos(radX);
+        const sinX = Math.sin(radX);
+
+        const x1 = pt.x * cosY + z * sinY;
+        const z1 = -pt.x * sinY + z * cosY;
+
+        const y2 = pt.y * cosX - z1 * sinX;
+        const z2 = pt.y * sinX + z1 * cosX;
+
+        const fov = 750;
+        const perspective = fov / (fov + z2);
+
+        return {
+          x: cx + x1 * perspective,
+          y: cy + y2 * perspective,
+          scale: perspective,
+          z: z2
+        };
+      }
+
+      // ========================================================================
+      // 5. RESIZE & HIGH-DPI SCALING
+      // ========================================================================
+      let spiderScale = 160;
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+
+        if (ctx.resetTransform) {
+          ctx.resetTransform();
+        } else {
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        ctx.scale(dpr, dpr);
+
+        // Optimal responsive spider scale
+        spiderScale = Math.min(width, height) * (width < 768 ? 0.28 : 0.22);
+        generateSpiderWeb(spiderScale);
+      }
+
+      window.addEventListener("resize", resize, { passive: true });
+      resize();
+
+      // ========================================================================
+      // 6. MOUSE & TOUCH EVENT LISTENERS
+      // ========================================================================
+      window.addEventListener("mousemove", (e) => {
+        mouse.targetX = e.clientX;
+        mouse.targetY = e.clientY;
+        mouse.active = true;
+        mouse.lastActiveTime = performance.now();
+
+        mouse.targetTiltX = (e.clientY - height * 0.5);
+        mouse.targetTiltY = (e.clientX - width * 0.5);
+      }, { passive: true });
+
+      window.addEventListener("touchmove", (e) => {
+        if (e.touches && e.touches.length > 0) {
+          mouse.targetX = e.touches[0].clientX;
+          mouse.targetY = e.touches[0].clientY;
+          mouse.active = true;
+          mouse.lastActiveTime = performance.now();
+
+          mouse.targetTiltX = (e.touches[0].clientY - height * 0.5);
+          mouse.targetTiltY = (e.touches[0].clientX - width * 0.5);
+        }
+      }, { passive: true });
+
+      // Click shockwave ripple trigger
+      window.addEventListener("click", (e) => {
+        if (shockwaves.length >= 6) shockwaves.shift();
+        shockwaves.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: 0,
+          maxRadius: Math.min(width, height) * 0.85,
+          speed: 7.0,
+          opacity: 0.90,
+          decay: 0.016
+        });
+      }, { passive: true });
+
+      // ========================================================================
+      // 7. MAIN ANIMATION & RENDERING LOOP (60 FPS)
+      // ========================================================================
+      const startTime = performance.now();
+
+      function render(now) {
+        const time = (now - startTime) * 0.001;
+
+        ctx.clearRect(0, 0, width, height);
+
+        // Smooth physical dampening for mouse position & 3D tilt
+        mouse.x += (mouse.targetX - mouse.x) * 0.06;
+        mouse.y += (mouse.targetY - mouse.y) * 0.06;
+        mouse.tiltX += (mouse.targetTiltX - mouse.tiltX) * 0.05;
+        mouse.tiltY += (mouse.targetTiltY - mouse.tiltY) * 0.05;
+
+        // Idle floating Lissajous motion
+        if (now - mouse.lastActiveTime > 2500) {
+          const idleAngle = time * 0.8;
+          mouse.targetTiltX = Math.sin(idleAngle) * 55;
+          mouse.targetTiltY = Math.cos(idleAngle * 0.7) * 75;
+        }
+
+        // Apply synchronized 3D tilt to HTML Hero Typography layer
+        if (heroContent) {
+          const rotY = (mouse.tiltY * 0.018).toFixed(2);
+          const rotX = (-mouse.tiltX * 0.018).toFixed(2);
+          heroContent.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(30px)`;
+        }
+
+        const cx = width * 0.5 + (mouse.tiltY * 0.035);
+        const cy = height * 0.5 + (mouse.tiltX * 0.035);
+
+        // ----------------------------------------------------------------------
+        // A. EXPANDING SHOCKWAVES
+        // ----------------------------------------------------------------------
+        for (let s = shockwaves.length - 1; s >= 0; s--) {
+          const sw = shockwaves[s];
+          sw.radius += sw.speed;
+          sw.opacity -= sw.decay;
+
+          if (sw.opacity <= 0 || sw.radius >= sw.maxRadius) {
+            shockwaves.splice(s, 1);
+            continue;
+          }
+
+          ctx.beginPath();
+          ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(0, 243, 255, ${sw.opacity.toFixed(3)})`;
+          ctx.lineWidth = 1.6;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = "#00f3ff";
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+
+        // ----------------------------------------------------------------------
+        // B. COSMIC CONSTELLATION PARTICLES & SYNAPSE FILAMENTS
+        // ----------------------------------------------------------------------
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.update();
+
+          const proj = project3D(p, cx, cy, mouse.tiltX * 0.5, mouse.tiltY * 0.5);
+
+          // Interactive magnetic filament towards cursor
+          const dx = proj.x - mouse.x;
+          const dy = proj.y - mouse.y;
+          const distToMouse = Math.hypot(dx, dy);
+
+          if (distToMouse < 150) {
+            const pull = (1 - distToMouse / 150) * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(proj.x, proj.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(0, 243, 255, ${(pull * 0.65).toFixed(3)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+
+          // Neural connection lines between nearby particles
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dist3D = Math.hypot(p.x - p2.x, p.y - p2.y, p.z - p2.z);
+            if (dist3D < 130) {
+              const proj2 = project3D(p2, cx, cy, mouse.tiltX * 0.5, mouse.tiltY * 0.5);
+              const linkAlpha = (1 - dist3D / 130) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(proj.x, proj.y);
+              ctx.lineTo(proj2.x, proj2.y);
+              ctx.strokeStyle = `${p.colorBase}${linkAlpha.toFixed(3)})`;
+              ctx.lineWidth = 0.55;
+              ctx.stroke();
+            }
+          }
+
+          // Twinkling glowing star particle
+          const pulse = Math.sin(p.pulsePhase) * 0.25;
+          const r = Math.max(0.4, p.baseRadius * proj.scale + pulse);
+          const alpha = Math.min(1, Math.max(0.1, (p.baseAlpha + pulse) * proj.scale));
+
+          ctx.beginPath();
+          ctx.arc(proj.x, proj.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = `${p.colorBase}${alpha.toFixed(3)})`;
+          ctx.fill();
+
+          if (p.baseRadius > 1.8) {
+            ctx.beginPath();
+            ctx.arc(proj.x, proj.y, r * 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = `${p.colorBase}${(alpha * 0.15).toFixed(3)})`;
+            ctx.fill();
+          }
+        }
+
+        // ----------------------------------------------------------------------
+        // C. SPRAWLING SPIDER WEB (RADIAL SPOKES & POLYGONAL RINGS)
+        // ----------------------------------------------------------------------
+        // 1. Radial Spokes
+        for (let i = 0; i < webSpokes.length; i++) {
+          const sp = webSpokes[i];
+          const pStart = project3D({ x: sp.startX, y: sp.startY, z: 0 }, cx, cy, mouse.tiltX, mouse.tiltY);
+          const pEnd = project3D({ x: sp.endX, y: sp.endY, z: -50 }, cx, cy, mouse.tiltX, mouse.tiltY);
+
+          ctx.beginPath();
+          ctx.moveTo(pStart.x, pStart.y);
+          ctx.lineTo(pEnd.x, pEnd.y);
+          ctx.strokeStyle = "rgba(0, 243, 255, 0.09)";
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+
+        // 2. Concentric Web Rings
+        for (let r = 0; r < webRings.length; r++) {
+          const ring = webRings[r];
+          ctx.beginPath();
+          const firstPt = project3D({ x: ring[0].x, y: ring[0].y, z: 0 }, cx, cy, mouse.tiltX, mouse.tiltY);
+          ctx.moveTo(firstPt.x, firstPt.y);
+
+          for (let p = 1; p < ring.length; p++) {
+            const pt = project3D({ x: ring[p].x, y: ring[p].y, z: 0 }, cx, cy, mouse.tiltX, mouse.tiltY);
+            ctx.lineTo(pt.x, pt.y);
+          }
+          ctx.closePath();
+
+          const ringAlpha = (0.17 - r * 0.016).toFixed(3);
+          ctx.strokeStyle = r % 2 === 0 
+            ? `rgba(0, 243, 255, ${ringAlpha})` 
+            : `rgba(16, 185, 129, ${ringAlpha})`;
+          ctx.lineWidth = 0.65;
+          ctx.stroke();
+
+          // Web intersection junction nodes
+          for (let p = 0; p < ring.length; p++) {
+            const pt = project3D({ x: ring[p].x, y: ring[p].y, z: 0 }, cx, cy, mouse.tiltX, mouse.tiltY);
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, 1.2, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(0, 243, 255, 0.24)";
+            ctx.fill();
+          }
+        }
+
+        // 3. Traveling Energy Pulses (Data Photons)
+        for (let i = 0; i < energyPulses.length; i++) {
+          const ep = energyPulses[i];
+          ep.progress += ep.speed;
+          if (ep.progress >= 1.0) ep.progress = 0;
+
+          let pulsePos = { x: 0, y: 0 };
+          if (ep.type === "spoke") {
+            const sp = webSpokes[ep.spokeIndex];
+            pulsePos.x = sp.startX + (sp.endX - sp.startX) * ep.progress;
+            pulsePos.y = sp.startY + (sp.endY - sp.startY) * ep.progress;
+          } else {
+            const ring = webRings[ep.ringIndex];
+            const seg = (ep.progress * SPOKE_COUNT);
+            const segIdx = Math.floor(seg) % SPOKE_COUNT;
+            const nextIdx = (segIdx + 1) % SPOKE_COUNT;
+            const subProgress = seg % 1.0;
+            pulsePos.x = ring[segIdx].x + (ring[nextIdx].x - ring[segIdx].x) * subProgress;
+            pulsePos.y = ring[segIdx].y + (ring[nextIdx].y - ring[segIdx].y) * subProgress;
+          }
+
+          const proj = project3D({ x: pulsePos.x, y: pulsePos.y, z: 5 }, cx, cy, mouse.tiltX, mouse.tiltY);
+          const color = ep.isCyan ? "#00f3ff" : "#10b981";
+
+          ctx.beginPath();
+          ctx.arc(proj.x, proj.y, 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = color;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+
+        // ----------------------------------------------------------------------
+        // D. CENTRAL GEOMETRIC ARACHNID EMBLEM
+        // ----------------------------------------------------------------------
+        const spider = getSpiderGeometry(spiderScale, time);
+
+        const projNodes = {};
+        for (const [key, node] of Object.entries(spider.nodes)) {
+          projNodes[key] = project3D(node, cx, cy, mouse.tiltX, mouse.tiltY);
+        }
+
+        // 1. Faceted Wireframe Armor Edges
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#00f3ff";
+        ctx.lineWidth = 1.35;
+
+        for (let i = 0; i < spider.edges.length; i++) {
+          const edge = spider.edges[i];
+          const p1 = project3D(edge[0], cx, cy, mouse.tiltX, mouse.tiltY);
+          const p2 = project3D(edge[1], cx, cy, mouse.tiltX, mouse.tiltY);
+
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = "rgba(0, 243, 255, 0.75)";
+          ctx.stroke();
+        }
+
+        // Internal faceted body armor fills
+        ctx.fillStyle = "rgba(0, 243, 255, 0.04)";
+        ctx.beginPath();
+        ctx.moveTo(projNodes.thoraxTop.x, projNodes.thoraxTop.y);
+        ctx.lineTo(projNodes.thoraxL_Outer.x, projNodes.thoraxL_Outer.y);
+        ctx.lineTo(projNodes.thoraxWaist.x, projNodes.thoraxWaist.y);
+        ctx.lineTo(projNodes.thoraxR_Outer.x, projNodes.thoraxR_Outer.y);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = "rgba(16, 185, 129, 0.035)";
+        ctx.beginPath();
+        ctx.moveTo(projNodes.thoraxWaist.x, projNodes.thoraxWaist.y);
+        ctx.lineTo(projNodes.abdomTopL.x, projNodes.abdomTopL.y);
+        ctx.lineTo(projNodes.abdomMidL.x, projNodes.abdomMidL.y);
+        ctx.lineTo(projNodes.spinneretTip.x, projNodes.spinneretTip.y);
+        ctx.lineTo(projNodes.abdomMidR.x, projNodes.abdomMidR.y);
+        ctx.lineTo(projNodes.abdomTopR.x, projNodes.abdomTopR.y);
+        ctx.closePath();
+        ctx.fill();
+
+        // 2. 8 Articulated Cybernetic Legs
+        for (let l = 0; l < spider.legs.length; l++) {
+          const leg = spider.legs[l];
+          const projLeg = leg.map(pt => project3D(pt, cx, cy, mouse.tiltX, mouse.tiltY));
+
+          ctx.beginPath();
+          ctx.moveTo(projLeg[0].x, projLeg[0].y);
+          for (let p = 1; p < projLeg.length; p++) {
+            ctx.lineTo(projLeg[p].x, projLeg[p].y);
+          }
+          ctx.strokeStyle = "rgba(0, 243, 255, 0.85)";
+          ctx.lineWidth = 1.45;
+          ctx.stroke();
+
+          // Joint articulation nodes (Mechanical knees)
+          for (let p = 1; p < projLeg.length - 1; p++) {
+            const joint = projLeg[p];
+            ctx.beginPath();
+            ctx.arc(joint.x, joint.y, 2.2, 0, Math.PI * 2);
+            ctx.fillStyle = "#10b981";
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = "#10b981";
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+
+          // Glowing needle tip anchor point
+          const tip = projLeg[projLeg.length - 1];
+          ctx.beginPath();
+          ctx.arc(tip.x, tip.y, 2.6, 0, Math.PI * 2);
+          ctx.fillStyle = "#00f3ff";
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = "#00f3ff";
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+
+        // 3. Cybernetic Eyes & Thorax Core
+        const eyes = [projNodes.eyeL1, projNodes.eyeR1, projNodes.eyeL2, projNodes.eyeR2];
+        for (let i = 0; i < eyes.length; i++) {
+          const eye = eyes[i];
+          ctx.beginPath();
+          ctx.arc(eye.x, eye.y, 2.4, 0, Math.PI * 2);
+          ctx.fillStyle = "#10b981";
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = "#10b981";
+          ctx.fill();
+        }
+
+        // Center Thorax Core Diamond Reactor
+        ctx.beginPath();
+        ctx.arc(projNodes.thoraxMid.x, projNodes.thoraxMid.y, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowBlur = 14;
+        ctx.shadowColor = "#00f3ff";
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+
+        requestAnimationFrame(render);
+      }
+
+      requestAnimationFrame(render);
+    })();
+  </script>
+
+</body>
+</html>
