@@ -1953,8 +1953,8 @@
     // Initialize Theme immediately
     applyTheme(getPreferredTheme());
 
-    // 11. Bespoke Interactive HTML5 Canvas — Cyber Matrix & Hacker Code Stream Engine
-    (function initCyberMatrixHackerStream() {
+    // 11. Bespoke Interactive HTML5 Canvas — 3D Cyber Wave Mesh (Neural Topography Landscape)
+    (function initCyber3DWaveMesh() {
       const canvas = document.getElementById("custom-canvas-mesh");
       if (!canvas) return;
       const ctx = canvas.getContext("2d", { alpha: true });
@@ -1962,161 +1962,75 @@
       let width = window.innerWidth;
       let height = window.innerHeight;
       let dpr = 1;
-      let streams = [];
-      let ripples = [];
 
+      // 3D Grid Configuration
+      let cols = 42;
+      let rows = 32;
+
+      // Camera & Perspective Projection Parameters
+      const fov = 420;
+      const cameraY = -180;
+      const cameraZ = -140;
+      const pitch = 0.46; // Camera pitch looking down into landscape
+      const cosPitch = Math.cos(pitch);
+      const sinPitch = Math.sin(pitch);
+
+      let gridPoints = []; // 2D array storing projected coordinates
+      let shockwaves = [];
+
+      let time = 0;
       const mouse = {
         x: -9999,
         y: -9999,
-        prevX: -9999,
-        prevY: -9999,
         active: false,
-        lastMoveTime: 0
+        lastMoveTime: 0,
+        currentInfluence: 0, // Smooth physical lerp dampening
+        targetInfluence: 0
       };
-
-      // Cyber Matrix Physics Parameters
-      const baseFallSpeed = 1.45; // Calm, meditative, aesthetic matrix cascade
-      const attractRadius = 340;   // Magnetic data gravity well around cursor
-
-      // Cyber Hacker Glyph Dictionary (binary, hex, dev operators, cyber runes & matrix glyphs)
-      const CYBER_GLYPHS = [
-        "0", "1", "0x", "A4", "7F", "C9", "FF", "4B", "9A", "E1", "B2",
-        "{", "}", "<", ">", "</>", "=>", "fn", "let", "const", "&&", "||", "::", "//", "01",
-        "λ", "π", "∑", "∆", "Ω", "µ",
-        "ｱ", "ｳ", "ｴ", "ｵ", "ｶ", "ｷ", "ｹ", "ｺ", "ｻ", "ｼ", "ｽ", "ｾ", "ｿ", "ﾀ", "ﾂ", "ﾃ", "ﾅ", "ﾆ", "ﾊ", "ﾋ", "ﾎ", "ﾏ", "ﾐ", "ﾑ", "ﾒ", "ﾓ", "ﾔ", "ﾕ", "ﾗ", "ﾘ", "ﾜ"
-      ];
-
-      function getRandomGlyph() {
-        return CYBER_GLYPHS[Math.floor(Math.random() * CYBER_GLYPHS.length)];
-      }
 
       function getThemeColors() {
         const isLight = document.documentElement.getAttribute("data-theme") === "light" || 
                         document.body.classList.contains("light-theme");
         return isLight ? {
           isLight: true,
-          headGlyph: "#1d4ed8",         // Deep sapphire blue
-          headGlow: "rgba(37, 99, 235, 0.45)",
-          trailFg: "rgba(37, 99, 235,", // Sapphire
-          trailMg: "rgba(2, 132, 199,", // Sky blue
-          trailBg: "rgba(71, 85, 105,", // Slate code
+          linePeak: "rgba(37, 99, 235,",    // Sapphire blue
+          lineValley: "rgba(79, 70, 229,",  // Indigo
+          beacon: "#1d4ed8",
+          beaconGlow: "rgba(37, 99, 235, 0.4)",
           ripple: "rgba(37, 99, 235,"
         } : {
           isLight: false,
-          headGlyph: "#ffffff",         // Pure bright white leading glyph
-          headGlow: "rgba(0, 243, 255, 0.75)",
-          trailFg: "rgba(0, 243, 255,", // Neon electric cyan
-          trailMg: "rgba(56, 189, 248,", // Vivid cyber sky
-          trailBg: "rgba(168, 85, 247,", // Soft cyber violet
+          linePeak: "rgba(0, 243, 255,",    // Neon electric cyan
+          lineValley: "rgba(168, 85, 247,", // Soft cyber violet
+          beacon: "#ffffff",                // Glowing white vertex beacons
+          beaconGlow: "rgba(0, 243, 255, 0.8)",
           ripple: "rgba(0, 243, 255,"
         };
       }
 
       let activePalette = getThemeColors();
 
-      // Theme Change Observer
       const themeObserver = new MutationObserver(() => {
         activePalette = getThemeColors();
-        streams.forEach(s => {
-          if (s.layer === 0) s.color = activePalette.trailBg;
-          else if (s.layer === 1) s.color = activePalette.trailMg;
-          else s.color = activePalette.trailFg;
-        });
       });
       themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
       themeObserver.observe(document.body, { attributes: true, attributeFilter: ["class"] });
 
-      function createStream(randomY = false) {
-        const rand = Math.random();
-        let layer = 1;
-        if (rand < 0.38) layer = 0;      // 38% Background (smaller, faint, atmospheric)
-        else if (rand < 0.78) layer = 1; // 40% Midground (balanced)
-        else layer = 2;                 // 22% Foreground (crisp, prominent, glowing head)
-
-        let fontSize, speed, length, opacity, color;
-
-        if (layer === 0) {
-          fontSize = 11;
-          speed = baseFallSpeed * (0.60 + Math.random() * 0.25);
-          length = 6 + Math.floor(Math.random() * 6);
-          opacity = 0.16 + Math.random() * 0.12;
-          color = activePalette.trailBg;
-        } else if (layer === 1) {
-          fontSize = 13;
-          speed = baseFallSpeed * (0.90 + Math.random() * 0.30);
-          length = 9 + Math.floor(Math.random() * 8);
-          opacity = 0.32 + Math.random() * 0.18;
-          color = activePalette.trailMg;
-        } else {
-          fontSize = 15;
-          speed = baseFallSpeed * (1.25 + Math.random() * 0.35);
-          length = 12 + Math.floor(Math.random() * 10);
-          opacity = 0.55 + Math.random() * 0.25;
-          color = activePalette.trailFg;
-        }
-
-        const glyphs = [];
-        for (let g = 0; g < length; g++) {
-          glyphs.push({
-            char: getRandomGlyph(),
-            mutateTimer: Math.floor(Math.random() * 25)
-          });
-        }
-
-        const baseVx = 0;
-        const baseVy = speed;
-
-        return {
-          x: Math.random() * (width + 100) - 50,
-          y: randomY ? Math.random() * height : -Math.random() * 100 - 30,
-          layer,
-          fontSize,
-          speed,
-          baseSpeed: speed,
-          baseVx,
-          baseVy,
-          vx: baseVx,
-          vy: baseVy,
-          length,
-          spacing: fontSize * 1.35,
-          opacity,
-          color,
-          glyphs,
-          mutateInterval: 12 + Math.floor(Math.random() * 16)
-        };
-      }
-
-      function spawnRipple(x, y, intensity = 1.0) {
-        if (ripples.length >= 40) ripples.shift();
-        ripples.push({
-          x,
-          y,
-          radius: 2,
-          maxRadius: (22 + Math.random() * 18) * intensity,
-          growthRate: 0.85 * intensity,
-          opacity: 0.45 * Math.min(intensity, 1.2),
-          decay: 0.007,
-          lineWidth: 1.0,
-          color: activePalette.ripple
-        });
-      }
-
-      function triggerShockwave(clientX, clientY) {
-        for (let r = 0; r < 2; r++) {
-          setTimeout(() => {
-            if (!canvas) return;
-            ripples.push({
-              x: clientX,
-              y: clientY,
-              radius: 4,
-              maxRadius: 70 + r * 25,
-              growthRate: 1.6 + r * 0.4,
-              opacity: 0.65,
-              decay: 0.008,
-              lineWidth: 1.2,
-              color: activePalette.ripple
+      function initGrid() {
+        gridPoints = [];
+        for (let r = 0; r < rows; r++) {
+          const rowArr = [];
+          for (let c = 0; c < cols; c++) {
+            rowArr.push({
+              sx: 0,
+              sy: 0,
+              sz: 0,
+              elevation: 0,
+              alpha: 0,
+              valid: false
             });
-          }, r * 120);
+          }
+          gridPoints.push(rowArr);
         }
       }
 
@@ -2136,16 +2050,9 @@
         }
         ctx.scale(dpr, dpr);
 
-        // Optimal stream density: ~55 on desktop, ~28 on mobile for high readability
-        const calculated = Math.floor(width / 24);
-        const targetCount = width < 768 ? 28 : Math.max(40, Math.min(calculated, 65));
-
-        while (streams.length < targetCount) {
-          streams.push(createStream(false));
-        }
-        if (streams.length > targetCount) {
-          streams.length = targetCount;
-        }
+        cols = width < 768 ? 26 : (width < 1200 ? 36 : 46);
+        rows = width < 768 ? 22 : 30;
+        initGrid();
       }
 
       let resizeRaf = null;
@@ -2158,24 +2065,18 @@
         }
       }, { passive: true });
 
-      // Mouse tracking & fluid wake
+      // Mouse & Touch Tracking
       window.addEventListener("mousemove", (e) => {
-        mouse.prevX = mouse.x;
-        mouse.prevY = mouse.y;
         mouse.x = e.clientX;
         mouse.y = e.clientY;
         mouse.active = true;
+        mouse.targetInfluence = 1.0;
         mouse.lastMoveTime = performance.now();
-
-        const dx = mouse.x - mouse.prevX;
-        const dy = mouse.y - mouse.prevY;
-        if (Math.hypot(dx, dy) > 28 && Math.random() < 0.25) {
-          spawnRipple(mouse.x, mouse.y, 0.65);
-        }
       }, { passive: true });
 
       const handlePointerLeave = () => {
         mouse.active = false;
+        mouse.targetInfluence = 0;
         mouse.x = -9999;
         mouse.y = -9999;
       };
@@ -2183,9 +2084,7 @@
       window.addEventListener("mouseleave", handlePointerLeave, { passive: true });
       document.addEventListener("mouseleave", handlePointerLeave, { passive: true });
       document.addEventListener("mouseout", (e) => {
-        if (!e.relatedTarget && !e.toElement) {
-          handlePointerLeave();
-        }
+        if (!e.relatedTarget && !e.toElement) handlePointerLeave();
       }, { passive: true });
       window.addEventListener("blur", handlePointerLeave, { passive: true });
 
@@ -2194,6 +2093,7 @@
           mouse.x = e.touches[0].clientX;
           mouse.y = e.touches[0].clientY;
           mouse.active = true;
+          mouse.targetInfluence = 1.0;
           mouse.lastMoveTime = performance.now();
         }
       }, { passive: true });
@@ -2203,6 +2103,7 @@
           mouse.x = e.touches[0].clientX;
           mouse.y = e.touches[0].clientY;
           mouse.active = true;
+          mouse.targetInfluence = 1.0;
           mouse.lastMoveTime = performance.now();
         }
       }, { passive: true });
@@ -2210,142 +2111,212 @@
       window.addEventListener("touchend", handlePointerLeave, { passive: true });
       window.addEventListener("touchcancel", handlePointerLeave, { passive: true });
 
+      // Click shockwave pulse across the terrain
       window.addEventListener("click", (e) => {
-        triggerShockwave(e.clientX, e.clientY);
+        if (shockwaves.length >= 6) shockwaves.shift();
+        shockwaves.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: 0,
+          maxRadius: 360,
+          growthRate: 4.8,
+          strength: 42,
+          decay: 0.016,
+          opacity: 1.0
+        });
       }, { passive: true });
 
-      // Initial populate
+      // Initialize
       resize();
-      const initialCount = width < 768 ? 28 : Math.max(40, Math.min(Math.floor(width / 24), 65));
-      streams = [];
-      for (let i = 0; i < initialCount; i++) {
-        streams.push(createStream(true));
-      }
 
-      // 60fps Animation Loop
+      // Animation Loop
       function animate() {
         ctx.clearRect(0, 0, width, height);
 
         const now = performance.now();
-        if (now - mouse.lastMoveTime > 3000) {
-          mouse.active = false;
+        if (now - mouse.lastMoveTime > 2800) {
+          mouse.targetInfluence = 0;
         }
 
-        // 1. UPDATE & DRAW CYBER RIPPLES
-        for (let i = ripples.length - 1; i >= 0; i--) {
-          const rip = ripples[i];
-          rip.radius += rip.growthRate;
-          rip.opacity -= rip.decay;
+        // Smooth physical dampening when mouse leaves
+        mouse.currentInfluence += (mouse.targetInfluence - mouse.currentInfluence) * 0.045;
 
-          if (rip.opacity <= 0 || rip.radius >= rip.maxRadius) {
-            ripples.splice(i, 1);
-            continue;
+        time += 0.014; // Calm, meditative wave speed
+
+        // Update shockwaves
+        for (let s = shockwaves.length - 1; s >= 0; s--) {
+          const sw = shockwaves[s];
+          sw.radius += sw.growthRate;
+          sw.strength *= (1 - sw.decay);
+          sw.opacity -= sw.decay;
+          if (sw.radius >= sw.maxRadius || sw.opacity <= 0.02) {
+            shockwaves.splice(s, 1);
           }
-
-          ctx.beginPath();
-          ctx.arc(rip.x, rip.y, rip.radius, 0, Math.PI * 2);
-          ctx.strokeStyle = `${rip.color}${rip.opacity.toFixed(3)})`;
-          ctx.lineWidth = rip.lineWidth;
-          ctx.stroke();
         }
 
-        // 2. UPDATE & DRAW CYBER MATRIX CODE STREAMS
-        const count = streams.length;
-        for (let i = 0; i < count; i++) {
-          const stream = streams[i];
+        // World Dimensions
+        const worldWidth = width * 1.55;
+        const worldDepth = 780;
+        const gridStartX = -worldWidth / 2;
+        const gridStartZ = 140;
 
-          let targetVx = stream.baseVx;
-          let targetVy = stream.baseVy;
-          let isNearCursor = false;
+        const cellW = worldWidth / (cols - 1);
+        const cellD = worldDepth / (rows - 1);
 
-          // Magnetic Cursor Gravity Well
-          if (mouse.active && mouse.x > -1000) {
-            const dx = mouse.x - stream.x;
-            const dy = mouse.y - stream.y;
-            const dist = Math.hypot(dx, dy);
+        const centerX = width / 2;
+        const horizonY = height * 0.44; // Horizon positioned harmoniously in the background
 
-            if (dist < attractRadius) {
-              isNearCursor = true;
-              const nx = dx / (dist || 1);
-              const ny = dy / (dist || 1);
-              const proximity = Math.pow(1 - dist / attractRadius, 1.25);
-              const coreDamp = Math.min(dist / 35, 1.0);
+        // STEP 1: CALCULATE 3D TRANSFORMATIONS FOR ALL VERTICES
+        for (let r = 0; r < rows; r++) {
+          const worldZ = gridStartZ + r * cellD;
+          const depthRatio = r / (rows - 1); // 0 (near horizon) to 1 (foreground)
 
-              const maxAttractSpeed = stream.baseSpeed * (2.8 + (stream.layer === 2 ? 1.0 : 0.4));
-              targetVx = stream.baseVx * (1 - proximity) + nx * maxAttractSpeed * proximity * coreDamp;
-              targetVy = stream.baseVy * (1 - proximity) + ny * maxAttractSpeed * proximity * coreDamp;
-            }
-          }
+          for (let c = 0; c < cols; c++) {
+            const worldX = gridStartX + c * cellW;
+            const pt = gridPoints[r][c];
 
-          // Smooth Lerp Inertia (returns smoothly to vertical cascade on mouse leave)
-          const lerpRate = mouse.active ? 0.08 : 0.035;
-          stream.vx += (targetVx - stream.vx) * lerpRate;
-          stream.vy += (targetVy - stream.vy) * lerpRate;
+            // 1. Natural Mathematical Ocean Wave Harmonics
+            const wave1 = Math.sin(worldX * 0.0042 + time * 1.35) * Math.cos(worldZ * 0.0055 + time * 0.95) * 36;
+            const wave2 = Math.sin((worldX + worldZ) * 0.0035 - time * 0.75) * 22;
+            const wave3 = Math.cos(worldX * 0.008 - time * 1.8) * 12;
+            let elevation = wave1 + wave2 + wave3;
 
-          stream.x += stream.vx;
-          stream.y += stream.vy;
+            // Approximate initial projection to measure distance from cursor in screen space
+            const relY_approx = elevation - cameraY;
+            const relZ_approx = worldZ - cameraZ;
+            const rotY_approx = relY_approx * cosPitch + relZ_approx * sinPitch;
+            const rotZ_approx = relZ_approx * cosPitch - relY_approx * sinPitch;
+            const scale_approx = rotZ_approx > 15 ? fov / rotZ_approx : 0;
+            const approxSX = centerX + worldX * scale_approx;
+            const approxSY = horizonY + rotY_approx * scale_approx;
 
-          // Out-of-bounds reset (bottom impact or off-screen)
-          if (stream.y > height + stream.length * stream.spacing) {
-            stream.y = -Math.random() * 80 - 20;
-            stream.x = Math.random() * (width + 100) - 50;
-            stream.vx = stream.baseVx;
-            stream.vy = stream.baseVy;
-            continue;
-          }
+            // 2. Interactive Cursor Elevation Wave (Elastic Ripple)
+            if (mouse.currentInfluence > 0.005 && approxSX > -100 && approxSX < width + 100) {
+              const mdx = approxSX - mouse.x;
+              const mdy = approxSY - mouse.y;
+              const dist = Math.hypot(mdx, mdy);
+              const maxDist = 280;
 
-          // Screen horizontal wrap
-          if (stream.x < -100) stream.x = width + 50;
-          else if (stream.x > width + 100) stream.x = -50;
-          if (stream.y < -120) {
-            stream.y = -20;
-            stream.vy = Math.max(stream.baseVy, stream.vy);
-          }
-
-          // Compute angle of stream travel for dynamic trail orientation
-          const angle = Math.atan2(stream.vy, stream.vx);
-          const cosA = Math.cos(angle);
-          const sinA = Math.sin(angle);
-
-          // Set Font
-          ctx.font = `600 ${stream.fontSize}px "JetBrains Mono", monospace`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-
-          // Draw Glyphs along Stream
-          for (let g = 0; g < stream.length; g++) {
-            const glyphObj = stream.glyphs[g];
-
-            // Live Decryption / Mutation Effect (accelerates near cursor)
-            glyphObj.mutateTimer++;
-            const mutationThreshold = isNearCursor ? 4 : stream.mutateInterval;
-            if (glyphObj.mutateTimer >= mutationThreshold) {
-              glyphObj.char = getRandomGlyph();
-              glyphObj.mutateTimer = 0;
+              if (dist < maxDist) {
+                const proximity = Math.pow(1 - dist / maxDist, 1.8);
+                const ripple = Math.sin(dist * 0.045 - time * 5.2) * 28;
+                elevation += (ripple + 32) * proximity * mouse.currentInfluence;
+              }
             }
 
-            // Position calculated along opposite of travel vector
-            const gx = stream.x - cosA * (g * stream.spacing);
-            const gy = stream.y - sinA * (g * stream.spacing);
+            // 3. Shockwave Swells from Clicks
+            for (let s = 0; s < shockwaves.length; s++) {
+              const sw = shockwaves[s];
+              const sdx = approxSX - sw.x;
+              const sdy = approxSY - sw.y;
+              const sdist = Math.hypot(sdx, sdy);
+              const ringDist = Math.abs(sdist - sw.radius);
+              if (ringDist < 45) {
+                const ringFactor = Math.cos((ringDist / 45) * Math.PI * 0.5);
+                elevation += Math.sin(ringDist * 0.1) * sw.strength * ringFactor;
+              }
+            }
 
-            if (gy < -30 || gy > height + 30 || gx < -30 || gx > width + 30) continue;
+            // 4. Exact 3D Perspective Projection with Camera Pitch
+            const relY = elevation - cameraY;
+            const relZ = worldZ - cameraZ;
 
-            const isHead = g === 0;
+            const rotY = relY * cosPitch + relZ * sinPitch;
+            const rotZ = relZ * cosPitch - relY * sinPitch;
 
-            if (isHead) {
-              // Glowing Leading Cyber Head
-              ctx.shadowBlur = 8;
-              ctx.shadowColor = activePalette.headGlow;
-              ctx.fillStyle = activePalette.headGlyph;
-              ctx.fillText(glyphObj.char, gx, gy);
-              ctx.shadowBlur = 0;
+            if (rotZ > 15) {
+              const scale = fov / rotZ;
+              pt.sx = centerX + worldX * scale;
+              pt.sy = horizonY + rotY * scale;
+              pt.sz = rotZ;
+              pt.elevation = elevation;
+
+              // Depth + Edge Alpha Falloff: fades into horizon at back and smoothly at viewport edges
+              const depthAlpha = Math.min(1.0, Math.max(0.0, (depthRatio - 0.05) / 0.35)) * 
+                                 Math.min(1.0, Math.max(0.0, (1 - depthRatio * 0.15)));
+              const edgeDistX = Math.abs(pt.sx - centerX) / (width * 0.55);
+              const edgeAlpha = Math.max(0.0, 1 - Math.pow(edgeDistX, 2.5));
+
+              pt.alpha = depthAlpha * edgeAlpha;
+              pt.valid = pt.alpha > 0.01 && pt.sy >= -50 && pt.sy <= height + 80;
             } else {
-              // Trailing Code Stream fading out smoothly
-              const fadeRatio = 1 - (g / stream.length);
-              const glyphOpacity = (stream.opacity * fadeRatio).toFixed(3);
-              ctx.fillStyle = `${stream.color}${glyphOpacity})`;
-              ctx.fillText(glyphObj.char, gx, gy);
+              pt.valid = false;
+              pt.alpha = 0;
             }
+          }
+        }
+
+        // STEP 2: RENDER TRANSVERSE CURVES (ROWS ACROSS X)
+        for (let r = 0; r < rows; r++) {
+          const depthRatio = r / (rows - 1);
+          let drawing = false;
+
+          for (let c = 0; c < cols - 1; c++) {
+            const p1 = gridPoints[r][c];
+            const p2 = gridPoints[r][c + 1];
+
+            if (!p1.valid || !p2.valid) {
+              if (drawing) {
+                ctx.stroke();
+                drawing = false;
+              }
+              continue;
+            }
+
+            const avgAlpha = (p1.alpha + p2.alpha) * 0.5;
+            const avgElevation = (p1.elevation + p2.elevation) * 0.5;
+
+            // Dynamic Gradient: Peaks glow cyan, valleys violet/indigo
+            const peakFactor = Math.min(1.0, Math.max(0.0, (avgElevation + 30) / 75));
+            const baseColor = peakFactor > 0.45 ? activePalette.linePeak : activePalette.lineValley;
+            const strokeAlpha = (avgAlpha * (0.18 + depthRatio * 0.42)).toFixed(3);
+
+            ctx.beginPath();
+            ctx.moveTo(p1.sx, p1.sy);
+            ctx.lineTo(p2.sx, p2.sy);
+            ctx.strokeStyle = `${baseColor}${strokeAlpha})`;
+            ctx.lineWidth = 0.75 + depthRatio * 0.85;
+            ctx.stroke();
+          }
+        }
+
+        // STEP 3: RENDER LONGITUDINAL CURVES (COLUMNS INTO DEPTH Z)
+        for (let c = 0; c < cols; c += (width < 768 ? 2 : 1)) {
+          for (let r = 0; r < rows - 1; r++) {
+            const p1 = gridPoints[r][c];
+            const p2 = gridPoints[r + 1][c];
+
+            if (!p1.valid || !p2.valid) continue;
+
+            const avgAlpha = (p1.alpha + p2.alpha) * 0.5;
+            const depthRatio = r / (rows - 1);
+            const strokeAlpha = (avgAlpha * (0.12 + depthRatio * 0.32)).toFixed(3);
+
+            ctx.beginPath();
+            ctx.moveTo(p1.sx, p1.sy);
+            ctx.lineTo(p2.sx, p2.sy);
+            ctx.strokeStyle = `${activePalette.linePeak}${strokeAlpha})`;
+            ctx.lineWidth = 0.65 + depthRatio * 0.55;
+            ctx.stroke();
+          }
+        }
+
+        // STEP 4: RENDER LUMINOUS VERTEX BEACONS ON HIGH CRESTS
+        for (let r = 3; r < rows; r += 2) {
+          const depthRatio = r / (rows - 1);
+          for (let c = 2; c < cols - 2; c += 3) {
+            const pt = gridPoints[r][c];
+            if (!pt.valid || pt.alpha < 0.25 || pt.elevation < 16) continue;
+
+            const beaconAlpha = (pt.alpha * Math.min(1.0, (pt.elevation - 16) / 25)).toFixed(3);
+            const radius = 1.2 + depthRatio * 1.5;
+
+            ctx.beginPath();
+            ctx.arc(pt.sx, pt.sy, radius, 0, Math.PI * 2);
+            ctx.fillStyle = activePalette.isLight 
+              ? `rgba(37, 99, 235, ${beaconAlpha})` 
+              : `rgba(255, 255, 255, ${beaconAlpha})`;
+            ctx.fill();
           }
         }
 
