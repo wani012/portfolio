@@ -1978,8 +1978,7 @@
       // Cinematic Slow-Motion Physics Parameters
       const slowMoSpeed = 1.35; // Base slow-motion velocity (ultra-gentle cinematic drift)
       const windAngle = 0.065;  // Subtle ~3.7-degree graceful slant
-      const repulsionRadius = 135;
-      const repulsionStrength = 2.8;
+      const attractRadius = 340; // Magnetic attraction radius towards cursor
 
       function getThemeColors() {
         const isLight = document.documentElement.getAttribute("data-theme") === "light" || 
@@ -2049,18 +2048,26 @@
         }
 
         const floorY = height - (Math.random() * 50 + 5);
+        const baseSpeed = speed;
+        const baseVx = Math.sin(windAngle) * baseSpeed;
+        const baseVy = Math.cos(windAngle) * baseSpeed;
 
         return {
           x: Math.random() * (width + 200) - 100,
           y: randomY ? Math.random() * height : -Math.random() * 80 - 20,
           layer,
-          speed,
+          baseSpeed,
+          speed: baseSpeed,
+          baseVx,
+          baseVy,
+          vx: baseVx,
+          vy: baseVy,
           length,
           thickness,
           opacity,
           color,
           floorY,
-          windDrift: Math.sin(windAngle) * speed
+          windDrift: baseVx
         };
       }
 
@@ -2179,11 +2186,21 @@
         }
       }, { passive: true });
 
-      window.addEventListener("mouseleave", () => {
+      // Immediate clean release on mouse leave / window blur
+      const handlePointerLeave = () => {
         mouse.active = false;
         mouse.x = -9999;
         mouse.y = -9999;
+      };
+
+      window.addEventListener("mouseleave", handlePointerLeave, { passive: true });
+      document.addEventListener("mouseleave", handlePointerLeave, { passive: true });
+      document.addEventListener("mouseout", (e) => {
+        if (!e.relatedTarget && !e.toElement) {
+          handlePointerLeave();
+        }
       }, { passive: true });
+      window.addEventListener("blur", handlePointerLeave, { passive: true });
 
       window.addEventListener("touchstart", (e) => {
         if (e.touches && e.touches.length > 0) {
@@ -2203,11 +2220,8 @@
         }
       }, { passive: true });
 
-      window.addEventListener("touchend", () => {
-        mouse.active = false;
-        mouse.x = -9999;
-        mouse.y = -9999;
-      }, { passive: true });
+      window.addEventListener("touchend", handlePointerLeave, { passive: true });
+      window.addEventListener("touchcancel", handlePointerLeave, { passive: true });
 
       // Window-level non-blocking click ripple trigger
       window.addEventListener("click", (e) => {
@@ -2276,47 +2290,74 @@
           ctx.fill();
         }
 
-        // 3. UPDATE & DRAW SLOW-MO RAINDROPS WITH FLUID DEFLECTION
+        // 3. UPDATE & DRAW SLOW-MO RAINDROPS WITH FLUID MAGNETIC ATTRACTION & AESTHETIC RELEASE
         const count = raindrops.length;
         for (let i = 0; i < count; i++) {
           const drop = raindrops[i];
 
-          // Aerodynamic Cursor Deflection in Slow-Mo
+          let targetVx = drop.baseVx;
+          let targetVy = drop.baseVy;
+
+          // Fluid Attraction toward Cursor: wherever mouse moves, water drops gracefully stream towards it
           if (mouse.active && mouse.x > -1000) {
-            const mdx = drop.x - mouse.x;
-            const mdy = drop.y - mouse.y;
-            const dist = Math.hypot(mdx, mdy);
+            const dx = mouse.x - drop.x;
+            const dy = mouse.y - drop.y;
+            const dist = Math.hypot(dx, dy);
 
-            if (dist < repulsionRadius && dist > 1) {
-              const force = Math.pow(1 - dist / repulsionRadius, 1.6) * repulsionStrength;
-              const nx = mdx / dist;
-              const ny = mdy / dist;
+            if (dist < attractRadius) {
+              const nx = dx / (dist || 1);
+              const ny = dy / (dist || 1);
+              const proximity = Math.pow(1 - dist / attractRadius, 1.25);
+              const coreDamp = Math.min(dist / 35, 1.0); // Soft core damping prevents clustering jitter
 
-              drop.x += nx * force * (drop.layer === 2 ? 1.15 : 0.85);
-              drop.y += Math.max(0, ny) * force * 0.35;
+              // Gentle acceleration towards cursor
+              const maxAttractSpeed = drop.baseSpeed * (2.8 + (drop.layer === 2 ? 1.0 : 0.4));
+              targetVx = drop.baseVx * (1 - proximity) + nx * maxAttractSpeed * proximity * coreDamp;
+              targetVy = drop.baseVy * (1 - proximity) + ny * maxAttractSpeed * proximity * coreDamp;
             }
           }
 
-          // Gentle slow-motion fall & wind drift
-          drop.x += drop.windDrift;
-          drop.y += drop.speed;
+          // Smooth Inertia (Fluid Lerp):
+          // When mouse moves, drops smoothly bend towards it.
+          // As soon as mouse leaves, lerpRate smoothly brings them back to serene slow-motion vertical fall!
+          const lerpRate = mouse.active ? 0.08 : 0.035;
+          drop.vx += (targetVx - drop.vx) * lerpRate;
+          drop.vy += (targetVy - drop.vy) * lerpRate;
+
+          drop.x += drop.vx;
+          drop.y += drop.vy;
 
           // Ground Impact
           if (drop.y >= drop.floorY) {
             spawnRipple(drop.x, drop.floorY, drop.layer);
-            if (drop.layer >= 1 && Math.random() < 0.55) {
+            if (drop.layer >= 1 && Math.random() < 0.50) {
               spawnSplashes(drop.x, drop.floorY, drop.layer);
             }
 
             drop.y = -Math.random() * 60 - 20;
             drop.x = Math.random() * (width + 200) - 100;
+            drop.vx = drop.baseVx;
+            drop.vy = drop.baseVy;
             drop.floorY = height - (Math.random() * 50 + 5);
             continue;
           }
 
-          // Draw Motion Blur Streak
-          const tailX = drop.x - Math.sin(windAngle) * drop.length;
-          const tailY = drop.y - Math.cos(windAngle) * drop.length;
+          // Screen Boundary Wrap (if pulled sideways or upwards by mouse)
+          if (drop.x < -150) {
+            drop.x = width + 50;
+          } else if (drop.x > width + 150) {
+            drop.x = -50;
+          }
+          if (drop.y < -90) {
+            drop.y = -20;
+            drop.vy = Math.max(drop.baseVy, drop.vy);
+          }
+
+          // Dynamic Motion Blur Streak (aligned with velocity vector)
+          const vMag = Math.hypot(drop.vx, drop.vy) || 1;
+          const currentLength = drop.length * Math.min(2.2, Math.max(0.75, vMag / drop.baseSpeed));
+          const tailX = drop.x - (drop.vx / vMag) * currentLength;
+          const tailY = drop.y - (drop.vy / vMag) * currentLength;
 
           const gradient = ctx.createLinearGradient(tailX, tailY, drop.x, drop.y);
           gradient.addColorStop(0, `${drop.color}0.0)`);

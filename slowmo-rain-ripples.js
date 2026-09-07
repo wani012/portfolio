@@ -190,12 +190,20 @@ class SlowMoRainRipples {
     }
 
     const floorY = this.height - (Math.random() * 40 + 5);
+    const baseSpeed = speed;
+    const baseVx = 0;
+    const baseVy = baseSpeed;
 
     return {
       x: Math.random() * this.width,
       y: randomY ? Math.random() * this.height : -Math.random() * 60 - 20,
       layer,
-      speed,
+      baseSpeed,
+      speed: baseSpeed,
+      baseVx,
+      baseVy,
+      vx: baseVx,
+      vy: baseVy,
       length,
       thickness,
       opacity,
@@ -295,10 +303,35 @@ class SlowMoRainRipples {
       this.ctx.stroke();
     }
 
-    // 2. Slow-Motion Raindrops
+    // 2. Slow-Motion Raindrops with Magnetic Attraction & Aesthetic Release
+    const attractRadius = 320;
     for (let i = 0; i < this.raindrops.length; i++) {
       const drop = this.raindrops[i];
-      drop.y += drop.speed;
+      let targetVx = drop.baseVx;
+      let targetVy = drop.baseVy;
+
+      if (this.pointer.active && this.pointer.x > 0) {
+        const dx = this.pointer.x - drop.x;
+        const dy = this.pointer.y - drop.y;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < attractRadius) {
+          const nx = dx / (dist || 1);
+          const ny = dy / (dist || 1);
+          const proximity = Math.pow(1 - dist / attractRadius, 1.25);
+          const coreDamp = Math.min(dist / 35, 1.0);
+          const maxAttractSpeed = drop.baseSpeed * (2.8 + (drop.layer === 2 ? 1.0 : 0.4));
+          targetVx = drop.baseVx * (1 - proximity) + nx * maxAttractSpeed * proximity * coreDamp;
+          targetVy = drop.baseVy * (1 - proximity) + ny * maxAttractSpeed * proximity * coreDamp;
+        }
+      }
+
+      const lerpRate = this.pointer.active ? 0.08 : 0.035;
+      drop.vx += (targetVx - drop.vx) * lerpRate;
+      drop.vy += (targetVy - drop.vy) * lerpRate;
+
+      drop.x += drop.vx;
+      drop.y += drop.vy;
 
       if (drop.y >= drop.floorY) {
         if (drop.layer >= 1 && Math.random() < 0.65) {
@@ -306,18 +339,28 @@ class SlowMoRainRipples {
         }
         drop.y = -Math.random() * 50 - 15;
         drop.x = Math.random() * this.width;
+        drop.vx = drop.baseVx;
+        drop.vy = drop.baseVy;
         drop.floorY = this.height - (Math.random() * 40 + 5);
         continue;
       }
 
-      const tailY = drop.y - drop.length;
-      const grad = this.ctx.createLinearGradient(drop.x, tailY, drop.x, drop.y);
+      if (drop.x < -100) drop.x = this.width + 50;
+      else if (drop.x > this.width + 100) drop.x = -50;
+      if (drop.y < -80) { drop.y = -20; drop.vy = Math.max(drop.baseVy, drop.vy); }
+
+      const vMag = Math.hypot(drop.vx, drop.vy) || 1;
+      const currentLength = drop.length * Math.min(2.2, Math.max(0.75, vMag / drop.baseSpeed));
+      const tailX = drop.x - (drop.vx / vMag) * currentLength;
+      const tailY = drop.y - (drop.vy / vMag) * currentLength;
+
+      const grad = this.ctx.createLinearGradient(tailX, tailY, drop.x, drop.y);
       grad.addColorStop(0, `${drop.color}0.0)`);
       grad.addColorStop(0.6, `${drop.color}${(drop.opacity * 0.45).toFixed(3)})`);
       grad.addColorStop(1, `${drop.color}${drop.opacity.toFixed(3)})`);
 
       this.ctx.beginPath();
-      this.ctx.moveTo(drop.x, tailY);
+      this.ctx.moveTo(tailX, tailY);
       this.ctx.lineTo(drop.x, drop.y);
       this.ctx.strokeStyle = grad;
       this.ctx.lineWidth = drop.thickness;
