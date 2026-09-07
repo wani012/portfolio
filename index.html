@@ -1976,10 +1976,10 @@
       };
 
       // Cinematic Slow-Motion Physics Parameters
-      const slowMoSpeed = 4.2; // Base slow-motion velocity
-      const windAngle = 0.14;  // Subtle ~8-degree graceful slant
-      const repulsionRadius = 150;
-      const repulsionStrength = 5.2;
+      const slowMoSpeed = 1.35; // Base slow-motion velocity (ultra-gentle cinematic drift)
+      const windAngle = 0.065;  // Subtle ~3.7-degree graceful slant
+      const repulsionRadius = 135;
+      const repulsionStrength = 2.8;
 
       function getThemeColors() {
         const isLight = document.documentElement.getAttribute("data-theme") === "light" || 
@@ -2029,22 +2029,22 @@
         let speed, length, thickness, opacity, color;
 
         if (layer === 0) {
-          speed = slowMoSpeed * (0.45 + Math.random() * 0.20);
-          length = 12 + Math.random() * 8;
-          thickness = 0.75 + Math.random() * 0.25;
-          opacity = 0.16 + Math.random() * 0.12;
+          speed = slowMoSpeed * (0.50 + Math.random() * 0.20);
+          length = 8 + Math.random() * 6;
+          thickness = 0.70 + Math.random() * 0.20;
+          opacity = 0.14 + Math.random() * 0.10;
           color = activePalette.dropBg;
         } else if (layer === 1) {
-          speed = slowMoSpeed * (0.80 + Math.random() * 0.30);
-          length = 22 + Math.random() * 12;
-          thickness = 1.1 + Math.random() * 0.35;
-          opacity = 0.32 + Math.random() * 0.18;
+          speed = slowMoSpeed * (0.80 + Math.random() * 0.25);
+          length = 14 + Math.random() * 8;
+          thickness = 0.95 + Math.random() * 0.25;
+          opacity = 0.26 + Math.random() * 0.14;
           color = activePalette.dropMg;
         } else {
-          speed = slowMoSpeed * (1.30 + Math.random() * 0.45);
-          length = 36 + Math.random() * 18;
-          thickness = 1.5 + Math.random() * 0.5;
-          opacity = 0.55 + Math.random() * 0.25;
+          speed = slowMoSpeed * (1.15 + Math.random() * 0.30);
+          length = 20 + Math.random() * 10;
+          thickness = 1.25 + Math.random() * 0.35;
+          opacity = 0.42 + Math.random() * 0.20;
           color = Math.random() > 0.3 ? activePalette.dropFg : "rgba(255, 255, 255,";
         }
 
@@ -2066,7 +2066,7 @@
 
       function spawnRipple(x, y, layer = 1, intensity = 1.0) {
         if (ripples.length >= 65) ripples.shift();
-        const maxRadius = (16 + layer * 8 + Math.random() * 8) * intensity;
+        const maxRadius = (14 + layer * 7 + Math.random() * 6) * intensity;
         const color = layer === 2 ? activePalette.rippleFg : activePalette.rippleMg;
 
         ripples.push({
@@ -2075,10 +2075,10 @@
           radiusX: 1,
           radiusY: 0.35, // 3D floor perspective
           maxRadius,
-          growthRate: (0.45 + layer * 0.22) * intensity, // Slow-motion gentle bloom
-          opacity: (0.42 + layer * 0.18) * Math.min(intensity, 1.2),
-          decay: 0.0075, // Extended lingering fade for slow-mo
-          lineWidth: 0.85 + layer * 0.35,
+          growthRate: (0.22 + layer * 0.12) * intensity, // Ultra-slow gentle bloom
+          opacity: (0.36 + layer * 0.16) * Math.min(intensity, 1.2),
+          decay: 0.0038, // Extended lingering fade for slow-mo
+          lineWidth: 0.80 + layer * 0.30,
           color
         });
       }
@@ -2088,16 +2088,16 @@
         for (let i = 0; i < count; i++) {
           if (splashes.length >= 100) splashes.shift();
           const angle = Math.PI + (Math.random() - 0.5) * 1.5;
-          const velocity = (0.9 + Math.random() * 1.5) * (0.8 + layer * 0.25);
+          const velocity = (0.45 + Math.random() * 0.70) * (0.7 + layer * 0.20);
 
           splashes.push({
             x,
             y,
             vx: Math.cos(angle) * velocity,
-            vy: Math.sin(angle) * velocity - 0.7,
-            gravity: 0.055, // Low gravity slow-motion arc
-            radius: 0.8 + Math.random() * 0.7,
-            opacity: 0.55 + Math.random() * 0.25,
+            vy: Math.sin(angle) * velocity - 0.45,
+            gravity: 0.022, // Ultra-low gravity slow-motion arc
+            radius: 0.75 + Math.random() * 0.6,
+            opacity: 0.50 + Math.random() * 0.25,
             color: activePalette.splash
           });
         }
@@ -2115,9 +2115,9 @@
               radiusX: 2,
               radiusY: 0.50,
               maxRadius: strong ? 85 + r * 22 : 50 + r * 14,
-              growthRate: 1.35 + r * 0.45, // Slow-mo liquid wave
+              growthRate: 0.75 + r * 0.25, // Slow-mo liquid wave
               opacity: strong ? 0.65 : 0.45,
-              decay: 0.008,
+              decay: 0.0050,
               lineWidth: strong ? 1.6 : 1.1,
               color: r % 2 === 0 ? activePalette.rippleFg : activePalette.rippleMg
             });
@@ -2263,7 +2263,7 @@
           sp.x += sp.vx;
           sp.y += sp.vy;
           sp.vy += sp.gravity;
-          sp.opacity -= 0.014; // Extended fade in slowmo
+          sp.opacity -= 0.007; // Ultra-slow gentle fade in slowmo
 
           if (sp.opacity <= 0 || sp.y > height) {
             splashes.splice(i, 1);
@@ -2292,8 +2292,8 @@
               const nx = mdx / dist;
               const ny = mdy / dist;
 
-              drop.x += nx * force * (drop.layer === 2 ? 1.3 : 0.95);
-              drop.y += Math.max(0, ny) * force * 0.45;
+              drop.x += nx * force * (drop.layer === 2 ? 1.15 : 0.85);
+              drop.y += Math.max(0, ny) * force * 0.35;
             }
           }
 

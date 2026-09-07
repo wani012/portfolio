@@ -94,22 +94,22 @@ export default function SlowMoRainBackground({
 
       if (layer === 0) {
         // Far Background: soft, gentle, atmospheric
-        speed = 1.6 + Math.random() * 0.8;
-        length = 12 + Math.random() * 8;
+        speed = 0.70 + Math.random() * 0.35;
+        length = 8 + Math.random() * 6;
         thickness = 0.65;
         opacity = 0.15 + Math.random() * 0.08;
         color = "rgba(147, 197, 253,"; // Soft icy blue
       } else if (layer === 1) {
         // Midground: balanced
-        speed = 2.6 + Math.random() * 1.0;
-        length = 22 + Math.random() * 10;
+        speed = 1.10 + Math.random() * 0.40;
+        length = 14 + Math.random() * 8;
         thickness = 0.90;
         opacity = 0.24 + Math.random() * 0.10;
         color = "rgba(56, 189, 248,"; // Neon cyan/sky
       } else {
-        // Foreground: slightly faster & longer
-        speed = 3.8 + Math.random() * 1.2;
-        length = 34 + Math.random() * 14;
+        // Foreground: crystal luminous drops
+        speed = 1.60 + Math.random() * 0.45;
+        length = 20 + Math.random() * 10;
         thickness = 1.20;
         opacity = 0.35 + Math.random() * 0.10;
         color = Math.random() > 0.4 ? "rgba(56, 189, 248," : "rgba(224, 242, 254,";
@@ -133,7 +133,7 @@ export default function SlowMoRainBackground({
     /**
      * Spawn circular liquid puddle ripple
      */
-    const spawnRipple = (x, y, maxRadius = 45, initialOpacity = 0.40, growthRate = 0.65) => {
+    const spawnRipple = (x, y, maxRadius = 40, initialOpacity = 0.36, growthRate = 0.32) => {
       if (ripples.length >= 60) ripples.shift(); // Auto-prune oldest
       ripples.push({
         x,
@@ -143,7 +143,7 @@ export default function SlowMoRainBackground({
         growthRate,
         opacity: initialOpacity,
         decay: initialOpacity / (maxRadius / growthRate),
-        lineWidth: 1.1,
+        lineWidth: 1.0,
       });
     };
 
@@ -157,11 +157,11 @@ export default function SlowMoRainBackground({
           spawnRipple(
             x,
             y,
-            38 + i * 16,
-            0.38 - i * 0.08,
-            0.60 + i * 0.15
+            36 + i * 14,
+            0.35 - i * 0.08,
+            0.30 + i * 0.10
           );
-        }, i * 120);
+        }, i * 140);
       }
     };
 
