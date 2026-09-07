@@ -1986,24 +1986,24 @@
           isLight: true,
           traceCyan: "rgba(37, 99, 235,",    // Sapphire blue
           traceViolet: "rgba(79, 70, 229,",  // Indigo
-          chipBorder: "rgba(37, 99, 235, 0.25)",
-          chipBg: "rgba(37, 99, 235, 0.03)",
-          chipText: "rgba(37, 99, 235, 0.6)",
-          pulseCyan: "#2563eb",
-          pulseViolet: "#4f46e5",
-          cursorAura: "rgba(37, 99, 235, 0.8)",
+          chipBorder: "rgba(37, 99, 235, 0.09)",
+          chipBg: "rgba(37, 99, 235, 0.012)",
+          chipText: "rgba(37, 99, 235, 0.24)",
+          pulseCyan: "rgba(37, 99, 235, 0.65)",
+          pulseViolet: "rgba(79, 70, 229, 0.65)",
+          cursorAura: "rgba(37, 99, 235, 0.40)",
           pulseHead: "#1d4ed8"
         } : {
           isLight: false,
-          traceCyan: "rgba(0, 243, 255,",    // Neon electric cyan
+          traceCyan: "rgba(0, 243, 255,",    // Subtle electric cyan
           traceViolet: "rgba(168, 85, 247,", // Soft cyber violet
-          chipBorder: "rgba(0, 243, 255, 0.22)",
-          chipBg: "rgba(6, 182, 212, 0.03)",
-          chipText: "rgba(0, 243, 255, 0.65)",
-          pulseCyan: "#00f3ff",
-          pulseViolet: "#a855f7",
-          cursorAura: "rgba(0, 243, 255, 0.85)",
-          pulseHead: "#ffffff"
+          chipBorder: "rgba(0, 243, 255, 0.08)",
+          chipBg: "rgba(6, 182, 212, 0.012)",
+          chipText: "rgba(0, 243, 255, 0.24)",
+          pulseCyan: "rgba(0, 243, 255, 0.65)",
+          pulseViolet: "rgba(168, 85, 247, 0.65)",
+          cursorAura: "rgba(0, 243, 255, 0.45)",
+          pulseHead: "#cffafe"
         };
       }
 
@@ -2024,7 +2024,7 @@
         const cols = Math.ceil(width / GRID_SIZE) + 2;
         const rows = Math.ceil(height / GRID_SIZE) + 2;
 
-        // Generate IC Chips (Microprocessors & Hardware Modules)
+        // Generate IC Chips (Faint, architectural microprocessors)
         const chipCount = width < 768 ? 2 : 4;
         const chipLabels = ["CPU_0", "KERNEL", "BUS_IO", "QUANTUM", "ALU_CORE"];
         for (let i = 0; i < chipCount; i++) {
@@ -2039,7 +2039,7 @@
           });
         }
 
-        // Generate Circuit Bus Traces
+        // Generate Circuit Bus Traces (Delicate, soft opacity)
         const traceCount = Math.floor((cols * rows) / 4);
         for (let i = 0; i < traceCount; i++) {
           const startX = Math.floor(Math.random() * cols) * GRID_SIZE;
@@ -2073,19 +2073,20 @@
           traces.push({
             points,
             isCyan,
-            opacity: 0.12 + Math.random() * 0.12
+            // Delicate, muted base opacity (0.04 to 0.08)
+            opacity: 0.04 + Math.random() * 0.04
           });
 
           // Terminal Vias & Solder Pads
           nodes.push({ x: startX, y: startY, type: "via" });
           nodes.push({ x: currX, y: currY, type: "pad" });
 
-          // Data Pulses (Traveling Electrons)
-          if (Math.random() < 0.65) {
+          // Calming, gentle electron pulses
+          if (Math.random() < 0.55) {
             pulses.push({
               traceIndex: traces.length - 1,
               progress: Math.random(),
-              speed: 0.005 + Math.random() * 0.008,
+              speed: 0.003 + Math.random() * 0.005,
               isCyan: Math.random() > 0.35
             });
           }
@@ -2166,16 +2167,16 @@
       window.addEventListener("touchend", handlePointerLeave, { passive: true });
       window.addEventListener("touchcancel", handlePointerLeave, { passive: true });
 
-      // Click Shockwave Burst
+      // Gentle Click Shockwave Burst
       window.addEventListener("click", (e) => {
-        if (shockwaves.length >= 6) shockwaves.shift();
+        if (shockwaves.length >= 5) shockwaves.shift();
         shockwaves.push({
           x: e.clientX,
           y: e.clientY,
           radius: 0,
-          maxRadius: 280,
-          growthRate: 4.5,
-          opacity: 0.85,
+          maxRadius: 240,
+          growthRate: 4.0,
+          opacity: 0.45,
           decay: 0.02
         });
       }, { passive: true });
@@ -2217,6 +2218,11 @@
         // Smooth physical dampening when mouse leaves
         mouse.currentInfluence += (mouse.targetInfluence - mouse.currentInfluence) * 0.045;
 
+        // Hero central focus zone: slightly softens lines right behind main hero typography
+        const heroCenterX = width * 0.5;
+        const heroCenterY = height * 0.42;
+        const heroRadius = Math.min(width * 0.36, 340);
+
         // Update shockwaves
         for (let s = shockwaves.length - 1; s >= 0; s--) {
           const sw = shockwaves[s];
@@ -2233,11 +2239,11 @@
           ctx.strokeStyle = activePalette.isLight 
             ? `rgba(37, 99, 235, ${sw.opacity.toFixed(3)})` 
             : `rgba(0, 243, 255, ${sw.opacity.toFixed(3)})`;
-          ctx.lineWidth = 1.5;
+          ctx.lineWidth = 1.0;
           ctx.stroke();
         }
 
-        // 1. Draw Static Circuit Traces with High-Voltage Surge near Mouse
+        // 1. Draw Static Circuit Traces (Soft, light, high-clarity)
         for (let i = 0; i < traces.length; i++) {
           const tr = traces[i];
           const pts = tr.points;
@@ -2248,65 +2254,75 @@
             ctx.lineTo(pts[p].x, pts[p].y);
           }
 
+          // Hero center focus attenuation: keeps main title in razor-sharp focus
+          const midPt = pts[Math.floor(pts.length / 2)];
+          const distToHero = Math.hypot(midPt.x - heroCenterX, midPt.y - heroCenterY);
+          const focusFactor = distToHero < heroRadius ? (0.55 + 0.45 * (distToHero / heroRadius)) : 1.0;
+
           let boost = 0;
           if (mouse.currentInfluence > 0.01) {
             for (let p = 0; p < pts.length; p++) {
               const d = Math.hypot(pts[p].x - mouse.x, pts[p].y - mouse.y);
-              if (d < 180) {
-                boost = Math.max(boost, (1 - d / 180) * 0.50 * mouse.currentInfluence);
+              if (d < 160) {
+                boost = Math.max(boost, (1 - d / 160) * 0.22 * mouse.currentInfluence);
               }
             }
           }
 
           const baseColor = tr.isCyan ? activePalette.traceCyan : activePalette.traceViolet;
-          ctx.strokeStyle = `${baseColor}${(tr.opacity + boost).toFixed(3)})`;
-          ctx.lineWidth = boost > 0 ? 1.2 : 0.75;
+          const finalOpacity = ((tr.opacity * focusFactor) + boost).toFixed(3);
+          ctx.strokeStyle = `${baseColor}${finalOpacity})`;
+          ctx.lineWidth = boost > 0 ? 0.9 : 0.65;
           ctx.stroke();
         }
 
-        // 2. Draw IC Chips (Microprocessors)
+        // 2. Draw IC Chips (Subtle, sleek watermark style)
         for (let i = 0; i < chips.length; i++) {
           const ch = chips[i];
           ctx.fillStyle = activePalette.chipBg;
           ctx.strokeStyle = activePalette.chipBorder;
-          ctx.lineWidth = 1.0;
+          ctx.lineWidth = 0.8;
           ctx.strokeRect(ch.x, ch.y, ch.w, ch.h);
           ctx.fillRect(ch.x, ch.y, ch.w, ch.h);
 
           // Micro-pins on chip border
           ctx.fillStyle = activePalette.chipBorder;
-          for (let px = ch.x + 8; px < ch.x + ch.w - 8; px += 12) {
-            ctx.fillRect(px, ch.y - 3, 4, 3);
-            ctx.fillRect(px, ch.y + ch.h, 4, 3);
+          for (let px = ch.x + 8; px < ch.x + ch.w - 8; px += 14) {
+            ctx.fillRect(px, ch.y - 2, 3, 2);
+            ctx.fillRect(px, ch.y + ch.h, 3, 2);
           }
 
-          ctx.font = "600 10px 'JetBrains Mono', monospace";
+          ctx.font = "500 9px 'JetBrains Mono', monospace";
           ctx.fillStyle = activePalette.chipText;
           ctx.textAlign = "center";
           ctx.fillText(ch.label, ch.x + ch.w / 2, ch.y + ch.h / 2 + 3);
         }
 
-        // 3. Draw Circular Vias & Solder Pads
+        // 3. Draw Circular Vias & Solder Pads (Delicate micro-dots)
         for (let i = 0; i < nodes.length; i++) {
           const nd = nodes[i];
           const d = mouse.currentInfluence > 0.01 ? Math.hypot(nd.x - mouse.x, nd.y - mouse.y) : 999;
           const isNear = d < 140;
 
           ctx.beginPath();
-          ctx.arc(nd.x, nd.y, nd.type === "pad" ? 3.0 : 1.8, 0, Math.PI * 2);
-          ctx.fillStyle = isNear ? (activePalette.isLight ? "#2563eb" : "#00f3ff") : (activePalette.isLight ? "rgba(37, 99, 235, 0.25)" : "rgba(0, 243, 255, 0.22)");
+          ctx.arc(nd.x, nd.y, nd.type === "pad" ? 2.2 : 1.4, 0, Math.PI * 2);
+          ctx.fillStyle = isNear 
+            ? (activePalette.isLight ? "rgba(37, 99, 235, 0.45)" : "rgba(0, 243, 255, 0.45)") 
+            : (activePalette.isLight ? "rgba(37, 99, 235, 0.12)" : "rgba(0, 243, 255, 0.10)");
           ctx.fill();
 
           if (nd.type === "pad") {
             ctx.beginPath();
-            ctx.arc(nd.x, nd.y, 5.0, 0, Math.PI * 2);
-            ctx.strokeStyle = isNear ? (activePalette.isLight ? "rgba(37, 99, 235, 0.6)" : "rgba(0, 243, 255, 0.7)") : (activePalette.isLight ? "rgba(37, 99, 235, 0.12)" : "rgba(0, 243, 255, 0.12)");
-            ctx.lineWidth = 0.75;
+            ctx.arc(nd.x, nd.y, 4.0, 0, Math.PI * 2);
+            ctx.strokeStyle = isNear 
+              ? (activePalette.isLight ? "rgba(37, 99, 235, 0.35)" : "rgba(0, 243, 255, 0.35)") 
+              : (activePalette.isLight ? "rgba(37, 99, 235, 0.06)" : "rgba(0, 243, 255, 0.06)");
+            ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
 
-        // 4. Draw Traveling Light Pulses (Electrons)
+        // 4. Draw Traveling Light Pulses (Smooth, gentle electrons)
         for (let i = 0; i < pulses.length; i++) {
           const pl = pulses[i];
           pl.progress += pl.speed;
@@ -2316,7 +2332,7 @@
           if (!tr) continue;
 
           const curPt = getPointAlongTrace(tr, pl.progress);
-          const tailPt = getPointAlongTrace(tr, Math.max(0, pl.progress - 0.04));
+          const tailPt = getPointAlongTrace(tr, Math.max(0, pl.progress - 0.035));
 
           const pulseColor = pl.isCyan ? activePalette.pulseCyan : activePalette.pulseViolet;
           const grad = ctx.createLinearGradient(tailPt.x, tailPt.y, curPt.x, curPt.y);
@@ -2327,40 +2343,40 @@
           ctx.moveTo(tailPt.x, tailPt.y);
           ctx.lineTo(curPt.x, curPt.y);
           ctx.strokeStyle = grad;
-          ctx.lineWidth = 2.0;
+          ctx.lineWidth = 1.3;
           ctx.lineCap = "round";
           ctx.stroke();
 
-          // Glowing Head Particle
-          ctx.shadowBlur = 6;
+          // Soft glowing head
+          ctx.shadowBlur = 3;
           ctx.shadowColor = pulseColor;
           ctx.beginPath();
-          ctx.arc(curPt.x, curPt.y, 2.0, 0, Math.PI * 2);
+          ctx.arc(curPt.x, curPt.y, 1.4, 0, Math.PI * 2);
           ctx.fillStyle = activePalette.pulseHead;
           ctx.fill();
           ctx.shadowBlur = 0;
         }
 
-        // 5. Interactive Cursor Probe / Laser Router
+        // 5. Interactive Cursor Probe / Subtle Laser Router
         if (mouse.currentInfluence > 0.01 && mouse.x > 0) {
           ctx.beginPath();
-          ctx.arc(mouse.x, mouse.y, 5, 0, Math.PI * 2);
+          ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
           ctx.strokeStyle = activePalette.cursorAura;
-          ctx.lineWidth = 1.2;
+          ctx.lineWidth = 1.0;
           ctx.stroke();
 
-          // Connect 45-degree circuit routes to nearest 3 nodes
+          // Connect subtle 45-degree circuit routes to nearest 2 nodes
           let closeNodes = [];
           for (let i = 0; i < nodes.length; i++) {
             const d = Math.hypot(nodes[i].x - mouse.x, nodes[i].y - mouse.y);
-            if (d < 160) closeNodes.push({ node: nodes[i], d });
+            if (d < 140) closeNodes.push({ node: nodes[i], d });
           }
           closeNodes.sort((a, b) => a.d - b.d);
-          closeNodes = closeNodes.slice(0, 3);
+          closeNodes = closeNodes.slice(0, 2);
 
           for (let i = 0; i < closeNodes.length; i++) {
             const nd = closeNodes[i].node;
-            const alpha = (1 - closeNodes[i].d / 160) * 0.55 * mouse.currentInfluence;
+            const alpha = (1 - closeNodes[i].d / 140) * 0.28 * mouse.currentInfluence;
 
             const midX = mouse.x + (nd.x - mouse.x) * 0.5;
             ctx.beginPath();
@@ -2370,7 +2386,7 @@
             ctx.strokeStyle = activePalette.isLight 
               ? `rgba(37, 99, 235, ${alpha.toFixed(3)})` 
               : `rgba(0, 243, 255, ${alpha.toFixed(3)})`;
-            ctx.lineWidth = 1.0;
+            ctx.lineWidth = 0.8;
             ctx.stroke();
           }
         }
