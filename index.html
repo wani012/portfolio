@@ -1953,8 +1953,8 @@
     // Initialize Theme immediately
     applyTheme(getPreferredTheme());
 
-    // 11. Bespoke Interactive HTML5 Canvas — 3D Cyber Wave Mesh (Neural Topography Landscape)
-    (function initCyber3DWaveMesh() {
+    // 11. Bespoke Interactive HTML5 Canvas — Quantum Cyber Circuit Board & Neural Data Bus Engine
+    (function initQuantumCyberCircuitEngine() {
       const canvas = document.getElementById("custom-canvas-mesh");
       if (!canvas) return;
       const ctx = canvas.getContext("2d", { alpha: true });
@@ -1963,28 +1963,19 @@
       let height = window.innerHeight;
       let dpr = 1;
 
-      // 3D Grid Configuration
-      let cols = 42;
-      let rows = 32;
-
-      // Camera & Perspective Projection Parameters
-      const fov = 420;
-      const cameraY = -180;
-      const cameraZ = -140;
-      const pitch = 0.46; // Camera pitch looking down into landscape
-      const cosPitch = Math.cos(pitch);
-      const sinPitch = Math.sin(pitch);
-
-      let gridPoints = []; // 2D array storing projected coordinates
+      const GRID_SIZE = 64;
+      let traces = [];
+      let nodes = [];
+      let chips = [];
+      let pulses = [];
       let shockwaves = [];
 
-      let time = 0;
       const mouse = {
         x: -9999,
         y: -9999,
         active: false,
         lastMoveTime: 0,
-        currentInfluence: 0, // Smooth physical lerp dampening
+        currentInfluence: 0,
         targetInfluence: 0
       };
 
@@ -1993,18 +1984,26 @@
                         document.body.classList.contains("light-theme");
         return isLight ? {
           isLight: true,
-          linePeak: "rgba(37, 99, 235,",    // Sapphire blue
-          lineValley: "rgba(79, 70, 229,",  // Indigo
-          beacon: "#1d4ed8",
-          beaconGlow: "rgba(37, 99, 235, 0.4)",
-          ripple: "rgba(37, 99, 235,"
+          traceCyan: "rgba(37, 99, 235,",    // Sapphire blue
+          traceViolet: "rgba(79, 70, 229,",  // Indigo
+          chipBorder: "rgba(37, 99, 235, 0.25)",
+          chipBg: "rgba(37, 99, 235, 0.03)",
+          chipText: "rgba(37, 99, 235, 0.6)",
+          pulseCyan: "#2563eb",
+          pulseViolet: "#4f46e5",
+          cursorAura: "rgba(37, 99, 235, 0.8)",
+          pulseHead: "#1d4ed8"
         } : {
           isLight: false,
-          linePeak: "rgba(0, 243, 255,",    // Neon electric cyan
-          lineValley: "rgba(168, 85, 247,", // Soft cyber violet
-          beacon: "#ffffff",                // Glowing white vertex beacons
-          beaconGlow: "rgba(0, 243, 255, 0.8)",
-          ripple: "rgba(0, 243, 255,"
+          traceCyan: "rgba(0, 243, 255,",    // Neon electric cyan
+          traceViolet: "rgba(168, 85, 247,", // Soft cyber violet
+          chipBorder: "rgba(0, 243, 255, 0.22)",
+          chipBg: "rgba(6, 182, 212, 0.03)",
+          chipText: "rgba(0, 243, 255, 0.65)",
+          pulseCyan: "#00f3ff",
+          pulseViolet: "#a855f7",
+          cursorAura: "rgba(0, 243, 255, 0.85)",
+          pulseHead: "#ffffff"
         };
       }
 
@@ -2016,21 +2015,80 @@
       themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
       themeObserver.observe(document.body, { attributes: true, attributeFilter: ["class"] });
 
-      function initGrid() {
-        gridPoints = [];
-        for (let r = 0; r < rows; r++) {
-          const rowArr = [];
-          for (let c = 0; c < cols; c++) {
-            rowArr.push({
-              sx: 0,
-              sy: 0,
-              sz: 0,
-              elevation: 0,
-              alpha: 0,
-              valid: false
+      function generateCircuit() {
+        traces = [];
+        nodes = [];
+        chips = [];
+        pulses = [];
+
+        const cols = Math.ceil(width / GRID_SIZE) + 2;
+        const rows = Math.ceil(height / GRID_SIZE) + 2;
+
+        // Generate IC Chips (Microprocessors & Hardware Modules)
+        const chipCount = width < 768 ? 2 : 4;
+        const chipLabels = ["CPU_0", "KERNEL", "BUS_IO", "QUANTUM", "ALU_CORE"];
+        for (let i = 0; i < chipCount; i++) {
+          const gx = Math.floor(2 + Math.random() * (cols - 5));
+          const gy = Math.floor(2 + Math.random() * (rows - 5));
+          chips.push({
+            x: gx * GRID_SIZE,
+            y: gy * GRID_SIZE,
+            w: GRID_SIZE * (Math.random() > 0.5 ? 2 : 3),
+            h: GRID_SIZE * 2,
+            label: chipLabels[i % chipLabels.length]
+          });
+        }
+
+        // Generate Circuit Bus Traces
+        const traceCount = Math.floor((cols * rows) / 4);
+        for (let i = 0; i < traceCount; i++) {
+          const startX = Math.floor(Math.random() * cols) * GRID_SIZE;
+          const startY = Math.floor(Math.random() * rows) * GRID_SIZE;
+
+          const points = [{ x: startX, y: startY }];
+          let currX = startX;
+          let currY = startY;
+          const segments = 2 + Math.floor(Math.random() * 4);
+
+          for (let s = 0; s < segments; s++) {
+            const dir = Math.floor(Math.random() * 4);
+            const dist = (1 + Math.floor(Math.random() * 3)) * GRID_SIZE;
+
+            if (dir === 0) currX += dist;
+            else if (dir === 1) currX -= dist;
+            else if (dir === 2) currY += dist;
+            else currY -= dist;
+
+            // 45-degree angled bend
+            if (Math.random() < 0.35) {
+              const diag = GRID_SIZE;
+              currX += (Math.random() > 0.5 ? diag : -diag);
+              currY += (Math.random() > 0.5 ? diag : -diag);
+            }
+
+            points.push({ x: currX, y: currY });
+          }
+
+          const isCyan = Math.random() > 0.4;
+          traces.push({
+            points,
+            isCyan,
+            opacity: 0.12 + Math.random() * 0.12
+          });
+
+          // Terminal Vias & Solder Pads
+          nodes.push({ x: startX, y: startY, type: "via" });
+          nodes.push({ x: currX, y: currY, type: "pad" });
+
+          // Data Pulses (Traveling Electrons)
+          if (Math.random() < 0.65) {
+            pulses.push({
+              traceIndex: traces.length - 1,
+              progress: Math.random(),
+              speed: 0.005 + Math.random() * 0.008,
+              isCyan: Math.random() > 0.35
             });
           }
-          gridPoints.push(rowArr);
         }
       }
 
@@ -2049,10 +2107,7 @@
           ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
         ctx.scale(dpr, dpr);
-
-        cols = width < 768 ? 26 : (width < 1200 ? 36 : 46);
-        rows = width < 768 ? 22 : 30;
-        initGrid();
+        generateCircuit();
       }
 
       let resizeRaf = null;
@@ -2111,25 +2166,46 @@
       window.addEventListener("touchend", handlePointerLeave, { passive: true });
       window.addEventListener("touchcancel", handlePointerLeave, { passive: true });
 
-      // Click shockwave pulse across the terrain
+      // Click Shockwave Burst
       window.addEventListener("click", (e) => {
         if (shockwaves.length >= 6) shockwaves.shift();
         shockwaves.push({
           x: e.clientX,
           y: e.clientY,
           radius: 0,
-          maxRadius: 360,
-          growthRate: 4.8,
-          strength: 42,
-          decay: 0.016,
-          opacity: 1.0
+          maxRadius: 280,
+          growthRate: 4.5,
+          opacity: 0.85,
+          decay: 0.02
         });
       }, { passive: true });
 
-      // Initialize
       resize();
 
-      // Animation Loop
+      function getPointAlongTrace(trace, progress) {
+        const points = trace.points;
+        let totalLen = 0;
+        const lens = [];
+        for (let i = 0; i < points.length - 1; i++) {
+          const d = Math.hypot(points[i+1].x - points[i].x, points[i+1].y - points[i].y);
+          lens.push(d);
+          totalLen += d;
+        }
+
+        let targetDist = (progress % 1.0) * totalLen;
+        for (let i = 0; i < lens.length; i++) {
+          if (targetDist <= lens[i]) {
+            const segProgress = targetDist / (lens[i] || 1);
+            return {
+              x: points[i].x + (points[i+1].x - points[i].x) * segProgress,
+              y: points[i].y + (points[i+1].y - points[i].y) * segProgress
+            };
+          }
+          targetDist -= lens[i];
+        }
+        return { x: points[0].x, y: points[0].y };
+      }
+
       function animate() {
         ctx.clearRect(0, 0, width, height);
 
@@ -2141,182 +2217,161 @@
         // Smooth physical dampening when mouse leaves
         mouse.currentInfluence += (mouse.targetInfluence - mouse.currentInfluence) * 0.045;
 
-        time += 0.014; // Calm, meditative wave speed
-
         // Update shockwaves
         for (let s = shockwaves.length - 1; s >= 0; s--) {
           const sw = shockwaves[s];
           sw.radius += sw.growthRate;
-          sw.strength *= (1 - sw.decay);
           sw.opacity -= sw.decay;
-          if (sw.radius >= sw.maxRadius || sw.opacity <= 0.02) {
+
+          if (sw.opacity <= 0 || sw.radius >= sw.maxRadius) {
             shockwaves.splice(s, 1);
+            continue;
           }
+
+          ctx.beginPath();
+          ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = activePalette.isLight 
+            ? `rgba(37, 99, 235, ${sw.opacity.toFixed(3)})` 
+            : `rgba(0, 243, 255, ${sw.opacity.toFixed(3)})`;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
         }
 
-        // World Dimensions
-        const worldWidth = width * 1.55;
-        const worldDepth = 780;
-        const gridStartX = -worldWidth / 2;
-        const gridStartZ = 140;
+        // 1. Draw Static Circuit Traces with High-Voltage Surge near Mouse
+        for (let i = 0; i < traces.length; i++) {
+          const tr = traces[i];
+          const pts = tr.points;
 
-        const cellW = worldWidth / (cols - 1);
-        const cellD = worldDepth / (rows - 1);
+          ctx.beginPath();
+          ctx.moveTo(pts[0].x, pts[0].y);
+          for (let p = 1; p < pts.length; p++) {
+            ctx.lineTo(pts[p].x, pts[p].y);
+          }
 
-        const centerX = width / 2;
-        const horizonY = height * 0.44; // Horizon positioned harmoniously in the background
-
-        // STEP 1: CALCULATE 3D TRANSFORMATIONS FOR ALL VERTICES
-        for (let r = 0; r < rows; r++) {
-          const worldZ = gridStartZ + r * cellD;
-          const depthRatio = r / (rows - 1); // 0 (near horizon) to 1 (foreground)
-
-          for (let c = 0; c < cols; c++) {
-            const worldX = gridStartX + c * cellW;
-            const pt = gridPoints[r][c];
-
-            // 1. Natural Mathematical Ocean Wave Harmonics
-            const wave1 = Math.sin(worldX * 0.0042 + time * 1.35) * Math.cos(worldZ * 0.0055 + time * 0.95) * 36;
-            const wave2 = Math.sin((worldX + worldZ) * 0.0035 - time * 0.75) * 22;
-            const wave3 = Math.cos(worldX * 0.008 - time * 1.8) * 12;
-            let elevation = wave1 + wave2 + wave3;
-
-            // Approximate initial projection to measure distance from cursor in screen space
-            const relY_approx = elevation - cameraY;
-            const relZ_approx = worldZ - cameraZ;
-            const rotY_approx = relY_approx * cosPitch + relZ_approx * sinPitch;
-            const rotZ_approx = relZ_approx * cosPitch - relY_approx * sinPitch;
-            const scale_approx = rotZ_approx > 15 ? fov / rotZ_approx : 0;
-            const approxSX = centerX + worldX * scale_approx;
-            const approxSY = horizonY + rotY_approx * scale_approx;
-
-            // 2. Interactive Cursor Elevation Wave (Elastic Ripple)
-            if (mouse.currentInfluence > 0.005 && approxSX > -100 && approxSX < width + 100) {
-              const mdx = approxSX - mouse.x;
-              const mdy = approxSY - mouse.y;
-              const dist = Math.hypot(mdx, mdy);
-              const maxDist = 280;
-
-              if (dist < maxDist) {
-                const proximity = Math.pow(1 - dist / maxDist, 1.8);
-                const ripple = Math.sin(dist * 0.045 - time * 5.2) * 28;
-                elevation += (ripple + 32) * proximity * mouse.currentInfluence;
+          let boost = 0;
+          if (mouse.currentInfluence > 0.01) {
+            for (let p = 0; p < pts.length; p++) {
+              const d = Math.hypot(pts[p].x - mouse.x, pts[p].y - mouse.y);
+              if (d < 180) {
+                boost = Math.max(boost, (1 - d / 180) * 0.50 * mouse.currentInfluence);
               }
-            }
-
-            // 3. Shockwave Swells from Clicks
-            for (let s = 0; s < shockwaves.length; s++) {
-              const sw = shockwaves[s];
-              const sdx = approxSX - sw.x;
-              const sdy = approxSY - sw.y;
-              const sdist = Math.hypot(sdx, sdy);
-              const ringDist = Math.abs(sdist - sw.radius);
-              if (ringDist < 45) {
-                const ringFactor = Math.cos((ringDist / 45) * Math.PI * 0.5);
-                elevation += Math.sin(ringDist * 0.1) * sw.strength * ringFactor;
-              }
-            }
-
-            // 4. Exact 3D Perspective Projection with Camera Pitch
-            const relY = elevation - cameraY;
-            const relZ = worldZ - cameraZ;
-
-            const rotY = relY * cosPitch + relZ * sinPitch;
-            const rotZ = relZ * cosPitch - relY * sinPitch;
-
-            if (rotZ > 15) {
-              const scale = fov / rotZ;
-              pt.sx = centerX + worldX * scale;
-              pt.sy = horizonY + rotY * scale;
-              pt.sz = rotZ;
-              pt.elevation = elevation;
-
-              // Depth + Edge Alpha Falloff: fades into horizon at back and smoothly at viewport edges
-              const depthAlpha = Math.min(1.0, Math.max(0.0, (depthRatio - 0.05) / 0.35)) * 
-                                 Math.min(1.0, Math.max(0.0, (1 - depthRatio * 0.15)));
-              const edgeDistX = Math.abs(pt.sx - centerX) / (width * 0.55);
-              const edgeAlpha = Math.max(0.0, 1 - Math.pow(edgeDistX, 2.5));
-
-              pt.alpha = depthAlpha * edgeAlpha;
-              pt.valid = pt.alpha > 0.01 && pt.sy >= -50 && pt.sy <= height + 80;
-            } else {
-              pt.valid = false;
-              pt.alpha = 0;
             }
           }
+
+          const baseColor = tr.isCyan ? activePalette.traceCyan : activePalette.traceViolet;
+          ctx.strokeStyle = `${baseColor}${(tr.opacity + boost).toFixed(3)})`;
+          ctx.lineWidth = boost > 0 ? 1.2 : 0.75;
+          ctx.stroke();
         }
 
-        // STEP 2: RENDER TRANSVERSE CURVES (ROWS ACROSS X)
-        for (let r = 0; r < rows; r++) {
-          const depthRatio = r / (rows - 1);
-          let drawing = false;
+        // 2. Draw IC Chips (Microprocessors)
+        for (let i = 0; i < chips.length; i++) {
+          const ch = chips[i];
+          ctx.fillStyle = activePalette.chipBg;
+          ctx.strokeStyle = activePalette.chipBorder;
+          ctx.lineWidth = 1.0;
+          ctx.strokeRect(ch.x, ch.y, ch.w, ch.h);
+          ctx.fillRect(ch.x, ch.y, ch.w, ch.h);
 
-          for (let c = 0; c < cols - 1; c++) {
-            const p1 = gridPoints[r][c];
-            const p2 = gridPoints[r][c + 1];
+          // Micro-pins on chip border
+          ctx.fillStyle = activePalette.chipBorder;
+          for (let px = ch.x + 8; px < ch.x + ch.w - 8; px += 12) {
+            ctx.fillRect(px, ch.y - 3, 4, 3);
+            ctx.fillRect(px, ch.y + ch.h, 4, 3);
+          }
 
-            if (!p1.valid || !p2.valid) {
-              if (drawing) {
-                ctx.stroke();
-                drawing = false;
-              }
-              continue;
-            }
+          ctx.font = "600 10px 'JetBrains Mono', monospace";
+          ctx.fillStyle = activePalette.chipText;
+          ctx.textAlign = "center";
+          ctx.fillText(ch.label, ch.x + ch.w / 2, ch.y + ch.h / 2 + 3);
+        }
 
-            const avgAlpha = (p1.alpha + p2.alpha) * 0.5;
-            const avgElevation = (p1.elevation + p2.elevation) * 0.5;
+        // 3. Draw Circular Vias & Solder Pads
+        for (let i = 0; i < nodes.length; i++) {
+          const nd = nodes[i];
+          const d = mouse.currentInfluence > 0.01 ? Math.hypot(nd.x - mouse.x, nd.y - mouse.y) : 999;
+          const isNear = d < 140;
 
-            // Dynamic Gradient: Peaks glow cyan, valleys violet/indigo
-            const peakFactor = Math.min(1.0, Math.max(0.0, (avgElevation + 30) / 75));
-            const baseColor = peakFactor > 0.45 ? activePalette.linePeak : activePalette.lineValley;
-            const strokeAlpha = (avgAlpha * (0.18 + depthRatio * 0.42)).toFixed(3);
+          ctx.beginPath();
+          ctx.arc(nd.x, nd.y, nd.type === "pad" ? 3.0 : 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = isNear ? (activePalette.isLight ? "#2563eb" : "#00f3ff") : (activePalette.isLight ? "rgba(37, 99, 235, 0.25)" : "rgba(0, 243, 255, 0.22)");
+          ctx.fill();
 
+          if (nd.type === "pad") {
             ctx.beginPath();
-            ctx.moveTo(p1.sx, p1.sy);
-            ctx.lineTo(p2.sx, p2.sy);
-            ctx.strokeStyle = `${baseColor}${strokeAlpha})`;
-            ctx.lineWidth = 0.75 + depthRatio * 0.85;
+            ctx.arc(nd.x, nd.y, 5.0, 0, Math.PI * 2);
+            ctx.strokeStyle = isNear ? (activePalette.isLight ? "rgba(37, 99, 235, 0.6)" : "rgba(0, 243, 255, 0.7)") : (activePalette.isLight ? "rgba(37, 99, 235, 0.12)" : "rgba(0, 243, 255, 0.12)");
+            ctx.lineWidth = 0.75;
             ctx.stroke();
           }
         }
 
-        // STEP 3: RENDER LONGITUDINAL CURVES (COLUMNS INTO DEPTH Z)
-        for (let c = 0; c < cols; c += (width < 768 ? 2 : 1)) {
-          for (let r = 0; r < rows - 1; r++) {
-            const p1 = gridPoints[r][c];
-            const p2 = gridPoints[r + 1][c];
+        // 4. Draw Traveling Light Pulses (Electrons)
+        for (let i = 0; i < pulses.length; i++) {
+          const pl = pulses[i];
+          pl.progress += pl.speed;
+          if (pl.progress >= 1.0) pl.progress = 0;
 
-            if (!p1.valid || !p2.valid) continue;
+          const tr = traces[pl.traceIndex];
+          if (!tr) continue;
 
-            const avgAlpha = (p1.alpha + p2.alpha) * 0.5;
-            const depthRatio = r / (rows - 1);
-            const strokeAlpha = (avgAlpha * (0.12 + depthRatio * 0.32)).toFixed(3);
+          const curPt = getPointAlongTrace(tr, pl.progress);
+          const tailPt = getPointAlongTrace(tr, Math.max(0, pl.progress - 0.04));
 
-            ctx.beginPath();
-            ctx.moveTo(p1.sx, p1.sy);
-            ctx.lineTo(p2.sx, p2.sy);
-            ctx.strokeStyle = `${activePalette.linePeak}${strokeAlpha})`;
-            ctx.lineWidth = 0.65 + depthRatio * 0.55;
-            ctx.stroke();
-          }
+          const pulseColor = pl.isCyan ? activePalette.pulseCyan : activePalette.pulseViolet;
+          const grad = ctx.createLinearGradient(tailPt.x, tailPt.y, curPt.x, curPt.y);
+          grad.addColorStop(0, "rgba(0, 243, 255, 0)");
+          grad.addColorStop(1, pulseColor);
+
+          ctx.beginPath();
+          ctx.moveTo(tailPt.x, tailPt.y);
+          ctx.lineTo(curPt.x, curPt.y);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 2.0;
+          ctx.lineCap = "round";
+          ctx.stroke();
+
+          // Glowing Head Particle
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = pulseColor;
+          ctx.beginPath();
+          ctx.arc(curPt.x, curPt.y, 2.0, 0, Math.PI * 2);
+          ctx.fillStyle = activePalette.pulseHead;
+          ctx.fill();
+          ctx.shadowBlur = 0;
         }
 
-        // STEP 4: RENDER LUMINOUS VERTEX BEACONS ON HIGH CRESTS
-        for (let r = 3; r < rows; r += 2) {
-          const depthRatio = r / (rows - 1);
-          for (let c = 2; c < cols - 2; c += 3) {
-            const pt = gridPoints[r][c];
-            if (!pt.valid || pt.alpha < 0.25 || pt.elevation < 16) continue;
+        // 5. Interactive Cursor Probe / Laser Router
+        if (mouse.currentInfluence > 0.01 && mouse.x > 0) {
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 5, 0, Math.PI * 2);
+          ctx.strokeStyle = activePalette.cursorAura;
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
 
-            const beaconAlpha = (pt.alpha * Math.min(1.0, (pt.elevation - 16) / 25)).toFixed(3);
-            const radius = 1.2 + depthRatio * 1.5;
+          // Connect 45-degree circuit routes to nearest 3 nodes
+          let closeNodes = [];
+          for (let i = 0; i < nodes.length; i++) {
+            const d = Math.hypot(nodes[i].x - mouse.x, nodes[i].y - mouse.y);
+            if (d < 160) closeNodes.push({ node: nodes[i], d });
+          }
+          closeNodes.sort((a, b) => a.d - b.d);
+          closeNodes = closeNodes.slice(0, 3);
 
+          for (let i = 0; i < closeNodes.length; i++) {
+            const nd = closeNodes[i].node;
+            const alpha = (1 - closeNodes[i].d / 160) * 0.55 * mouse.currentInfluence;
+
+            const midX = mouse.x + (nd.x - mouse.x) * 0.5;
             ctx.beginPath();
-            ctx.arc(pt.sx, pt.sy, radius, 0, Math.PI * 2);
-            ctx.fillStyle = activePalette.isLight 
-              ? `rgba(37, 99, 235, ${beaconAlpha})` 
-              : `rgba(255, 255, 255, ${beaconAlpha})`;
-            ctx.fill();
+            ctx.moveTo(mouse.x, mouse.y);
+            ctx.lineTo(midX, mouse.y);
+            ctx.lineTo(nd.x, nd.y);
+            ctx.strokeStyle = activePalette.isLight 
+              ? `rgba(37, 99, 235, ${alpha.toFixed(3)})` 
+              : `rgba(0, 243, 255, ${alpha.toFixed(3)})`;
+            ctx.lineWidth = 1.0;
+            ctx.stroke();
           }
         }
 
