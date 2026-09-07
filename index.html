@@ -303,16 +303,16 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -1;
+      z-index: 0;
       pointer-events: none;
       display: block;
       background: transparent !important;
     }
 
     /* Content layers ensure strong contrast above canvas */
-    main, section, footer {
+    header, main, section, footer {
       position: relative;
-      z-index: 1;
+      z-index: 10;
     }
 
     /* Glowing Ambient Aura Behind Hero Section */
@@ -1953,8 +1953,8 @@
     // Initialize Theme immediately
     applyTheme(getPreferredTheme());
 
-    // 11. Bespoke Interactive HTML5 Canvas Particle Mesh Engine (Mekanav style)
-    (function initCustomCanvasMesh() {
+    // 11. Bespoke Interactive HTML5 Canvas — Cinematic Slow-Mo Cyber Rain & Ripple Engine
+    (function initSlowMoCyberRain() {
       const canvas = document.getElementById("custom-canvas-mesh");
       if (!canvas) return;
       const ctx = canvas.getContext("2d", { alpha: true });
@@ -1962,88 +1962,166 @@
       let width = window.innerWidth;
       let height = window.innerHeight;
       let dpr = 1;
-      let particles = [];
-      const mouse = { x: null, y: null, active: false };
+      let raindrops = [];
+      let ripples = [];
+      let splashes = [];
+
+      const mouse = {
+        x: -9999,
+        y: -9999,
+        prevX: -9999,
+        prevY: -9999,
+        active: false,
+        lastMoveTime: 0
+      };
+
+      // Cinematic Slow-Motion Physics Parameters
+      const slowMoSpeed = 4.2; // Base slow-motion velocity
+      const windAngle = 0.14;  // Subtle ~8-degree graceful slant
+      const repulsionRadius = 150;
+      const repulsionStrength = 5.2;
 
       function getThemeColors() {
         const isLight = document.documentElement.getAttribute("data-theme") === "light" || 
                         document.body.classList.contains("light-theme");
         return isLight ? {
           isLight: true,
-          node1: "#2563eb",
-          node2: "#64748b",
-          lineRgb: "71, 85, 105",
-          baseLineAlpha: 0.18,
-          laserRgb: "37, 99, 235",
-          baseLaserAlpha: 0.30
+          dropFg: "rgba(37, 99, 235,",    // Sapphire blue
+          dropMg: "rgba(2, 132, 199,",    // Sky blue
+          dropBg: "rgba(71, 85, 105,",    // Slate mist
+          rippleFg: "rgba(37, 99, 235,",
+          rippleMg: "rgba(2, 132, 199,",
+          splash: "rgba(37, 99, 235,"
         } : {
           isLight: false,
-          node1: "#00e5ff",
-          node2: "#38bdf8",
-          lineRgb: "0, 140, 255",
-          baseLineAlpha: 0.25,
-          laserRgb: "0, 140, 255",
-          baseLaserAlpha: 0.40
+          dropFg: "rgba(0, 243, 255,",    // Neon electric cyan
+          dropMg: "rgba(6, 182, 212,",    // Vivid cyan
+          dropBg: "rgba(129, 140, 248,",  // Ambient soft indigo
+          rippleFg: "rgba(0, 243, 255,",
+          rippleMg: "rgba(168, 85, 247,",  // Soft neon violet
+          splash: "rgba(0, 243, 255,"
         };
       }
 
       let activePalette = getThemeColors();
 
-      // Theme Change Observer: updates color palette dynamically without restarting particles
+      // Theme Change Observer: smoothly updates raindrop & ripple hues without tearing
       const themeObserver = new MutationObserver(() => {
         activePalette = getThemeColors();
+        // Update existing raindrops with new palette
+        raindrops.forEach(d => {
+          if (d.layer === 0) d.color = activePalette.dropBg;
+          else if (d.layer === 1) d.color = activePalette.dropMg;
+          else d.color = activePalette.dropFg;
+        });
       });
       themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
       themeObserver.observe(document.body, { attributes: true, attributeFilter: ["class"] });
 
-      class Particle {
-        constructor() {
-          this.x = Math.random() * width;
-          this.y = Math.random() * height;
-          this.vx = (Math.random() - 0.5) * 0.65;
-          this.vy = (Math.random() - 0.5) * 0.65;
-          this.radius = Math.random() * 1.5 + 1.2;
-          this.colorType = Math.random() > 0.4 ? 1 : 2;
+      function createRaindrop(randomY = false) {
+        // 3-Tier Depth Stratification
+        const rand = Math.random();
+        let layer = 1;
+        if (rand < 0.40) layer = 0;       // 40% Background (slow, soft, atmospheric)
+        else if (rand < 0.78) layer = 1;  // 38% Midground (balanced)
+        else layer = 2;                  // 22% Foreground (elongated streaks, prominent)
+
+        let speed, length, thickness, opacity, color;
+
+        if (layer === 0) {
+          speed = slowMoSpeed * (0.45 + Math.random() * 0.20);
+          length = 12 + Math.random() * 8;
+          thickness = 0.75 + Math.random() * 0.25;
+          opacity = 0.16 + Math.random() * 0.12;
+          color = activePalette.dropBg;
+        } else if (layer === 1) {
+          speed = slowMoSpeed * (0.80 + Math.random() * 0.30);
+          length = 22 + Math.random() * 12;
+          thickness = 1.1 + Math.random() * 0.35;
+          opacity = 0.32 + Math.random() * 0.18;
+          color = activePalette.dropMg;
+        } else {
+          speed = slowMoSpeed * (1.30 + Math.random() * 0.45);
+          length = 36 + Math.random() * 18;
+          thickness = 1.5 + Math.random() * 0.5;
+          opacity = 0.55 + Math.random() * 0.25;
+          color = Math.random() > 0.3 ? activePalette.dropFg : "rgba(255, 255, 255,";
         }
 
-        update() {
-          this.x += this.vx;
-          this.y += this.vy;
+        const floorY = height - (Math.random() * 50 + 5);
 
-          // Smooth edge bounce
-          if (this.x <= 0) {
-            this.x = 0;
-            this.vx = Math.abs(this.vx);
-          } else if (this.x >= width) {
-            this.x = width;
-            this.vx = -Math.abs(this.vx);
-          }
-          if (this.y <= 0) {
-            this.y = 0;
-            this.vy = Math.abs(this.vy);
-          } else if (this.y >= height) {
-            this.y = height;
-            this.vy = -Math.abs(this.vy);
-          }
+        return {
+          x: Math.random() * (width + 200) - 100,
+          y: randomY ? Math.random() * height : -Math.random() * 80 - 20,
+          layer,
+          speed,
+          length,
+          thickness,
+          opacity,
+          color,
+          floorY,
+          windDrift: Math.sin(windAngle) * speed
+        };
+      }
 
-          // Magnetic elastic connection to cursor within 140px
-          if (mouse.active && mouse.x !== null) {
-            const dx = mouse.x - this.x;
-            const dy = mouse.y - this.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < 140 && dist > 0.1) {
-              const spring = (1 - dist / 140) * 0.035;
-              this.x += dx * spring;
-              this.y += dy * spring;
-            }
-          }
+      function spawnRipple(x, y, layer = 1, intensity = 1.0) {
+        if (ripples.length >= 65) ripples.shift();
+        const maxRadius = (16 + layer * 8 + Math.random() * 8) * intensity;
+        const color = layer === 2 ? activePalette.rippleFg : activePalette.rippleMg;
+
+        ripples.push({
+          x,
+          y,
+          radiusX: 1,
+          radiusY: 0.35, // 3D floor perspective
+          maxRadius,
+          growthRate: (0.45 + layer * 0.22) * intensity, // Slow-motion gentle bloom
+          opacity: (0.42 + layer * 0.18) * Math.min(intensity, 1.2),
+          decay: 0.0075, // Extended lingering fade for slow-mo
+          lineWidth: 0.85 + layer * 0.35,
+          color
+        });
+      }
+
+      function spawnSplashes(x, y, layer = 1) {
+        const count = layer === 2 ? 2 + Math.floor(Math.random() * 2) : 1;
+        for (let i = 0; i < count; i++) {
+          if (splashes.length >= 100) splashes.shift();
+          const angle = Math.PI + (Math.random() - 0.5) * 1.5;
+          const velocity = (0.9 + Math.random() * 1.5) * (0.8 + layer * 0.25);
+
+          splashes.push({
+            x,
+            y,
+            vx: Math.cos(angle) * velocity,
+            vy: Math.sin(angle) * velocity - 0.7,
+            gravity: 0.055, // Low gravity slow-motion arc
+            radius: 0.8 + Math.random() * 0.7,
+            opacity: 0.55 + Math.random() * 0.25,
+            color: activePalette.splash
+          });
         }
+      }
 
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          ctx.fillStyle = this.colorType === 1 ? activePalette.node1 : activePalette.node2;
-          ctx.fill();
+      // Shockwave wave animation on click / tap
+      function triggerShockwave(clientX, clientY, strong = false) {
+        const rings = strong ? 3 : 2;
+        for (let r = 0; r < rings; r++) {
+          setTimeout(() => {
+            if (!canvas) return;
+            ripples.push({
+              x: clientX,
+              y: clientY,
+              radiusX: 2,
+              radiusY: 0.50,
+              maxRadius: strong ? 85 + r * 22 : 50 + r * 14,
+              growthRate: 1.35 + r * 0.45, // Slow-mo liquid wave
+              opacity: strong ? 0.65 : 0.45,
+              decay: 0.008,
+              lineWidth: strong ? 1.6 : 1.1,
+              color: r % 2 === 0 ? activePalette.rippleFg : activePalette.rippleMg
+            });
+          }, r * 110);
         }
       }
 
@@ -2051,8 +2129,11 @@
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         width = window.innerWidth;
         height = window.innerHeight;
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+
         if (ctx.resetTransform) {
           ctx.resetTransform();
         } else {
@@ -2060,13 +2141,15 @@
         }
         ctx.scale(dpr, dpr);
 
-        // Particle count: ~70 nodes desktop, scaled down to 35 on screens < 768px for zero battery drain
-        const targetCount = width < 768 ? 35 : 75;
-        while (particles.length < targetCount) {
-          particles.push(new Particle());
+        // Optimal slow-mo particle count: ~95 on desktop, ~45 on mobile
+        const calculated = Math.floor((width * height) / 12000);
+        const targetCount = width < 768 ? 45 : Math.max(65, Math.min(calculated, 115));
+
+        while (raindrops.length < targetCount) {
+          raindrops.push(createRaindrop(false));
         }
-        if (particles.length > targetCount) {
-          particles.length = targetCount;
+        if (raindrops.length > targetCount) {
+          raindrops.length = targetCount;
         }
       }
 
@@ -2078,26 +2161,36 @@
             resizeRaf = null;
           });
         }
-      });
+      }, { passive: true });
 
-      // Mouse & Touch tracking with smooth fallback
+      // Mouse tracking & fluid wake
       window.addEventListener("mousemove", (e) => {
+        mouse.prevX = mouse.x;
+        mouse.prevY = mouse.y;
         mouse.x = e.clientX;
         mouse.y = e.clientY;
         mouse.active = true;
-      });
+        mouse.lastMoveTime = performance.now();
+
+        const dx = mouse.x - mouse.prevX;
+        const dy = mouse.y - mouse.prevY;
+        if (Math.hypot(dx, dy) > 22 && Math.random() < 0.22) {
+          spawnRipple(mouse.x, mouse.y, 1, 0.55);
+        }
+      }, { passive: true });
 
       window.addEventListener("mouseleave", () => {
         mouse.active = false;
-        mouse.x = null;
-        mouse.y = null;
-      });
+        mouse.x = -9999;
+        mouse.y = -9999;
+      }, { passive: true });
 
       window.addEventListener("touchstart", (e) => {
         if (e.touches && e.touches.length > 0) {
           mouse.x = e.touches[0].clientX;
           mouse.y = e.touches[0].clientY;
           mouse.active = true;
+          mouse.lastMoveTime = performance.now();
         }
       }, { passive: true });
 
@@ -2106,75 +2199,137 @@
           mouse.x = e.touches[0].clientX;
           mouse.y = e.touches[0].clientY;
           mouse.active = true;
+          mouse.lastMoveTime = performance.now();
         }
       }, { passive: true });
 
       window.addEventListener("touchend", () => {
         mouse.active = false;
-        mouse.x = null;
-        mouse.y = null;
-      });
+        mouse.x = -9999;
+        mouse.y = -9999;
+      }, { passive: true });
 
-      // Initialize
+      // Window-level non-blocking click ripple trigger
+      window.addEventListener("click", (e) => {
+        triggerShockwave(e.clientX, e.clientY, true);
+      }, { passive: true });
+
+      // Initial populate
       resize();
+      const initialCount = width < 768 ? 45 : Math.max(65, Math.min(Math.floor((width * height) / 12000), 115));
+      raindrops = [];
+      for (let i = 0; i < initialCount; i++) {
+        raindrops.push(createRaindrop(true));
+      }
 
       // 60fps Animation Loop
       function animate() {
         ctx.clearRect(0, 0, width, height);
 
-        const count = particles.length;
-
-        // 1. Dynamic Interconnecting Lines (Constellation Mesh within 115px)
-        ctx.lineWidth = 0.75;
-        for (let i = 0; i < count; i++) {
-          const p1 = particles[i];
-          for (let j = i + 1; j < count; j++) {
-            const p2 = particles[j];
-            const dx = p2.x - p1.x;
-            const dy = p2.y - p1.y;
-            if (Math.abs(dx) < 115 && Math.abs(dy) < 115) {
-              const dist = Math.hypot(dx, dy);
-              if (dist < 115) {
-                const alpha = (1 - dist / 115) * 0.25;
-                ctx.strokeStyle = activePalette.isLight
-                  ? `rgba(71, 85, 105, ${alpha.toFixed(3)})`
-                  : `rgba(0, 140, 255, ${alpha.toFixed(3)})`;
-                ctx.beginPath();
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.stroke();
-              }
-            }
-          }
+        const now = performance.now();
+        if (now - mouse.lastMoveTime > 3000) {
+          mouse.active = false;
         }
 
-        // 2. Mouse Magnetic Connection & Electric Laser Trails within 140px
-        if (mouse.active && mouse.x !== null) {
-          ctx.lineWidth = 1.15;
-          for (let i = 0; i < count; i++) {
-            const p = particles[i];
-            const dx = mouse.x - p.x;
-            const dy = mouse.y - p.y;
-            if (Math.abs(dx) < 140 && Math.abs(dy) < 140) {
-              const dist = Math.hypot(dx, dy);
-              if (dist < 140) {
-                const laserAlpha = (1 - dist / 140) * 0.40;
-                ctx.strokeStyle = activePalette.isLight
-                  ? `rgba(37, 99, 235, ${laserAlpha.toFixed(3)})`
-                  : `rgba(0, 140, 255, ${laserAlpha.toFixed(3)})`;
-                ctx.beginPath();
-                ctx.moveTo(mouse.x, mouse.y);
-                ctx.lineTo(p.x, p.y);
-                ctx.stroke();
-              }
-            }
+        // 1. UPDATE & DRAW 3D GROUND RIPPLES
+        for (let i = ripples.length - 1; i >= 0; i--) {
+          const rip = ripples[i];
+          rip.radiusX += rip.growthRate;
+          rip.opacity -= rip.decay;
+
+          if (rip.opacity <= 0 || rip.radiusX >= rip.maxRadius) {
+            ripples.splice(i, 1);
+            continue;
           }
+
+          ctx.beginPath();
+          ctx.ellipse(
+            rip.x,
+            rip.y,
+            rip.radiusX,
+            rip.radiusX * rip.radiusY,
+            0,
+            0,
+            Math.PI * 2
+          );
+          ctx.strokeStyle = `${rip.color}${rip.opacity.toFixed(3)})`;
+          ctx.lineWidth = rip.lineWidth;
+          ctx.stroke();
         }
 
-        // 3. Update physics & draw particles
+        // 2. UPDATE & DRAW SLOW-MO MICRO SPLASHES
+        for (let i = splashes.length - 1; i >= 0; i--) {
+          const sp = splashes[i];
+          sp.x += sp.vx;
+          sp.y += sp.vy;
+          sp.vy += sp.gravity;
+          sp.opacity -= 0.014; // Extended fade in slowmo
+
+          if (sp.opacity <= 0 || sp.y > height) {
+            splashes.splice(i, 1);
+            continue;
+          }
+
+          ctx.beginPath();
+          ctx.arc(sp.x, sp.y, sp.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `${sp.color}${sp.opacity.toFixed(3)})`;
+          ctx.fill();
+        }
+
+        // 3. UPDATE & DRAW SLOW-MO RAINDROPS WITH FLUID DEFLECTION
+        const count = raindrops.length;
         for (let i = 0; i < count; i++) {
-          particles[i].update();
-          particles[i].draw();
+          const drop = raindrops[i];
+
+          // Aerodynamic Cursor Deflection in Slow-Mo
+          if (mouse.active && mouse.x > -1000) {
+            const mdx = drop.x - mouse.x;
+            const mdy = drop.y - mouse.y;
+            const dist = Math.hypot(mdx, mdy);
+
+            if (dist < repulsionRadius && dist > 1) {
+              const force = Math.pow(1 - dist / repulsionRadius, 1.6) * repulsionStrength;
+              const nx = mdx / dist;
+              const ny = mdy / dist;
+
+              drop.x += nx * force * (drop.layer === 2 ? 1.3 : 0.95);
+              drop.y += Math.max(0, ny) * force * 0.45;
+            }
+          }
+
+          // Gentle slow-motion fall & wind drift
+          drop.x += drop.windDrift;
+          drop.y += drop.speed;
+
+          // Ground Impact
+          if (drop.y >= drop.floorY) {
+            spawnRipple(drop.x, drop.floorY, drop.layer);
+            if (drop.layer >= 1 && Math.random() < 0.55) {
+              spawnSplashes(drop.x, drop.floorY, drop.layer);
+            }
+
+            drop.y = -Math.random() * 60 - 20;
+            drop.x = Math.random() * (width + 200) - 100;
+            drop.floorY = height - (Math.random() * 50 + 5);
+            continue;
+          }
+
+          // Draw Motion Blur Streak
+          const tailX = drop.x - Math.sin(windAngle) * drop.length;
+          const tailY = drop.y - Math.cos(windAngle) * drop.length;
+
+          const gradient = ctx.createLinearGradient(tailX, tailY, drop.x, drop.y);
+          gradient.addColorStop(0, `${drop.color}0.0)`);
+          gradient.addColorStop(0.5, `${drop.color}${(drop.opacity * 0.40).toFixed(3)})`);
+          gradient.addColorStop(1, `${drop.color}${drop.opacity.toFixed(3)})`);
+
+          ctx.beginPath();
+          ctx.moveTo(tailX, tailY);
+          ctx.lineTo(drop.x, drop.y);
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = drop.thickness;
+          ctx.lineCap = "round";
+          ctx.stroke();
         }
 
         requestAnimationFrame(animate);
