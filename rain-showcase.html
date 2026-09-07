@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Rain &amp; Ripple System — Luxury Minimalist Showcase</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            charcoal: {
+              950: '#08090d',
+              900: '#0d0f17',
+              850: '#12141f',
+              800: '#181b2a',
+            },
+            cyanGlow: '#00f3ff',
+            indigoGlow: '#6366f1',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #08090d;
+      color: #f1f5f9;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Glassmorphism Luxury Panel */
+    .luxury-panel {
+      background: rgba(13, 15, 23, 0.72);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    /* Range slider custom styling */
+    input[type=range] {
+      accent-color: #00f3ff;
+    }
+  </style>
+</head>
+<body class="relative font-sans antialiased selection:bg-cyan-500 selection:text-white flex flex-col items-center justify-center p-4 sm:p-6 md:p-10 min-h-screen">
+
+  <!-- Interactive Cyber Rain Canvas will be mounted by cyber-rain.js -->
+
+  <!-- Top Ambient Navigation Dock -->
+  <header class="fixed top-5 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl px-4 pointer-events-auto">
+    <div class="luxury-panel rounded-2xl px-5 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 to-indigo-500 p-[2px] shadow-lg shadow-cyan-500/20 flex items-center justify-center">
+          <div class="w-full h-full bg-charcoal-950 rounded-[10px] flex items-center justify-center">
+            <i class="fas fa-cloud-rain text-cyan-400 text-xs"></i>
+          </div>
+        </div>
+        <div>
+          <h1 class="text-sm font-bold tracking-wide text-white">Cyber Rain &amp; Ripples</h1>
+          <p class="text-[10px] font-mono text-slate-400">Interactive Canvas Engine v2.0</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-pill text-[11px] font-mono text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>60 FPS Active</span>
+        </span>
+        <button onclick="triggerShockwave()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-semibold shadow-md shadow-cyan-500/20 transition flex items-center gap-1.5">
+          <i class="fas fa-bolt text-[10px]"></i>
+          <span class="hidden sm:inline">Shockwave</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Hero Card Container -->
+  <main class="relative z-20 w-full max-w-3xl my-auto pt-24 pb-12 pointer-events-auto">
+    
+    <div class="luxury-panel rounded-3xl p-6 sm:p-10 relative overflow-hidden group">
+      
+      <!-- Top Neon Border Beam Accent -->
+      <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-75"></div>
+
+      <!-- Badge & Status -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-pill border border-cyan-500/30 text-xs font-mono text-cyan-300">
+          <i class="fas fa-shield-halved text-xs"></i>
+          <span>Dark Luxury Minimalist Component</span>
+        </div>
+        <div class="text-xs font-mono text-slate-400">
+          <span>Click anywhere to make ripples</span>
+        </div>
+      </div>
+
+      <!-- Heading -->
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+        Interactive Raindrop Particles &amp; <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">Liquid Surface Ripples</span>
+      </h2>
+
+      <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-8">
+        An ultra-aesthetic procedural weather simulation crafted with HTML5 Canvas and Vanilla JavaScript. Features 3-tier motion blur streaks, aerodynamic mouse repulsion, dynamic ground impact splashes, and click shockwaves—all running at a locked 60 FPS behind your content.
+      </p>
+
+      <!-- Feature Grid -->
+      <div class="grid sm:grid-cols-3 gap-3 mb-8">
+        <div class="glass-pill p-3.5 rounded-2xl">
+          <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold mb-1">
+            <i class="fas fa-layer-group"></i> 3-Tier Depth Layers
+          </div>
+          <p class="text-[11px] text-slate-400 leading-snug">
+            Stratified foreground streaks, balanced midground drops, and soft ambient blurred background rain.
+          </p>
+        </div>
+
+        <div class="glass-pill p-3.5 rounded-2xl">
+          <div class="flex items-center gap-2 text-indigo-400 text-xs font-bold mb-1">
+            <i class="fas fa-water"></i> 3D Ground Ripples
+          </div>
+          <p class="text-[11px] text-slate-400 leading-snug">
+            Elliptical ground perspective rings with velocity micro-droplet splashes upon baseline impact.
+          </p>
+        </div>
+
+        <div class="glass-pill p-3.5 rounded-2xl">
+          <div class="flex items-center gap-2 text-purple-400 text-xs font-bold mb-1">
+            <i class="fas fa-hand-pointer"></i> Fluid Deflection
+          </div>
+          <p class="text-[11px] text-slate-400 leading-snug">
+            Aerodynamic cursor repulsion field softly deflects raindrops in real-time as you move the mouse.
+          </p>
+        </div>
+      </div>
+
+      <!-- Interactive Controls Panel -->
+      <div class="border-t border-white/10 pt-6">
+        <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 mb-4 flex items-center gap-2">
+          <i class="fas fa-sliders"></i> Real-Time Interactive Parameters
+        </h3>
+
+        <div class="grid sm:grid-cols-3 gap-4 text-xs font-mono">
+          
+          <!-- Rain Density Slider -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-slate-300">
+              <span>Rain Density:</span>
+              <span id="densityVal" class="text-cyan-400 font-bold">120</span>
+            </div>
+            <input type="range" id="densitySlider" min="40" max="220" value="120" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+          </div>
+
+          <!-- Wind Angle Slider -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-slate-300">
+              <span>Wind Slant:</span>
+              <span id="windVal" class="text-cyan-400 font-bold">10°</span>
+            </div>
+            <input type="range" id="windSlider" min="-30" max="30" value="10" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+          </div>
+
+          <!-- Fall Speed Slider -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-slate-300">
+              <span>Fall Speed:</span>
+              <span id="speedVal" class="text-cyan-400 font-bold">16px</span>
+            </div>
+            <input type="range" id="speedSlider" min="8" max="28" value="16" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer" />
+          </div>
+
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex gap-2">
+            <button onclick="setPreset('gentle')" class="px-3 py-1.5 rounded-xl glass-pill hover:border-cyan-400/60 text-slate-300 hover:text-white transition">
+              Gentle Drizzle
+            </button>
+            <button onclick="setPreset('cyberpunk')" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/40 text-cyan-300 font-semibold hover:bg-cyan-500/20 transition">
+              Cyberpunk Downpour
+            </button>
+            <button onclick="setPreset('storm')" class="px-3 py-1.5 rounded-xl glass-pill hover:border-indigo-400/60 text-slate-300 hover:text-white transition">
+              Neon Gale
+            </button>
+          </div>
+
+          <button onclick="triggerShockwave()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-semibold shadow-lg shadow-cyan-500/20 transition flex items-center gap-2">
+            <i class="fas fa-tint"></i> Trigger Center Splash
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer Info -->
+  <footer class="relative z-20 text-center text-xs font-mono text-slate-500 pb-4">
+    <span>Crafted with HTML5 Canvas &amp; Vanilla JS • 60 FPS Hardware Accelerated</span>
+  </footer>
+
+  <!-- Include Cyber Rain Engine -->
+  <script src="cyber-rain.js"></script>
+  <script>
+    // Instantiate background with luxury options
+    const rainEngine = new CyberRainBackground({
+      backgroundColor: '#08090d',
+      rainDensity: 120,
+      windAngle: 0.18,
+      baseSpeed: 16,
+      mouseRepulsionRadius: 150,
+      mouseRepulsionStrength: 7.0,
+      interactiveClicks: true,
+      showVignette: true
+    });
+
+    // Control bindings
+    const densitySlider = document.getElementById('densitySlider');
+    const densityVal = document.getElementById('densityVal');
+    const windSlider = document.getElementById('windSlider');
+    const windVal = document.getElementById('windVal');
+    const speedSlider = document.getElementById('speedSlider');
+    const speedVal = document.getElementById('speedVal');
+
+    densitySlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      densityVal.textContent = val;
+      rainEngine.adjustRaindropCount(val);
+    });
+
+    windSlider.addEventListener('input', (e) => {
+      const deg = parseInt(e.target.value, 10);
+      windVal.textContent = deg + '°';
+      const rad = (deg * Math.PI) / 180;
+      rainEngine.options.windAngle = rad;
+      rainEngine.raindrops.forEach(d => {
+        d.windDrift = Math.sin(rad) * d.speed;
+      });
+    });
+
+    speedSlider.addEventListener('input', (e) => {
+      const spd = parseInt(e.target.value, 10);
+      speedVal.textContent = spd + 'px';
+      rainEngine.options.baseSpeed = spd;
+      rainEngine.raindrops.forEach(d => {
+        if (d.layer === 0) d.speed = spd * 0.55;
+        else if (d.layer === 1) d.speed = spd * 0.95;
+        else d.speed = spd * 1.45;
+        d.windDrift = Math.sin(rainEngine.options.windAngle) * d.speed;
+      });
+    });
+
+    function setPreset(name) {
+      if (name === 'gentle') {
+        densitySlider.value = 60;
+        densityVal.textContent = 60;
+        windSlider.value = 5;
+        windVal.textContent = '5°';
+        speedSlider.value = 11;
+        speedVal.textContent = '11px';
+      } else if (name === 'cyberpunk') {
+        densitySlider.value = 130;
+        densityVal.textContent = 130;
+        windSlider.value = 14;
+        windVal.textContent = '14°';
+        speedSlider.value = 18;
+        speedVal.textContent = '18px';
+      } else if (name === 'storm') {
+        densitySlider.value = 210;
+        densityVal.textContent = 210;
+        windSlider.value = 24;
+        windVal.textContent = '24°';
+        speedSlider.value = 24;
+        speedVal.textContent = '24px';
+      }
+      densitySlider.dispatchEvent(new Event('input'));
+      windSlider.dispatchEvent(new Event('input'));
+      speedSlider.dispatchEvent(new Event('input'));
+    }
+
+    function triggerShockwave() {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      rainEngine.triggerInteractionWave(centerX, centerY, true);
+    }
+  </script>
+</body>
+</html>
