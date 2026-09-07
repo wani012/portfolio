@@ -39,11 +39,11 @@
           },
           colors: {
             dark: {
-              950: '#050811',
-              900: '#080d1a',
-              850: '#0c1326',
-              800: '#111b33',
-              700: '#1e2c4f',
+              950: '#000000',
+              900: '#050505',
+              850: '#0a0a0a',
+              800: '#111111',
+              700: '#181818',
             },
             cyanGlow: '#06b6d4',
             blueGlow: '#3b82f6',
@@ -80,14 +80,14 @@
       width: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: #080d1a;
+      background: #000000;
     }
     ::-webkit-scrollbar-thumb {
-      background: #1e2c4f;
+      background: #222222;
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #06b6d4;
+      background: #00e5ff;
     }
 
     /* Ambient Background Dot Grid */
@@ -96,25 +96,25 @@
       background-size: 28px 28px;
     }
 
-    /* Refined Multi-Layer Glassmorphism */
+    /* Refined Multi-Layer Glassmorphism (Pure Jet-Black Obsidian System) */
     .glass-panel {
-      background: rgba(11, 18, 36, 0.72);
+      background: rgba(0, 0, 0, 0.86);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
     }
     .glass-panel-hover {
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .glass-panel-hover:hover {
-      background: rgba(16, 26, 52, 0.88);
-      border-color: rgba(6, 182, 212, 0.4);
-      box-shadow: 0 16px 35px -10px rgba(6, 182, 212, 0.15), inset 0 1px 2px 0 rgba(255, 255, 255, 0.15);
+      background: rgba(10, 10, 10, 0.95);
+      border-color: rgba(6, 182, 212, 0.45);
+      box-shadow: 0 16px 35px -10px rgba(0, 0, 0, 0.9), inset 0 1px 2px 0 rgba(255, 255, 255, 0.1);
       transform: translateY(-3px);
     }
     .glass-nav {
-      background: rgba(7, 12, 24, 0.88);
+      background: rgba(0, 0, 0, 0.90);
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -123,7 +123,7 @@
     /* Project Cards Subtle Glowing Borders & Micro-Interactions */
     .project-card {
       position: relative;
-      background: rgba(10, 17, 34, 0.75);
+      background: rgba(0, 0, 0, 0.88);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
       border-radius: 1.25rem;
@@ -218,8 +218,70 @@
     /* Pure Dark Base & Blue Spotlight Aurora */
     html:not([data-theme="light"]),
     body:not(.light-theme) {
-      background: radial-gradient(circle at 50% 18%, rgba(0, 140, 255, 0.32) 0%, rgba(0, 102, 255, 0.12) 35%, rgba(0, 0, 0, 0.98) 70%, #000000 100%) !important;
+      background: radial-gradient(circle at 50% 18%, rgba(0, 140, 255, 0.32) 0%, rgba(0, 102, 255, 0.12) 35%, rgba(0, 0, 0, 0.98) 70%, #000000 100%) no-repeat !important;
+      background-size: 100% 880px !important;
       background-color: #000000 !important;
+    }
+
+    /* Pure Jet-Black Dark Mode System & Writing Surface Overrides */
+    :root:not([data-theme="light"]) .bg-dark-900,
+    body:not(.light-theme) .bg-dark-900,
+    :root:not([data-theme="light"]) .bg-dark-900\/40,
+    body:not(.light-theme) .bg-dark-900\/40,
+    :root:not([data-theme="light"]) .bg-dark-900\/50,
+    body:not(.light-theme) .bg-dark-900\/50,
+    :root:not([data-theme="light"]) .bg-dark-950,
+    body:not(.light-theme) .bg-dark-950,
+    :root:not([data-theme="light"]) .bg-dark-950\/70,
+    body:not(.light-theme) .bg-dark-950\/70,
+    :root:not([data-theme="light"]) .bg-dark-950\/80,
+    body:not(.light-theme) .bg-dark-950\/80,
+    :root:not([data-theme="light"]) .bg-dark-950\/85,
+    body:not(.light-theme) .bg-dark-950\/85,
+    :root:not([data-theme="light"]) .bg-dark-950\/90,
+    body:not(.light-theme) .bg-dark-950\/90 {
+      background-color: #000000 !important;
+    }
+
+    :root:not([data-theme="light"]) .bg-slate-900\/60,
+    body:not(.light-theme) .bg-slate-900\/60,
+    :root:not([data-theme="light"]) .bg-slate-900\/50,
+    body:not(.light-theme) .bg-slate-900\/50,
+    :root:not([data-theme="light"]) .bg-slate-800\/80,
+    body:not(.light-theme) .bg-slate-800\/80,
+    :root:not([data-theme="light"]) .bg-slate-800,
+    body:not(.light-theme) .bg-slate-800 {
+      background-color: rgba(8, 8, 8, 0.92) !important;
+      border-color: rgba(255, 255, 255, 0.10) !important;
+    }
+
+    :root:not([data-theme="light"]) .border-slate-800,
+    body:not(.light-theme) .border-slate-800,
+    :root:not([data-theme="light"]) .border-slate-800\/60,
+    body:not(.light-theme) .border-slate-800\/60,
+    :root:not([data-theme="light"]) .border-slate-800\/80,
+    body:not(.light-theme) .border-slate-800\/80,
+    :root:not([data-theme="light"]) .border-slate-700,
+    body:not(.light-theme) .border-slate-700,
+    :root:not([data-theme="light"]) .border-slate-700\/80,
+    body:not(.light-theme) .border-slate-700\/80 {
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    :root:not([data-theme="light"]) input,
+    body:not(.light-theme) input,
+    :root:not([data-theme="light"]) textarea,
+    body:not(.light-theme) textarea {
+      background-color: #000000 !important;
+      border-color: rgba(255, 255, 255, 0.14) !important;
+      color: #f1f5f9 !important;
+    }
+    :root:not([data-theme="light"]) input:focus,
+    body:not(.light-theme) input:focus,
+    :root:not([data-theme="light"]) textarea:focus,
+    body:not(.light-theme) textarea:focus {
+      background-color: #000000 !important;
+      border-color: #06b6d4 !important;
     }
 
     /* Light Theme Surface Override */
