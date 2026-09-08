@@ -3,6 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Theme Flash Prevention: inline sync script before any render -->
+  <script>
+    (function () {
+      try {
+        var s = localStorage.getItem('portfolio-theme');
+        var theme = (s === 'light' || s === 'dark') ? s : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'light') document.documentElement.classList.add('light-theme');
+      } catch (e) {}
+    })();
+  </script>
+  <!-- Theme Flash Prevention: runs sync before first paint, no flicker -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('portfolio-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // If no stored pref, respect OS. Default dark for cyberpunk portfolio.
+        var theme = (stored === 'light' || stored === 'dark') ? stored : (prefersDark ? 'dark' : 'dark');
+        if (theme === 'light') {
+          document.documentElement.classList.add('light-theme');
+          document.documentElement.setAttribute('data-theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <title>Furkan Farooq | Software Engineer &amp; Full-Stack Builder</title>
   <meta name="description" content="Elite portfolio of Furkan Farooq - Software Engineer and Full-Stack Builder based in Kishtwar, Jammu & Kashmir. Creator of FURU Zero Kaata Pro, Wani Garments, and BHAT Cyber Cafe." />
   <meta name="keywords" content="Furkan Farooq, Software Engineer, Web Developer, Minimax AI, J&K, Kishtwar, Full Stack Developer, Tailwind CSS, JavaScript, React, Firebase" />
@@ -465,6 +495,81 @@
     body.light-theme button.bg-gradient-to-r {
       color: #ffffff !important;
     }
+
+    /* ── html.light-theme: early background lock (flash prevention) ─────── */
+    html.light-theme { background: #f1f5f9; }
+    html.light-theme body { background: #f1f5f9 !important; }
+
+    /* ── Global smooth theme transition ──────────────────────────────────── */
+    body { transition: background-color 0.45s cubic-bezier(0.4,0,0.2,1), color 0.3s ease; }
+
+    /* ── Premium Pill Toggle Button ──────────────────────────────────────── */
+    .theme-toggle-pill {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      width: 52px;
+      height: 28px;
+      border-radius: 100px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1.5px solid rgba(100, 116, 139, 0.35);
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      outline: none;
+      transition: background 0.4s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .theme-toggle-pill:hover {
+      border-color: rgba(0, 243, 255, 0.55);
+      box-shadow: 0 0 12px rgba(0, 243, 255, 0.18), inset 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .theme-toggle-pill:focus-visible {
+      outline: 2px solid rgba(0, 243, 255, 0.6);
+      outline-offset: 3px;
+    }
+    .toggle-track-icons {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 5px;
+      pointer-events: none;
+    }
+    .toggle-track-icons .t-sun  { font-size: 9px; color: rgba(251,191,36,0.35); }
+    .toggle-track-icons .t-moon { font-size: 9px; color: rgba(99,102,241,0.3); }
+    .toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4), 0 0 6px rgba(251,191,36,0.4);
+      color: #fff;
+      transition: transform 0.42s cubic-bezier(0.34,1.56,0.64,1), background 0.4s ease, box-shadow 0.4s ease;
+    }
+    body.light-theme .theme-toggle-pill {
+      background: rgba(226,232,240,0.95);
+      border-color: rgba(148,163,184,0.5);
+    }
+    body.light-theme .theme-toggle-pill:hover {
+      border-color: rgba(99,102,241,0.55);
+      box-shadow: 0 0 12px rgba(99,102,241,0.18), inset 0 1px 3px rgba(0,0,0,0.08);
+    }
+    body.light-theme .toggle-thumb {
+      transform: translateX(24px);
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 0 6px rgba(99,102,241,0.45);
+    }
+    .toggle-thumb .t-icon-sun  { display: inline-block; }
+    .toggle-thumb .t-icon-moon { display: none; }
+    body.light-theme .toggle-thumb .t-icon-sun  { display: none; }
+    body.light-theme .toggle-thumb .t-icon-moon { display: inline-block; }
   </style>
 </head>
 <body class="text-slate-200 font-sans antialiased selection:bg-cyan-500 selection:text-white relative overflow-x-hidden min-h-screen">
@@ -517,8 +622,9 @@
       <!-- Header Action Buttons -->
       <div class="hidden md:flex items-center gap-3 shrink-0">
         <!-- Theme Toggle Button (Desktop) -->
-        <button id="themeToggleBtn" aria-label="Toggle Light/Dark Theme" title="Toggle Theme" class="theme-toggle-btn w-10 h-10 rounded-xl border border-slate-700/80 hover:border-cyan-400 bg-slate-800/50 hover:bg-slate-700/70 text-slate-300 hover:text-white transition-all flex items-center justify-center shadow-sm">
-          <i id="themeIcon" class="fas fa-sun text-yellow-400 text-sm"></i>
+        <button id="themeToggleBtn" aria-label="Toggle Light/Dark Theme" title="Switch theme" class="theme-toggle-pill">
+          <span class="toggle-track-icons" aria-hidden="true"><i class="fas fa-sun t-sun"></i><i class="fas fa-moon t-moon"></i></span>
+          <span class="toggle-thumb"><i class="fas fa-sun t-icon-sun"></i><i class="fas fa-moon t-icon-moon"></i></span>
         </button>
 
         <a href="Furkan_Farooq_Resume.pdf" download="Furkan_Farooq_Resume.pdf" onclick="handleResumeDownload(event)" aria-label="Download Furkan Farooq Resume PDF" class="nav-resume-btn px-3.5 py-2 rounded-xl text-xs font-semibold font-mono text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-500/10 transition-all flex items-center gap-2">
@@ -532,8 +638,8 @@
       <!-- Mobile Header Actions (Theme Toggle & Hamburger) -->
       <div class="flex md:hidden items-center gap-2 shrink-0">
         <!-- Theme Toggle Button (Mobile Header) -->
-        <button id="mobileThemeToggleBtn" aria-label="Toggle Light/Dark Theme" title="Toggle Theme" class="theme-toggle-btn w-9 h-9 flex items-center justify-center rounded-xl border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-          <i id="mobileThemeIcon" class="fas fa-sun text-yellow-400 text-sm"></i>
+        <button id="mobileThemeToggleBtn" aria-label="Toggle Light/Dark Theme" title="Switch theme" class="theme-toggle-pill" style="width:44px;height:24px;">
+          <span class="toggle-thumb" style="width:17px;height:17px;top:2.5px;left:2.5px;font-size:8px;"><i class="fas fa-sun t-icon-sun"></i><i class="fas fa-moon t-icon-moon"></i></span>
         </button>
 
         <!-- Mobile Hamburger Button -->
@@ -1905,34 +2011,28 @@
 
     function applyTheme(theme, notify = false) {
       const isLight = theme === "light";
-      if (isLight) {
-        document.documentElement.setAttribute("data-theme", "light");
-        document.body.classList.add("light-theme");
-        if (themeIcon) {
-          themeIcon.className = "fas fa-moon text-indigo-500 text-sm";
-        }
-        if (mobileThemeIcon) {
-          mobileThemeIcon.className = "fas fa-moon text-indigo-500 text-base";
-        }
-        if (mobileMenuThemeText) {
-          mobileMenuThemeText.textContent = "Dark Mode";
-        }
-      } else {
-        document.documentElement.setAttribute("data-theme", "dark");
-        document.body.classList.remove("light-theme");
-        if (themeIcon) {
-          themeIcon.className = "fas fa-sun text-yellow-400 text-sm";
-        }
-        if (mobileThemeIcon) {
-          mobileThemeIcon.className = "fas fa-sun text-yellow-400 text-base";
-        }
-        if (mobileMenuThemeText) {
-          mobileMenuThemeText.textContent = "Light Mode";
-        }
+
+      // Apply to <html> (flash-prevention CSS targets html.light-theme)
+      document.documentElement.setAttribute("data-theme", isLight ? "light" : "dark");
+      document.documentElement.classList.toggle("light-theme", isLight);
+
+      // Apply to <body> (existing body.light-theme selectors throughout)
+      document.body.classList.toggle("light-theme", isLight);
+
+      // Update mobile menu label
+      if (mobileMenuThemeText) {
+        mobileMenuThemeText.textContent = isLight ? "Dark Mode" : "Light Mode";
       }
+
+      // Persist user preference
       localStorage.setItem("portfolio-theme", theme);
+
+      // Toast notification on user-triggered toggle
       if (notify && typeof showToast === "function") {
-        showToast(isLight ? "Light mode activated" : "Dark mode activated", isLight ? "fa-sun" : "fa-moon");
+        showToast(
+          isLight ? "☀️  Light mode activated" : "🌙  Dark mode activated",
+          isLight ? "fa-sun" : "fa-moon"
+        );
       }
     }
 
@@ -1950,8 +2050,16 @@
       mobileThemeToggleBtn.addEventListener("click", toggleTheme);
     }
 
-    // Initialize Theme immediately
+    // Initialize Theme immediately (flash-prevention script already set html attr,
+    // this call completes body class, icons, and localStorage sync)
     applyTheme(getPreferredTheme());
+
+    // Live-sync if user changes OS dark/light setting (no stored pref required)
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+      if (!localStorage.getItem("portfolio-theme")) {
+        applyTheme(e.matches ? "dark" : "light");
+      }
+    });
 
     // 11. Bespoke Interactive HTML5 Canvas — Premium Constellation Mesh Engine
     (function initConstellationMeshEngine() {
