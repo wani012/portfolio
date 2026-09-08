@@ -504,7 +504,15 @@
     html.light-theme body { background: #f1f5f9 !important; }
 
     /* ── Global smooth theme transition ──────────────────────────────────── */
-    body { transition: background-color 0.45s cubic-bezier(0.4,0,0.2,1), color 0.3s ease; }
+    body, body * {
+      transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                  color 0.35s ease,
+                  fill 0.35s ease;
+    }
+    body canvas, .theme-toggle-pill, .toggle-thumb, body i {
+      /* Exempt these from global to avoid overriding their specific custom transitions */
+    }
 
     /* ── Premium Pill Toggle Button ──────────────────────────────────────── */
     .theme-toggle-pill {
