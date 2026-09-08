@@ -503,15 +503,11 @@
     html.light-theme { background: #f1f5f9; }
     html.light-theme body { background: #f1f5f9 !important; }
 
-    /* ── Global smooth theme transition ──────────────────────────────────── */
-    body, body * {
-      transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-                  border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-                  color 0.35s ease,
-                  fill 0.35s ease;
-    }
-    body canvas, .theme-toggle-pill, .toggle-thumb, body i {
-      /* Exempt these from global to avoid overriding their specific custom transitions */
+    /* ── Global smooth theme transition (View Transitions API used via JS instead) ── */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 0.5s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* ── Premium Pill Toggle Button ──────────────────────────────────────── */
@@ -2047,11 +2043,43 @@
       }
     }
 
-    function toggleTheme() {
+    function toggleTheme(event) {
       const current = document.documentElement.getAttribute("data-theme") === "light" || 
                       document.body.classList.contains("light-theme") ? "light" : "dark";
       const next = current === "light" ? "dark" : "light";
-      applyTheme(next, true);
+      
+      if (!document.startViewTransition) {
+        applyTheme(next, true);
+        return;
+      }
+      
+      // Mekanav-style smooth pixel crossfade / wipe
+      const transition = document.startViewTransition(() => {
+        applyTheme(next, true);
+      });
+      
+      // Optional: Circular reveal from the click position
+      if (event && event.clientX) {
+        transition.ready.then(() => {
+          const x = event.clientX;
+          const y = event.clientY;
+          const endRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+          
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`
+              ]
+            },
+            {
+              duration: 500,
+              easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+              pseudoElement: "::view-transition-new(root)"
+            }
+          );
+        });
+      }
     }
 
     if (themeToggleBtn) {
