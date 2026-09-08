@@ -354,8 +354,11 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: radial-gradient(circle at 50% 35%, rgba(0, 243, 255, 0.08) 0%, rgba(99, 102, 241, 0.04) 45%, transparent 70%);
+      background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 45%, transparent 70%);
       z-index: 0;
+    }
+    body.light-theme #hero::before {
+      background: radial-gradient(circle at 50% 35%, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.02) 45%, transparent 70%);
     }
 
     /* Light Theme Styling & Strong Contrast Enforcement */
@@ -2090,17 +2093,17 @@
       function getColors() {
         if (isLight) {
           return {
-            dot:        "rgba(37, 99, 235, 0.65)",  // blue
-            glow:       "rgba(37, 99, 235, 0.85)",
-            link:       "rgba(37, 99, 235, ",        // append alpha + ")"
-            mouseLink:  "rgba(99, 55, 200, 0.4)"     // indigo-violet
+            dot:        "rgba(0, 0, 0, 0.65)",      // black
+            glow:       "rgba(0, 0, 0, 0.85)",
+            link:       "rgba(0, 0, 0, ",           // append alpha + ")"
+            mouseLink:  "rgba(0, 0, 0, 0.4)"        // black
           };
         }
         return {
-          dot:        "rgba(0, 220, 255, 0.7)",      // cyan
-          glow:       "rgba(0, 243, 255, 0.95)",
-          link:       "rgba(0, 243, 255, ",           // append alpha + ")"
-          mouseLink:  "rgba(168, 85, 247, 0.4)"       // violet
+          dot:        "rgba(255, 255, 255, 0.7)",   // white
+          glow:       "rgba(255, 255, 255, 0.95)",
+          link:       "rgba(255, 255, 255, ",       // append alpha + ")"
+          mouseLink:  "rgba(255, 255, 255, 0.4)"    // white
         };
       }
 
@@ -2206,7 +2209,7 @@
           if (dist < MOUSE_DIST) {
             ctx.beginPath();
             ctx.strokeStyle = C.mouseLink;
-            ctx.shadowColor  = isLight ? "rgba(99,55,200,0.5)" : "rgba(168,85,247,0.6)";
+            ctx.shadowColor  = isLight ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.6)";
             ctx.shadowBlur   = 6;
             ctx.moveTo(mouse.x, mouse.y);
             ctx.lineTo(p.x, p.y);
@@ -2225,11 +2228,11 @@
           // glow halo
           const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 4.5);
           if (isLight) {
-            grad.addColorStop(0, "rgba(37,99,235," + (0.25 * flicker) + ")");
-            grad.addColorStop(1, "rgba(37,99,235,0)");
+            grad.addColorStop(0, "rgba(0,0,0," + (0.25 * flicker) + ")");
+            grad.addColorStop(1, "rgba(0,0,0,0)");
           } else {
-            grad.addColorStop(0, "rgba(0,243,255," + (0.22 * flicker) + ")");
-            grad.addColorStop(1, "rgba(0,243,255,0)");
+            grad.addColorStop(0, "rgba(255,255,255," + (0.22 * flicker) + ")");
+            grad.addColorStop(1, "rgba(255,255,255,0)");
           }
           ctx.beginPath();
           ctx.arc(p.x, p.y, radius * 4.5, 0, Math.PI * 2);
