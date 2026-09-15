@@ -50,13 +50,13 @@ const projects = [
   },
   {
     id: 5,
-    title: "2048 Pro Game",
+    title: "1024 Pro Game",
     tagline: "Multi-Theme Tile Puzzle Engine",
     badge: "5 Themes",
     accent: "#10b981",
     accentHex: 0x10b981,
-    liveUrl: "https://wani012.github.io/2048-game/?v=2",
-    githubUrl: "https://github.com/wani012/2048-game",
+    liveUrl: "https://wani012.github.io/1024-game/?v=2",
+    githubUrl: "https://github.com/wani012/1024-game",
     tags: ["Vanilla JS", "Touch Gestures", "LocalStorage", "PWA"]
   }
 ];
