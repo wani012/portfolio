@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-GV Experimental Zone // Antigravity Research Facility</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --bg-dark: #030712;
+      --neon-cyan: #00f3ff;
+      --neon-blue: #3b82f6;
+      --neon-purple: #a855f7;
+      --glass-bg: rgba(6, 12, 26, 0.75);
+      --glass-border: rgba(0, 243, 255, 0.3);
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #e2e8f0;
+      font-family: 'Rajdhani', sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      user-select: none;
+    }
+
+    /* Cinematic Scene Container */
+    .viewport-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scene-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      animation: subtleFloat 14s ease-in-out infinite alternate;
+      filter: contrast(1.05) brightness(0.98);
+    }
+
+    @keyframes subtleFloat {
+      0% { transform: scale(1.02) translate(0, 0); }
+      50% { transform: scale(1.05) translate(-0.5%, -0.8%); }
+      100% { transform: scale(1.03) translate(0.5%, 0.4%); }
+    }
+
+    /* Ambient Vignette Overlay */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(2, 6, 18, 0.6) 80%, rgba(1, 3, 10, 0.95) 100%);
+      z-index: 2;
+    }
+
+    /* Canvas for Zero-G Floating Ambient Dust */
+    #zeroGCanvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* Cyber HUD Header */
+    .hud-header {
+      position: absolute;
+      top: 24px;
+      left: 28px;
+      right: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .badge-sector {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 9999px;
+      backdrop-filter: blur(12px);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+      animation: pulseGlow 1.8s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-cyber {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: var(--glass-bg);
+      border: 1px solid rgba(0, 243, 255, 0.4);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-cyber:hover {
+      background: rgba(0, 243, 255, 0.15);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Telemetry Hologram Readout Panel */
+    .telemetry-card {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      max-width: 440px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 20px 24px;
+      backdrop-filter: blur(16px);
+      z-index: 10;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 243, 255, 0.15);
+    }
+
+    .telemetry-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .telemetry-desc {
+      font-size: 13px;
+      line-height: 1.45;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+
+    .grid-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 14px;
+    }
+
+    .stat-box {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      margin-top: 2px;
+    }
+
+    /* Ambient Audio Toggle Button */
+    .audio-toggle {
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      .telemetry-card {
+        bottom: 20px;
+        left: 16px;
+        right: 16px;
+        max-width: none;
+        padding: 16px;
+      }
+      .hud-header {
+        top: 16px;
+        left: 16px;
+        right: 16px;
+      }
+      .audio-toggle {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="viewport-container">
+    <!-- Cinematic High-Resolution Render -->
+    <img src="./antigravity_facility.jpg" alt="A-GV Experimental Zone Antigravity Testing Facility" class="scene-image">
+
+    <!-- Ambient Vignette & Canvas Dust Particles -->
+    <div class="vignette"></div>
+    <canvas id="zeroGCanvas"></canvas>
+
+    <!-- Header HUD -->
+    <header class="hud-header">
+      <div class="badge-sector">
+        <span class="pulse-dot"></span>
+        <span>A-GV EXPERIMENTAL ZONE // SECTOR 07</span>
+      </div>
+
+      <nav class="nav-actions">
+        <a href="./index.html#projects" class="btn-cyber">
+          <i class="fas fa-arrow-left"></i>
+          <span>Portfolio</span>
+        </a>
+        <a href="./antigravity_facility.jpg" download="antigravity_facility_8k.jpg" class="btn-cyber">
+          <i class="fas fa-download"></i>
+          <span>8K Render</span>
+        </a>
+      </nav>
+    </header>
+
+    <!-- Telemetry Holographic Card -->
+    <div class="telemetry-card">
+      <div class="telemetry-title">
+        <span>A-GV TEST UNIT 04</span>
+        <i class="fas fa-atom" style="color: var(--neon-cyan); font-size: 14px;"></i>
+      </div>
+      <p class="telemetry-desc">
+        Live macroscopic gravity suspension protocol. Toroid superconducting magnetic coils active. Multi-object levitation synchronized across organic and mechanical matter.
+      </p>
+      
+      <div class="grid-stats">
+        <div class="stat-box">
+          <div class="stat-label">Field State</div>
+          <div class="stat-val" style="color:#10b981;">ACTIVE</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Grav Variance</div>
+          <div class="stat-val">-1.000 G</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Field Stability</div>
+          <div class="stat-val">99.87%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sci-Fi Ambient Sound Synth -->
+    <div class="audio-toggle">
+      <button id="synthSoundBtn" class="btn-cyber" title="Toggle Sci-Fi Ambience Synth">
+        <i class="fas fa-volume-xmark" id="soundIcon"></i>
+        <span id="soundText">Synth Ambient</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ── 1. ZERO-G FLOATING PARTICLES CANVAS ──────────────────────────────
+    const canvas = document.getElementById('zeroGCanvas');
+    const ctx = canvas.getContext('2d');
+    let W = 0, H = 0;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const particles = [];
+    const count = 75;
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 1.0 + Math.random() * 2.2,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: -0.15 - Math.random() * 0.3, // Upward floating anti-gravity drift
+        alpha: 0.2 + Math.random() * 0.6,
+        pulse: Math.random() * Math.PI * 2
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.pulse += 0.02;
+
+        if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+        if (p.x < -10) p.x = W + 10;
+        if (p.x > W + 10) p.x = -10;
+
+        const dynamicAlpha = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 243, 255, ' + dynamicAlpha + ')';
+        ctx.shadowColor = '#00f3ff';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // ── 2. WEB AUDIO ZERO-ASSET SCI-FI AMBIENCE SYNTHESIZER ─────────────
+    let audioCtx = null;
+    let isPlaying = false;
+    let osc1, osc2, gainNode, filterNode;
+
+    const soundBtn = document.getElementById('synthSoundBtn');
+    const soundIcon = document.getElementById('soundIcon');
+    const soundText = document.getElementById('soundText');
+
+    function toggleAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      if (!isPlaying) {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        // Sub-bass resonance (55Hz)
+        osc1 = audioCtx.createOscillator();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(55, audioCtx.currentTime);
+
+        // Subtle shimmer (110Hz detuned)
+        osc2 = audioCtx.createOscillator();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(110.5, audioCtx.currentTime);
+
+        filterNode = audioCtx.createBiquadFilter();
+        filterNode.type = 'lowpass';
+        filterNode.frequency.setValueAtTime(240, audioCtx.currentTime);
+
+        gainNode = audioCtx.createGain();
+        gainNode.gain.setValueAtTime(0.01, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 2);
+
+        osc1.connect(filterNode);
+        osc2.connect(filterNode);
+        filterNode.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc1.start();
+        osc2.start();
+
+        isPlaying = true;
+        soundIcon.className = 'fas fa-volume-high';
+        soundText.textContent = 'Audio Active';
+        soundBtn.style.borderColor = '#10b981';
+      } else {
+        if (gainNode) {
+          gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
+          setTimeout(() => {
+            if (osc1) osc1.stop();
+            if (osc2) osc2.stop();
+          }, 550);
+        }
+        isPlaying = false;
+        soundIcon.className = 'fas fa-volume-xmark';
+        soundText.textContent = 'Synth Ambient';
+        soundBtn.style.borderColor = 'rgba(0, 243, 255, 0.4)';
+      }
+    }
+
+    if (soundBtn) {
+      soundBtn.addEventListener('click', toggleAudio);
+    }
+  </script>
+</body>
+</html>
