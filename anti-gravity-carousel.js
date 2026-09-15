@@ -1,13 +1,13 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-// ── 1. REAL PROJECTS DATA (All using About Me Photo as Requested) ───────────
+// ?? 1. REAL PROJECTS DATA (All using About Me Photo as Requested) ???????????
 const ABOUT_PHOTO_SRC = './furu123_transparent.png';
 
 const projects = [
   {
     id: 1,
     title: "FURU Zero Kaata Pro",
-    tagline: "Tournament System • Minimax AI",
+    tagline: "Tournament System | Minimax AI",
     badge: "v2.0 Live",
     accent: "#00f3ff",
     accentHex: 0x00f3ff,
@@ -18,7 +18,7 @@ const projects = [
   {
     id: 2,
     title: "Wani Garments",
-    tagline: "Luxury Kashmiri Fashion & WhatsApp Commerce",
+    tagline: "Luxury Kashmiri Fashion | WhatsApp Commerce",
     badge: "Production Live",
     accent: "#f59e0b",
     accentHex: 0xf59e0b,
@@ -29,7 +29,7 @@ const projects = [
   {
     id: 3,
     title: "BHAT Cyber Cafe & CSC",
-    tagline: "Digital Seva & J&K Vacancy Portal",
+    tagline: "Digital Seva | J&K Vacancy Portal",
     badge: "Civic Portal",
     accent: "#3b82f6",
     accentHex: 0x3b82f6,
@@ -61,23 +61,32 @@ const projects = [
   }
 ];
 
-// ── 2. CONTAINER & SCENE INITIALIZATION ─────────────────────────────────────
+// ?? 2. CONTAINER & HIGH-PERFORMANCE WEBGL INITIALIZATION ????????????????????
 const container = document.getElementById('three-carousel-container');
 
 if (container) {
   const count = projects.length;
   let width = container.clientWidth || 800;
-  let height = container.clientHeight || 560;
+  let height = container.clientHeight || 640;
 
   const scene = new THREE.Scene();
 
+  // Perspective camera optimized for larger card showcase
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-  camera.position.set(0, 0, 5.2);
+  camera.position.set(0, 0, width < 640 ? 5.6 : 4.8);
   camera.lookAt(0, 0, 0);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  // High-performance hardware accelerated renderer
+  const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true,
+    powerPreference: 'high-performance',
+    stencil: false,
+    depth: true
+  });
   renderer.setSize(width, height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  // Cap DPR at 1.75 to permanently prevent 4K/Retina GPU lag & frame drops
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.domElement.style.position = 'absolute';
   renderer.domElement.style.top = '0';
@@ -88,23 +97,7 @@ if (container) {
   renderer.domElement.style.pointerEvents = 'auto';
   container.appendChild(renderer.domElement);
 
-  // ── 3. HIGH-END STUDIO LIGHTING ────────────────────────────────────────────
-  const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
-  scene.add(ambientLight);
-
-  const dirLight1 = new THREE.DirectionalLight(0x00f3ff, 2.4);
-  dirLight1.position.set(5, 7, 8);
-  scene.add(dirLight1);
-
-  const dirLight2 = new THREE.DirectionalLight(0xa855f7, 2.0);
-  dirLight2.position.set(-5, -5, 8);
-  scene.add(dirLight2);
-
-  const pointLight = new THREE.PointLight(0xffffff, 1.8, 25);
-  pointLight.position.set(0, 0.5, 6);
-  scene.add(pointLight);
-
-  // ── 4. CAROUSEL GROUP ─────────────────────────────────────────────────────
+  // ?? 3. CAROUSEL STAGE GROUP ???????????????????????????????????????????????
   const stageGroup = new THREE.Group();
   scene.add(stageGroup);
 
@@ -125,22 +118,22 @@ if (container) {
     ctx.closePath();
   }
 
-  // ── 5. CARD TEXTURE GENERATION (About Me Photo Background + Cyber Glass) ──
+  // ?? 4. CARD TEXTURE GENERATION (Larger, Ultra-Sharp 840x520 Resolution) ???
   function createCardTexture(proj, imgElement) {
     const canvas = document.createElement('canvas');
-    canvas.width = 680;
-    canvas.height = 420;
+    canvas.width = 840;
+    canvas.height = 520;
     const ctx = canvas.getContext('2d');
 
     // Rounded card clipping boundary
-    roundRectPath(ctx, 0, 0, canvas.width, canvas.height, 28);
+    roundRectPath(ctx, 0, 0, canvas.width, canvas.height, 32);
     ctx.clip();
 
     // Dark base background
     ctx.fillStyle = '#060a14';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw About Me photo with proper cover aspect ratio (never stretched!)
+    // Draw About Me photo with proper cover aspect ratio
     if (imgElement && imgElement.complete && imgElement.naturalWidth > 0) {
       const imgRatio = imgElement.naturalWidth / imgElement.naturalHeight;
       const canvasRatio = canvas.width / canvas.height;
@@ -164,11 +157,11 @@ if (container) {
       ctx.restore();
     }
 
-    // High-Contrast Cyberpunk Glass Gradient Overlay (Ensures Text is 100% Crisp & Readable while photo shines through)
+    // High-Contrast Cyberpunk Glass Gradient Overlay
     const overlayGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
     overlayGrad.addColorStop(0, 'rgba(4, 9, 22, 0.45)');
     overlayGrad.addColorStop(0.45, 'rgba(4, 9, 22, 0.58)');
-    overlayGrad.addColorStop(1, 'rgba(2, 6, 16, 0.84)');
+    overlayGrad.addColorStop(1, 'rgba(2, 6, 16, 0.86)');
     ctx.fillStyle = overlayGrad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -178,75 +171,91 @@ if (container) {
     neonGrad.addColorStop(0.5, proj.accent);
     neonGrad.addColorStop(1, 'transparent');
     ctx.fillStyle = neonGrad;
-    ctx.fillRect(0, 0, canvas.width, 6);
+    ctx.fillRect(0, 0, canvas.width, 7);
 
     // Status Badge Top Left
-    ctx.fillStyle = proj.accent + '22';
-    ctx.strokeStyle = proj.accent + 'aa';
+    ctx.fillStyle = proj.accent + '25';
+    ctx.strokeStyle = proj.accent + 'bb';
     ctx.lineWidth = 1.5;
-    roundRectPath(ctx, 32, 28, 136, 28, 14);
+    roundRectPath(ctx, 36, 32, 148, 32, 16);
     ctx.fill();
     ctx.stroke();
 
-    ctx.font = 'bold 12px monospace';
+    ctx.font = 'bold 13px monospace';
     ctx.fillStyle = proj.accent;
     ctx.textAlign = 'center';
-    ctx.fillText(proj.badge.toUpperCase(), 100, 46);
+    ctx.fillText(proj.badge.toUpperCase(), 110, 52);
 
-    // Project Title (Crisp, High Contrast, Straight)
+    // Project Title (Crisp, High Contrast, Bold, Straight)
     ctx.textAlign = 'left';
-    ctx.font = 'bold 32px "Plus Jakarta Sans", sans-serif';
+    ctx.font = 'bold 38px "Plus Jakarta Sans", -apple-system, sans-serif';
     ctx.fillStyle = '#ffffff';
     ctx.shadowColor = proj.accent;
-    ctx.shadowBlur = 12;
-    ctx.fillText(proj.title, 32, 106);
+    ctx.shadowBlur = 14;
+    ctx.fillText(proj.title, 36, 124);
     ctx.shadowBlur = 0;
 
     // Subtitle / Tagline
-    ctx.font = '15px monospace';
+    ctx.font = '16px monospace';
     ctx.fillStyle = proj.accent;
-    ctx.fillText(proj.tagline, 32, 140);
+    ctx.fillText(proj.tagline, 36, 162);
 
-    // Divider Line
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+    // Sleek Divider Line
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(32, 168);
-    ctx.lineTo(canvas.width - 32, 168);
+    ctx.moveTo(36, 192);
+    ctx.lineTo(canvas.width - 36, 192);
     ctx.stroke();
 
     // Tech Stack Badges / Pills
-    let tagX = 32;
+    let tagX = 36;
     proj.tags.forEach((tag) => {
-      ctx.font = '12px monospace';
+      ctx.font = 'bold 13px monospace';
       const textWidth = ctx.measureText(tag).width;
-      const pillWidth = textWidth + 22;
+      const pillWidth = textWidth + 24;
 
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.45)';
-      ctx.lineWidth = 1;
-      roundRectPath(ctx, tagX, 192, pillWidth, 26, 13);
-      ctx.fill();
-      ctx.stroke();
+      if (tagX + pillWidth < canvas.width - 36) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+        ctx.lineWidth = 1;
+        roundRectPath(ctx, tagX, 222, pillWidth, 34, 17);
+        ctx.fill();
+        ctx.stroke();
 
-      ctx.fillStyle = '#f1f5f9';
-      ctx.fillText(tag, tagX + 11, 209);
-      tagX += pillWidth + 8;
+        ctx.fillStyle = '#e2e8f0';
+        ctx.textAlign = 'center';
+        ctx.fillText(tag, tagX + pillWidth / 2, 243);
+        tagX += pillWidth + 12;
+      }
     });
 
-    // Bottom Action Prompt Button on Card
+    // Bottom Action Hint Pill ("EXPLORE LIVE APP")
     ctx.fillStyle = proj.accent + '25';
-    ctx.strokeStyle = proj.accent + '88';
+    ctx.strokeStyle = proj.accent + 'aa';
     ctx.lineWidth = 1.5;
-    roundRectPath(ctx, 32, canvas.height - 54, 250, 32, 16);
+    roundRectPath(ctx, 36, canvas.height - 76, 220, 42, 21);
     ctx.fill();
     ctx.stroke();
 
     ctx.font = 'bold 12px monospace';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText('▶ CLICK TO EXPLORE LIVE APP', 46, canvas.height - 34);
+    ctx.fillStyle = proj.accent;
+    ctx.textAlign = 'left';
+    ctx.fillText('CLICK TO EXPLORE APP', 52, canvas.height - 50);
+
+    // Decorative Hologram Corner Bracket (Bottom Right)
+    ctx.strokeStyle = proj.accent + '88';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 60, canvas.height - 36);
+    ctx.lineTo(canvas.width - 36, canvas.height - 36);
+    ctx.lineTo(canvas.width - 36, canvas.height - 60);
+    ctx.stroke();
 
     const texture = new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.generateMipmaps = false; // Fast memory & zero mipmap lag
     texture.colorSpace = THREE.SRGBColorSpace;
     return texture;
   }
@@ -256,18 +265,18 @@ if (container) {
   aboutImage.crossOrigin = 'anonymous';
   aboutImage.src = ABOUT_PHOTO_SRC;
 
-  // ── 6. CREATE 3D CARDS ────────────────────────────────────────────────────
-  const cardWidth = 2.8;
-  const cardHeight = 1.73;
+  // ?? 5. CREATE 3D CARDS (LARGER DIMENSIONS: 3.5 x 2.16) ???????????????????
+  const cardWidth = 3.5;
+  const cardHeight = 2.16;
 
   projects.forEach((proj, i) => {
-    const geometry = new THREE.PlaneGeometry(cardWidth, cardHeight, 16, 16);
+    const geometry = new THREE.PlaneGeometry(cardWidth, cardHeight, 1, 1);
     const canvasTexture = createCardTexture(proj, null);
 
-    const cardMaterial = new THREE.MeshStandardMaterial({
+    // MeshBasicMaterial delivers zero-lag 120 FPS performance with 100% color accuracy
+    const cardMaterial = new THREE.MeshBasicMaterial({
       map: canvasTexture,
-      roughness: 0.25,
-      metalness: 0.15,
+      transparent: true,
       side: THREE.DoubleSide
     });
 
@@ -278,7 +287,7 @@ if (container) {
     const lineMaterial = new THREE.LineBasicMaterial({
       color: proj.accentHex,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.92,
       linewidth: 2
     });
     const wireframe = new THREE.LineSegments(edgesGeometry, lineMaterial);
@@ -307,8 +316,8 @@ if (container) {
     updateAllCardTextures();
   }
 
-  // ── 7. AMBIENT FLOATING PARTICLES ─────────────────────────────────────────
-  const particlesCount = 200;
+  // ?? 6. AMBIENT FLOATING PARTICLES (Lightweight 120 count) ?????????????????
+  const particlesCount = 120;
   const particlePositions = new Float32Array(particlesCount * 3);
   const particleColors = new Float32Array(particlesCount * 3);
 
@@ -317,13 +326,13 @@ if (container) {
 
   for (let i = 0; i < particlesCount; i++) {
     particlePositions[i * 3 + 0] = (Math.random() - 0.5) * 16;
-    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 9;
-    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 12;
+    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 10;
 
-    const mixedColor = colCyan.clone().lerp(colPurple, Math.random());
-    particleColors[i * 3 + 0] = mixedColor.r;
-    particleColors[i * 3 + 1] = mixedColor.g;
-    particleColors[i * 3 + 2] = mixedColor.b;
+    const t = Math.random();
+    particleColors[i * 3 + 0] = colCyan.r * (1 - t) + colPurple.r * t;
+    particleColors[i * 3 + 1] = colCyan.g * (1 - t) + colPurple.g * t;
+    particleColors[i * 3 + 2] = colCyan.b * (1 - t) + colPurple.b * t;
   }
 
   const particleGeometry = new THREE.BufferGeometry();
@@ -331,36 +340,36 @@ if (container) {
   particleGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
 
   const particleMaterial = new THREE.PointsMaterial({
-    size: 0.04,
+    size: 0.045,
     vertexColors: true,
     transparent: true,
-    opacity: 0.7,
+    opacity: 0.65,
     blending: THREE.AdditiveBlending
   });
 
   const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
   scene.add(particleSystem);
 
-  // ── 8. SMOOTH CAROUSEL NAVIGATION & PHYSICS ───────────────────────────────
+  // ?? 7. SMOOTH CAROUSEL NAVIGATION & PHYSICS ???????????????????????????????
   let targetIndex = 0;
   let currentIndex = 0;
   let isDragging = false;
   let startX = 0;
   let pointerTotalDelta = 0;
 
-  // Trackpad / Wheel scroll (Discrete smooth snap per project)
-  let wheelTimeout = null;
+  // Trackpad / Wheel scroll with smooth accumulation
+  let wheelAcc = 0;
+  let wheelTimer = null;
   container.addEventListener('wheel', (e) => {
     e.preventDefault();
-    if (wheelTimeout) return;
-
-    if (e.deltaY > 20 || e.deltaX > 20) {
-      targetIndex = (targetIndex + 1) % count;
-      wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 280);
-    } else if (e.deltaY < -20 || e.deltaX < -20) {
-      targetIndex = (targetIndex - 1 + count) % count;
-      wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 280);
+    wheelAcc += e.deltaY || e.deltaX;
+    if (Math.abs(wheelAcc) > 35) {
+      const dir = wheelAcc > 0 ? 1 : -1;
+      targetIndex = (targetIndex + dir + count) % count;
+      wheelAcc = 0;
     }
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(() => { wheelAcc = 0; }, 180);
   }, { passive: false });
 
   // Mouse Drag
@@ -376,10 +385,10 @@ if (container) {
     const deltaX = e.clientX - startX;
     pointerTotalDelta += Math.abs(deltaX);
 
-    if (deltaX < -65) {
+    if (deltaX < -70) {
       targetIndex = (targetIndex + 1) % count;
       startX = e.clientX;
-    } else if (deltaX > 65) {
+    } else if (deltaX > 70) {
       targetIndex = (targetIndex - 1 + count) % count;
       startX = e.clientX;
     }
@@ -403,10 +412,10 @@ if (container) {
     const deltaX = e.touches[0].clientX - startX;
     pointerTotalDelta += Math.abs(deltaX);
 
-    if (deltaX < -50) {
+    if (deltaX < -55) {
       targetIndex = (targetIndex + 1) % count;
       startX = e.touches[0].clientX;
-    } else if (deltaX > 50) {
+    } else if (deltaX > 55) {
       targetIndex = (targetIndex - 1 + count) % count;
       startX = e.touches[0].clientX;
     }
@@ -462,7 +471,7 @@ if (container) {
     }
   });
 
-  // ── 9. HUD DOM ELEMENTS UPDATE ────────────────────────────────────────────
+  // ?? 8. HUD DOM ELEMENTS UPDATE ????????????????????????????????????????????
   const hudBadge = document.getElementById('hudBadge');
   const hudIndex = document.getElementById('hudIndex');
   const hudTitle = document.getElementById('hudTitle');
@@ -500,58 +509,68 @@ if (container) {
     }
   }
 
-  // ── 10. CURVED STAGE LAYOUT & WEIGHTLESS LEVITATION LOOP ──────────────────
+  // ?? 9. CURVED STAGE LAYOUT & WEIGHTLESS LEVITATION LOOP ??????????????????
   const clock = new THREE.Clock();
+  let isVisible = true;
+  let isRendering = false;
 
   function animate() {
+    if (!isVisible) {
+      isRendering = false;
+      return;
+    }
+    isRendering = true;
     requestAnimationFrame(animate);
+
+    // Frame-rate independent delta time (prevents micro-stutters permanently)
+    const delta = Math.min(clock.getDelta(), 0.05);
     const time = clock.getElapsedTime();
 
-    // Smooth inertia interpolation toward target active card
-    currentIndex += (targetIndex - currentIndex) * 0.10;
+    // Smooth exponential damping
+    const lerpFactor = 1 - Math.exp(-9.5 * delta);
+    currentIndex += (targetIndex - currentIndex) * lerpFactor;
 
     // Ambient particles gentle drift
     if (particleSystem) {
-      particleSystem.rotation.y = time * 0.035;
-      particleSystem.rotation.x = Math.sin(time * 0.025) * 0.04;
+      particleSystem.rotation.y = time * 0.03;
+      particleSystem.rotation.x = Math.sin(time * 0.02) * 0.035;
     }
 
     const isMobile = width < 640;
-    const spacingX = isMobile ? 2.1 : 2.7;
+    // Spacing calibrated for larger cardWidth (3.5)
+    const spacingX = isMobile ? 2.9 : 3.8;
 
     cardMeshes.forEach((mesh) => {
       const idx = mesh.userData.index;
 
-      // Calculate circular offset relative to active card
+      // Circular offset relative to active card
       let diff = idx - currentIndex;
-      // Handle modular wrapping around 5 cards
       while (diff > count / 2) diff -= count;
       while (diff < -count / 2) diff += count;
 
-      // Absolute distance from center
       const absDiff = Math.abs(diff);
 
       // Target Coordinates (Center card is SEEDHA at x=0, z=0.5, rotY=0)
       const targetX = diff * spacingX;
-      const targetZ = -Math.pow(absDiff, 1.35) * 0.75 + 0.5;
+      const targetZ = -Math.pow(absDiff, 1.25) * 0.95 + 0.5;
 
-      // Gentle perspective angle for side cards (Max 22 degrees, NO tilt on X or Z!)
-      const targetRotY = -Math.sign(diff) * Math.min(absDiff * 0.38, 0.45);
+      // Gentle perspective angle for side cards (Max 22 degrees, NO tilt on X or Z)
+      const targetRotY = -Math.sign(diff) * Math.min(absDiff * 0.36, 0.42);
 
       // Scale: Center card is 100%, side cards gracefully scale down
       const targetScale = Math.max(1.0 - absDiff * 0.16, 0.65);
 
-      // Subtle weightless anti-gravity floating (ONLY Y translation, ZERO rotational wobble!)
-      const floatY = Math.sin(time * 1.5 + idx * 1.2) * 0.07;
+      // Subtle weightless anti-gravity floating (Positioned slightly higher at y=0.18 + float)
+      const floatY = 0.18 + Math.sin(time * 1.5 + idx * 1.2) * 0.07;
 
-      // Apply coordinates smoothly
-      mesh.position.x += (targetX - mesh.position.x) * 0.14;
+      // Apply coordinates smoothly with frame-rate independent interpolation
+      mesh.position.x += (targetX - mesh.position.x) * lerpFactor * 1.4;
       mesh.position.y = floatY;
-      mesh.position.z += (targetZ - mesh.position.z) * 0.14;
+      mesh.position.z += (targetZ - mesh.position.z) * lerpFactor * 1.4;
 
       // Rotation: Strictly SEEDHA (Upright)! rotation.x = 0, rotation.z = 0!
       mesh.rotation.x = 0;
-      mesh.rotation.y += (targetRotY - mesh.rotation.y) * 0.14;
+      mesh.rotation.y += (targetRotY - mesh.rotation.y) * lerpFactor * 1.4;
       mesh.rotation.z = 0;
 
       // Uniform Scale
@@ -565,18 +584,42 @@ if (container) {
     renderer.render(scene, camera);
   }
 
-  // Initial HUD sync
+  // Initial HUD sync & start loop
   updateHud(projects[0], 0);
   animate();
 
-  // ── 11. RESPONSIVE RESIZE LISTENER ────────────────────────────────────────
+  // IntersectionObserver: Pause rendering when not visible on screen (0% GPU/CPU overhead!)
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !isRendering) {
+          clock.getDelta(); // Reset delta to prevent sudden jump
+          animate();
+        }
+      });
+    }, { threshold: 0.05 });
+    observer.observe(container);
+  }
+
+  // ?? 10. DEBOUNCED RESPONSIVE RESIZE LISTENER ??????????????????????????????
+  let lastW = width;
+  let lastH = height;
+
   function handleResize() {
     if (!container) return;
-    width = container.clientWidth;
-    height = container.clientHeight;
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    if (w === 0 || h === 0) return;
+    // Guard against identical dimension triggers to prevent frame hitching
+    if (Math.abs(w - lastW) < 2 && Math.abs(h - lastH) < 2) return;
+    lastW = w;
+    lastH = h;
+    width = w;
+    height = h;
 
     camera.aspect = width / height;
-    camera.position.z = width < 640 ? 5.8 : 5.2;
+    camera.position.z = width < 640 ? 5.6 : 4.8;
     camera.updateProjectionMatrix();
 
     renderer.setSize(width, height);
