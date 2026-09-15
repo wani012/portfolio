@@ -1123,10 +1123,10 @@
 
         <!-- 3D ANTI-GRAVITY PROJECTS CAROUSEL -->
         <div class="relative w-full mb-12">
-          <div id="three-carousel-container" class="w-full relative overflow-hidden rounded-3xl border border-slate-800/80 bg-slate-950/60 backdrop-blur-xl shadow-2xl transition-all select-none min-h-[580px] h-[640px]" style="height: 640px;">
+          <div id="three-carousel-container" class="w-full relative overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-800/80 bg-slate-950/60 backdrop-blur-xl shadow-2xl transition-all select-none h-[560px] sm:h-[600px] lg:h-[640px]">
             <!-- Top HUD Badge -->
-            <div class="absolute top-4 left-5 z-10 pointer-events-none flex items-center gap-2.5">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 backdrop-blur-md">
+            <div class="absolute top-3.5 left-4 sm:top-4 sm:left-5 z-10 pointer-events-none flex items-center gap-2.5">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold tracking-wider text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 backdrop-blur-md">
                 <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
                 <span>3D ORBIT CAROUSEL</span>
               </span>
@@ -1136,33 +1136,33 @@
             </div>
 
             <!-- Top Right Nav Arrow Buttons -->
-            <div class="absolute top-4 right-5 z-10 flex items-center gap-2">
-              <button id="carouselPrevBtn" class="w-9 h-9 rounded-xl border border-slate-700/80 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center transition shadow-md hover:border-cyan-400" aria-label="Previous 3D Card">
+            <div class="absolute top-3.5 right-4 sm:top-4 sm:right-5 z-10 flex items-center gap-2">
+              <button id="carouselPrevBtn" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-slate-700/80 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center transition shadow-md hover:border-cyan-400" aria-label="Previous 3D Card">
                 <i class="fas fa-chevron-left text-xs"></i>
               </button>
-              <button id="carouselNextBtn" class="w-9 h-9 rounded-xl border border-slate-700/80 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center transition shadow-md hover:border-cyan-400" aria-label="Next 3D Card">
+              <button id="carouselNextBtn" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-slate-700/80 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center transition shadow-md hover:border-cyan-400" aria-label="Next 3D Card">
                 <i class="fas fa-chevron-right text-xs"></i>
               </button>
             </div>
 
             <!-- Bottom Floating Project HUD Overlay -->
-            <div class="absolute bottom-4 inset-x-4 sm:inset-x-6 z-10 pointer-events-auto">
-              <div id="carouselProjectHud" class="max-w-2xl mx-auto p-4 sm:p-5 rounded-2xl bg-slate-900/85 border border-slate-700/70 backdrop-blur-xl shadow-2xl transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="absolute bottom-2.5 sm:bottom-4 inset-x-2.5 sm:inset-x-6 z-10 pointer-events-auto">
+              <div id="carouselProjectHud" class="max-w-2xl mx-auto p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-700/80 backdrop-blur-xl shadow-2xl transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-4">
                 <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2 mb-1">
+                  <div class="flex items-center gap-2 mb-0.5 sm:mb-1">
                     <span id="hudBadge" class="text-[9px] font-mono uppercase font-bold tracking-wider px-2 py-0.5 rounded-full text-cyan-400 bg-cyan-500/15 border border-cyan-500/30">
                       LIVE ENGINE
                     </span>
                     <span id="hudIndex" class="text-[10px] font-mono text-slate-400">1 / 5</span>
                   </div>
-                  <h4 id="hudTitle" class="text-base sm:text-lg font-extrabold text-white truncate">FURU Zero Kaata Pro</h4>
-                  <p id="hudTagline" class="text-xs font-mono text-cyan-400/90 truncate">Tournament System | Minimax AI</p>
+                  <h4 id="hudTitle" class="text-sm sm:text-lg font-extrabold text-white truncate">FURU Zero Kaata Pro</h4>
+                  <p id="hudTagline" class="text-[11px] sm:text-xs font-mono text-cyan-400/90 truncate">Tournament System | Minimax AI</p>
                 </div>
-                <div class="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
-                  <a id="hudLiveBtn" href="https://tictactoe-game-app-xi.vercel.app/" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5">
+                <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                  <a id="hudLiveBtn" href="https://tictactoe-game-app-xi.vercel.app/" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-initial px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5">
                     <span>Play Live</span> <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
                   </a>
-                  <a id="hudCodeBtn" href="https://github.com/wani012/tictactoe-game-app" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white border border-slate-700 hover:border-slate-500 bg-slate-800/80 transition flex items-center justify-center gap-1.5" title="View Source Code">
+                  <a id="hudCodeBtn" href="https://github.com/wani012/tictactoe-game-app" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white border border-slate-700 hover:border-slate-500 bg-slate-800/80 transition flex items-center justify-center gap-1.5" title="View Source Code">
                     <i class="fab fa-github"></i> <span>Code</span>
                   </a>
                 </div>

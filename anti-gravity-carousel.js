@@ -71,9 +71,22 @@ if (container) {
 
   const scene = new THREE.Scene();
 
+  // Dynamic aspect ratio calculation so cards never clip on phones or wide screens
+  function updateCameraForAspect() {
+    const aspect = width / height;
+    camera.aspect = aspect;
+    if (aspect < 1.15) {
+      // Mobile portrait - mathematically calculate exact frustum distance
+      camera.position.z = Math.min(Math.max(0.5 + 4.3 / aspect, 6.2), 8.6);
+    } else {
+      camera.position.z = 4.8;
+    }
+    camera.updateProjectionMatrix();
+  }
+
   // Perspective camera optimized for larger card showcase
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-  camera.position.set(0, 0, width < 640 ? 5.6 : 4.8);
+  updateCameraForAspect();
   camera.lookAt(0, 0, 0);
 
   // High-performance hardware accelerated renderer
@@ -537,8 +550,10 @@ if (container) {
     }
 
     const isMobile = width < 640;
+    const baseScale = isMobile ? 0.84 : 1.0;
+    const cardOffsetY = isMobile ? 0.38 : 0.18;
     // Spacing calibrated for larger cardWidth (3.5)
-    const spacingX = isMobile ? 2.9 : 3.8;
+    const spacingX = isMobile ? 2.5 : 3.8;
 
     cardMeshes.forEach((mesh) => {
       const idx = mesh.userData.index;
@@ -557,11 +572,11 @@ if (container) {
       // Gentle perspective angle for side cards (Max 22 degrees, NO tilt on X or Z)
       const targetRotY = -Math.sign(diff) * Math.min(absDiff * 0.36, 0.42);
 
-      // Scale: Center card is 100%, side cards gracefully scale down
-      const targetScale = Math.max(1.0 - absDiff * 0.16, 0.65);
+      // Scale: Center card is 100% of baseScale, side cards gracefully scale down
+      const targetScale = baseScale * Math.max(1.0 - absDiff * 0.16, 0.65);
 
-      // Subtle weightless anti-gravity floating (Positioned slightly higher at y=0.18 + float)
-      const floatY = 0.18 + Math.sin(time * 1.5 + idx * 1.2) * 0.07;
+      // Subtle weightless anti-gravity floating
+      const floatY = cardOffsetY + Math.sin(time * 1.5 + idx * 1.2) * (isMobile ? 0.05 : 0.07);
 
       // Apply coordinates smoothly with frame-rate independent interpolation
       mesh.position.x += (targetX - mesh.position.x) * lerpFactor * 1.4;
@@ -602,7 +617,7 @@ if (container) {
     observer.observe(container);
   }
 
-  // ?? 10. DEBOUNCED RESPONSIVE RESIZE LISTENER ??????????????????????????????
+  // ── 10. DEBOUNCED RESPONSIVE RESIZE LISTENER ──────────────────────────────
   let lastW = width;
   let lastH = height;
 
@@ -618,10 +633,7 @@ if (container) {
     width = w;
     height = h;
 
-    camera.aspect = width / height;
-    camera.position.z = width < 640 ? 5.6 : 4.8;
-    camera.updateProjectionMatrix();
-
+    updateCameraForAspect();
     renderer.setSize(width, height);
   }
 
